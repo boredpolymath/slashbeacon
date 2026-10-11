@@ -83,8 +83,8 @@
   <header class="site-header" id="site-header">
     <div class="container nav-inner">
       <a href="#" class="nav-brand" id="nav-brand-link">
-        <img src="assets/truthbeacon_emblem.png" alt="TruthBeacon Emblem" width="32" height="32" class="brand-emblem" id="brand-emblem-img">
-        <img src="assets/truthbeacon_wordmark.png" alt="TruthBeacon" width="128" height="22" class="brand-wordmark-img" id="brand-wordmark-img">
+        <img src="assets/truthbeacon_emblem.png" alt="TruthBeacon Emblem" width="32" height="32" decoding="async" class="brand-emblem" id="brand-emblem-img">
+        <img src="assets/truthbeacon_wordmark.png" alt="TruthBeacon" width="128" height="22" decoding="async" class="brand-wordmark-img" id="brand-wordmark-img">
         <span class="brand-badge" id="nav-version-badge">v0.3.2</span>
       </a>
 
@@ -132,38 +132,46 @@
         <!-- Smart 1-Click Download Hero Box -->
         <div class="hero-download-box" id="hero-download-box">
           <div class="detected-os-label" id="hero-os-badge">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <circle cx="12" cy="12" r="10"></circle>
-              <polyline points="12 6 12 12 16 14"></polyline>
-            </svg>
-            <span>Target OS: <strong class="detected-os-name" id="hero-detected-os">macOS (Universal 2)</strong></span>
+            <span class="hero-live-dot"></span>
+            <span>Latest v0.3.2 Release • Detected for <strong class="detected-os-name" id="hero-detected-os">macOS (Universal 2)</strong></span>
           </div>
 
           <a href="https://github.com/boredpolymath/truth-beacon/releases/download/v0.3.2/TruthBeacon_0.3.2_universal.dmg"
-            class="btn-primary-download" id="hero-primary-download-btn">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
-              stroke-linecap="round" stroke-linejoin="round">
-              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-              <polyline points="7 10 12 15 17 10"></polyline>
-              <line x1="12" y1="15" x2="12" y2="3"></line>
-            </svg>
-            <span class="btn-label-text">Download for macOS</span>
+            class="btn-primary-download" id="hero-primary-download-btn" data-filename="TruthBeacon_0.3.2_universal.dmg">
+            <div class="btn-download-icon-circle">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                <polyline points="7 10 12 15 17 10"></polyline>
+                <line x1="12" y1="15" x2="12" y2="3"></line>
+              </svg>
+            </div>
+            <div class="btn-download-text-group">
+              <span class="btn-label-text">Download for macOS</span>
+              <span class="btn-download-sub"><span id="hero-meta-size">29.5 MB</span> • <span id="hero-meta-arch">Universal 2 (Apple Silicon &amp; Intel)</span> • Free &amp; Open Source</span>
+            </div>
           </a>
 
-          <div class="btn-download-meta" id="hero-download-meta">
-            <span id="hero-meta-size">29.5 MB</span>
-            <span class="meta-divider">•</span>
-            <span id="hero-meta-arch">Universal 2 (Apple Silicon & Intel)</span>
-            <span class="meta-divider">•</span>
-            <span id="hero-meta-format">DMG</span>
-            <span class="meta-divider">•</span>
-            <span>SHA-256 Verified</span>
+          <div class="hero-trust-badges">
+            <div class="hero-trust-badge">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+              <span>Notarized &amp; Signed</span>
+            </div>
+            <div class="hero-trust-badge">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+              <span>100% Offline Daemon</span>
+            </div>
+            <div class="hero-trust-badge">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+              <span>SHA-256 Verified</span>
+            </div>
           </div>
+          <span id="hero-meta-format" style="display: none;">DMG</span>
         </div>
 
         <div>
           <a href="#downloads" class="hero-other-platforms" id="hero-other-platforms-link">
-            <span>Explore all installers (macOS, Windows, and Linux)</span>
+            <span>Looking for Windows or Linux? Explore all platforms</span>
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <polyline points="6 9 12 15 18 9"></polyline>
             </svg>
@@ -173,7 +181,7 @@
         <!-- Live VibeDoctor Monitoring Badge -->
         <div class="hero-vibedoctor-wrap" id="hero-vibedoctor-wrap">
           <a href="https://vibedoctor.io" target="_blank" rel="noopener noreferrer" class="vibedoctor-badge-link" id="hero-vibedoctor-badge" title="Repository continuously validated and monitored by VibeDoctor">
-            <img src="https://vibedoctor.io/api/badges/128b9586-dd4d-4db2-bf53-5a1f576507db" alt="Monitored by VibeDoctor" width="310" height="56" class="vibedoctor-badge-img">
+            <img src="https://vibedoctor.io/api/badges/128b9586-dd4d-4db2-bf53-5a1f576507db" alt="Monitored by VibeDoctor" width="310" height="56" loading="lazy" decoding="async" class="vibedoctor-badge-img">
           </a>
         </div>
 
@@ -230,27 +238,24 @@
           </p>
         </div>
 
-        <!-- Filter Tabs -->
-        <div class="platform-tabs" id="platform-tabs-nav">
-          <button type="button" class="tab-btn active" data-platform="all" id="tab-all">
-            <span>All Platforms</span>
-          </button>
-          <button type="button" class="tab-btn" data-platform="mac" id="tab-mac">
-            <svg viewBox="0 0 24 24">
+        <!-- Platform Selector Buttons (Only logo and name) -->
+        <div class="platform-tabs" id="platform-tabs-nav" role="tablist" aria-label="Operating system download selector">
+          <button type="button" class="tab-btn" data-platform="mac" id="tab-mac" role="tab" aria-selected="false" aria-controls="inline-download-site">
+            <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
               <path
                 d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M15.97 4.15c.61-.74 1.04-1.79.92-2.85-.92.04-2.02.62-2.67 1.36-.57.65-1.07 1.71-.93 2.73 1.03.08 2.07-.5 2.68-1.24z" />
             </svg>
             <span>macOS</span>
           </button>
-          <button type="button" class="tab-btn" data-platform="win" id="tab-win">
-            <svg viewBox="0 0 24 24">
+          <button type="button" class="tab-btn" data-platform="win" id="tab-win" role="tab" aria-selected="false" aria-controls="inline-download-site">
+            <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
               <path
                 d="M0 3.449L9.75 2.1v9.451H0m10.949-9.602L24 0v11.4H10.949M0 12.6h9.75v9.451L0 20.699M10.949 12.6H24V24l-12.9-1.801" />
             </svg>
             <span>Windows</span>
           </button>
-          <button type="button" class="tab-btn" data-platform="linux" id="tab-linux">
-            <svg viewBox="0 0 24 24">
+          <button type="button" class="tab-btn" data-platform="linux" id="tab-linux" role="tab" aria-selected="false" aria-controls="inline-download-site">
+            <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
               <path
                 d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14h-2v-4h2v4zm4 0h-2v-4h2v4zm-2-8a1.5 1.5 0 110-3 1.5 1.5 0 010 3z" />
             </svg>
@@ -258,141 +263,378 @@
           </button>
         </div>
 
-        <!-- Downloads Grid -->
-        <div class="downloads-grid" id="downloads-grid">
+        <!-- Inline Site for Download Information -->
+        <div class="inline-site-container" id="inline-download-site" aria-live="polite">
 
-          <!-- Card 1: macOS Universal Installer (Recommended) -->
-          <div class="download-card recommended" data-platform="mac" id="card-mac-dmg">
-            <div class="card-header-row">
-              <div class="card-icon-wrap">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                  <path
-                    d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M15.97 4.15c.61-.74 1.04-1.79.92-2.85-.92.04-2.02.62-2.67 1.36-.57.65-1.07 1.71-.93 2.73 1.03.08 2.07-.5 2.68-1.24z" />
-                </svg>
+          <!-- Active Inline Download Card (opens when a platform button is clicked) -->
+          <div class="inline-download-card" id="inline-site-window" style="display: none;">
+
+            <!-- Card Top Bar -->
+            <div class="inline-card-topbar">
+              <div class="inline-card-badge">
+                <span class="card-status-dot"></span>
+                <span class="card-badge-text">v0.3.2 Official Package</span>
               </div>
-              <span class="card-badge">Recommended</span>
-            </div>
-            <div class="card-title-group">
-              <h3>macOS Universal Installer</h3>
-              <div class="card-arch-tag">Apple Silicon & Intel • DMG (~29.5 MB)</div>
-            </div>
-            <p class="card-desc">
-              Branded drag-and-drop installer for macOS 12 Monterey, 13 Ventura, 14 Sonoma, and 15 Sequoia. Native dual
-              architecture.
-            </p>
-            <a href="https://github.com/boredpolymath/truth-beacon/releases/download/v0.3.2/TruthBeacon_0.3.2_universal.dmg"
-              class="card-btn-download" id="btn-download-mac-dmg">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-                <polyline points="7 10 12 15 17 10" />
-                <line x1="12" y1="15" x2="12" y2="3" />
-              </svg>
-              <span>Download .DMG</span>
-            </a>
-            <div class="checksum-box">
-              <div class="checksum-content" title="199d97bd6ef59f138eb279655c9ea7b938b48647667003db3a2a4ee8ce7a993a">
-                <span>SHA-256:</span>
-                <span class="checksum-hash">199d97bd...ce7a993a</span>
-              </div>
-              <button type="button" class="btn-copy-checksum"
-                data-hash="199d97bd6ef59f138eb279655c9ea7b938b48647667003db3a2a4ee8ce7a993a"
-                title="Copy SHA-256 Checksum" id="btn-copy-mac-dmg">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
-                  <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+
+              <button type="button" class="inline-card-close-btn" id="inline-site-close-btn" title="Close download details" aria-label="Close download card">
+                <span>Close</span>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="18" y1="6" x2="6" y2="18" />
+                  <line x1="6" y1="6" x2="18" y2="18" />
                 </svg>
               </button>
             </div>
-          </div>
 
-          <!-- Card 2: Windows Setup EXE (Recommended) -->
-          <div class="download-card recommended" data-platform="win" id="card-win-exe">
-            <div class="card-header-row">
-              <div class="card-icon-wrap">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                  <path
-                    d="M0 3.449L9.75 2.1v9.451H0m10.949-9.602L24 0v11.4H10.949M0 12.6h9.75v9.451L0 20.699M10.949 12.6H24V24l-12.9-1.801" />
-                </svg>
+            <!-- Platform View 1: macOS -->
+            <div class="inline-platform-view" id="inline-view-mac" data-view-platform="mac">
+              <div class="inline-view-header">
+                <div class="inline-view-icon-wrap mac-accent">
+                  <svg width="30" height="30" viewBox="0 0 24 24" fill="currentColor">
+                    <path
+                      d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M15.97 4.15c.61-.74 1.04-1.79.92-2.85-.92.04-2.02.62-2.67 1.36-.57.65-1.07 1.71-.93 2.73 1.03.08 2.07-.5 2.68-1.24z" />
+                  </svg>
+                </div>
+                <div>
+                  <div class="inline-view-platform-tag">macOS • Universal 2 Release</div>
+                  <h3 class="inline-view-title">TruthBeacon for macOS</h3>
+                  <div class="inline-view-meta">Apple Silicon (M1/M2/M3/M4) &amp; Intel • macOS 12 Monterey+</div>
+                </div>
               </div>
-              <span class="card-badge">Recommended</span>
-            </div>
-            <div class="card-title-group">
-              <h3>Windows Installer</h3>
-              <div class="card-arch-tag">x64 MSVC • NSIS EXE (~9.5 MB)</div>
-            </div>
-            <p class="card-desc">
-              Standard Windows single-click installer with automatic desktop shortcut, Start Menu integration, and clean
-              uninstaller support.
-            </p>
-            <a href="https://github.com/boredpolymath/truth-beacon/releases/download/v0.3.2/TruthBeacon_0.3.2_x64-setup.exe"
-              class="card-btn-download" id="btn-download-win-exe">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-                <polyline points="7 10 12 15 17 10" />
-                <line x1="12" y1="15" x2="12" y2="3" />
-              </svg>
-              <span>Download .EXE</span>
-            </a>
-            <div class="checksum-box">
-              <div class="checksum-content" title="6f36a65df228544edaa36111ea7ae5eac11baa754fae81adc62956953267586e">
-                <span>SHA-256:</span>
-                <span class="checksum-hash">6f36a65d...267586e</span>
-              </div>
-              <button type="button" class="btn-copy-checksum"
-                data-hash="6f36a65df228544edaa36111ea7ae5eac11baa754fae81adc62956953267586e"
-                title="Copy SHA-256 Checksum" id="btn-copy-win-exe">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
-                  <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
-                </svg>
-              </button>
-            </div>
-          </div>
 
-          <!-- Card 3: Linux Universal AppImage (Recommended) -->
-          <div class="download-card recommended" data-platform="linux" id="card-linux-appimage">
-            <div class="card-header-row">
-              <div class="card-icon-wrap">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                  <path
-                    d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14h-2v-4h2v4zm4 0h-2v-4h2v4zm-2-8a1.5 1.5 0 110-3 1.5 1.5 0 010 3z" />
-                </svg>
-              </div>
-              <span class="card-badge">Recommended</span>
-            </div>
-            <div class="card-title-group">
-              <h3>Linux Universal AppImage</h3>
-              <div class="card-arch-tag">x86_64 • All Distros (~86 MB)</div>
-            </div>
-            <p class="card-desc">
-              Standalone portable bundle compatible with Ubuntu, Arch, Fedora, Debian, Mint, openSUSE, and Pop!_OS. Just
-              chmod +x and run.
-            </p>
-            <a href="https://github.com/boredpolymath/truth-beacon/releases/download/v0.3.2/TruthBeacon_0.3.2_amd64.AppImage"
-              class="card-btn-download" id="btn-download-linux-appimage">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-                <polyline points="7 10 12 15 17 10" />
-                <line x1="12" y1="15" x2="12" y2="3" />
-              </svg>
-              <span>Download AppImage</span>
-            </a>
-            <div class="checksum-box">
-              <div class="checksum-content" title="ec3203b01db76b58b2c55311ea5fdbfeca4c97111cc8207073038c382ca9d3c3">
-                <span>SHA-256:</span>
-                <span class="checksum-hash">ec3203b0...2ca9d3c3</span>
-              </div>
-              <button type="button" class="btn-copy-checksum"
-                data-hash="ec3203b01db76b58b2c55311ea5fdbfeca4c97111cc8207073038c382ca9d3c3"
-                title="Copy SHA-256 Checksum" id="btn-copy-linux-appimage">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
-                  <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
-                </svg>
-              </button>
-            </div>
-          </div>
+              <p class="inline-view-desc">
+                High-performance native menu bar security shield. Blocks avatar clones, homoglyphs, and token theft with 100% offline, zero-telemetry defense.
+              </p>
 
+              <!-- Main CTA & Secondary Links -->
+              <div class="inline-action-row">
+                <a href="https://github.com/boredpolymath/truth-beacon/releases/download/v0.3.2/TruthBeacon_0.3.2_universal.dmg"
+                  class="inline-btn-download-primary" id="btn-download-mac-dmg">
+                  <div class="btn-download-icon-circle">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                      <polyline points="7 10 12 15 17 10" />
+                      <line x1="12" y1="15" x2="12" y2="3" />
+                    </svg>
+                  </div>
+                  <div class="btn-download-text-group">
+                    <span class="btn-download-title">Download for macOS (.dmg)</span>
+                    <span class="btn-download-subtitle">v0.3.2 • Universal 2 (arm64 &amp; x86_64) • ~29.5 MB</span>
+                  </div>
+                </a>
+                <div class="inline-secondary-group">
+                  <a href="https://github.com/boredpolymath/truth-beacon/releases/download/v0.3.2/SHA256SUMS.txt"
+                    target="_blank" rel="noopener noreferrer" class="inline-btn-secondary" id="btn-view-mac-manifest">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                      <polyline points="14 2 14 8 20 8" />
+                    </svg>
+                    <span>Release Manifest</span>
+                  </a>
+                  <a href="https://github.com/boredpolymath/truth-beacon/releases/download/v0.3.2/SHA256SUMS.txt.asc"
+                    target="_blank" rel="noopener noreferrer" class="inline-btn-secondary">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                    </svg>
+                    <span>GPG Signature</span>
+                  </a>
+                </div>
+              </div>
+
+              <!-- Trust & Security Highlights -->
+              <div class="inline-trust-strip">
+                <div class="inline-trust-pill">
+                  <span class="trust-icon">🛡️</span>
+                  <div>
+                    <div class="trust-pill-title">Apple Notarized</div>
+                    <div class="trust-pill-desc">Native arm64 &amp; x86_64</div>
+                  </div>
+                </div>
+                <div class="inline-trust-pill">
+                  <span class="trust-icon">⚡</span>
+                  <div>
+                    <div class="trust-pill-title">100% Offline</div>
+                    <div class="trust-pill-desc">Zero telemetry or cloud tracking</div>
+                  </div>
+                </div>
+                <div class="inline-trust-pill">
+                  <span class="trust-icon">🔒</span>
+                  <div>
+                    <div class="trust-pill-title">Cryptographically Verified</div>
+                    <div class="trust-pill-desc">SHA-256 &amp; GPG signed</div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Unified Verification Panel -->
+              <div class="inline-verify-box">
+                <div class="inline-verify-row">
+                  <div class="inline-verify-label">
+                    <span class="verify-badge">SHA-256</span>
+                    <code class="inline-verify-hash" title="199d97bd6ef59f138eb279655c9ea7b938b48647667003db3a2a4ee8ce7a993a">199d97bd6ef59f138eb279655c9ea7b938b48647667003db3a2a4ee8ce7a993a</code>
+                  </div>
+                  <button type="button" class="btn-copy-checksum"
+                    data-hash="199d97bd6ef59f138eb279655c9ea7b938b48647667003db3a2a4ee8ce7a993a"
+                    title="Copy SHA-256 Checksum" id="btn-copy-mac-dmg">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
+                      <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+                    </svg>
+                    <span>Copy Hash</span>
+                  </button>
+                </div>
+                <div class="inline-verify-cmd-row">
+                  <span class="verify-cmd-prompt">$</span>
+                  <code class="verify-cmd-text">shasum -a 256 TruthBeacon_0.3.2_universal.dmg</code>
+                  <button type="button" class="btn-copy-inline-cmd" data-cmd="shasum -a 256 TruthBeacon_0.3.2_universal.dmg" title="Copy verification command">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
+                      <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+                    </svg>
+                    <span>Copy Command</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Platform View 2: Windows -->
+            <div class="inline-platform-view" id="inline-view-win" data-view-platform="win" style="display: none;">
+              <div class="inline-view-header">
+                <div class="inline-view-icon-wrap win-accent">
+                  <svg width="30" height="30" viewBox="0 0 24 24" fill="currentColor">
+                    <path
+                      d="M0 3.449L9.75 2.1v9.451H0m10.949-9.602L24 0v11.4H10.949M0 12.6h9.75v9.451L0 20.699M10.949 12.6H24V24l-12.9-1.801" />
+                  </svg>
+                </div>
+                <div>
+                  <div class="inline-view-platform-tag">Windows • 64-bit Installer</div>
+                  <h3 class="inline-view-title">TruthBeacon for Windows</h3>
+                  <div class="inline-view-meta">Windows 10 &amp; 11 • 64-bit MSVC • Standalone Setup</div>
+                </div>
+              </div>
+
+              <p class="inline-view-desc">
+                Single-click desktop setup for Windows 10 and 11. Integrates seamlessly into your Start Menu and system tray with non-invasive background protection.
+              </p>
+
+              <!-- Main CTA & Secondary Links -->
+              <div class="inline-action-row">
+                <a href="https://github.com/boredpolymath/truth-beacon/releases/download/v0.3.2/TruthBeacon_0.3.2_x64-setup.exe"
+                  class="inline-btn-download-primary" id="btn-download-win-exe">
+                  <div class="btn-download-icon-circle">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                      <polyline points="7 10 12 15 17 10" />
+                      <line x1="12" y1="15" x2="12" y2="3" />
+                    </svg>
+                  </div>
+                  <div class="btn-download-text-group">
+                    <span class="btn-download-title">Download for Windows (.exe)</span>
+                    <span class="btn-download-subtitle">v0.3.2 • 64-bit MSVC Setup • ~9.5 MB</span>
+                  </div>
+                </a>
+                <div class="inline-secondary-group">
+                  <a href="https://github.com/boredpolymath/truth-beacon/releases/download/v0.3.2/SHA256SUMS.txt"
+                    target="_blank" rel="noopener noreferrer" class="inline-btn-secondary" id="btn-view-win-manifest">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                      <polyline points="14 2 14 8 20 8" />
+                    </svg>
+                    <span>Release Manifest</span>
+                  </a>
+                  <a href="https://github.com/boredpolymath/truth-beacon/releases/download/v0.3.2/SHA256SUMS.txt.asc"
+                    target="_blank" rel="noopener noreferrer" class="inline-btn-secondary">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                    </svg>
+                    <span>GPG Signature</span>
+                  </a>
+                </div>
+              </div>
+
+              <!-- Trust & Security Highlights -->
+              <div class="inline-trust-strip">
+                <div class="inline-trust-pill">
+                  <span class="trust-icon">🛡️</span>
+                  <div>
+                    <div class="trust-pill-title">Authenticode Hardened</div>
+                    <div class="trust-pill-desc">Windows 10 &amp; 11 (64-bit)</div>
+                  </div>
+                </div>
+                <div class="inline-trust-pill">
+                  <span class="trust-icon">⚡</span>
+                  <div>
+                    <div class="trust-pill-title">100% Offline</div>
+                    <div class="trust-pill-desc">Zero telemetry or cloud tracking</div>
+                  </div>
+                </div>
+                <div class="inline-trust-pill">
+                  <span class="trust-icon">🔒</span>
+                  <div>
+                    <div class="trust-pill-title">Cryptographically Verified</div>
+                    <div class="trust-pill-desc">SHA-256 &amp; GPG signed</div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Unified Verification Panel -->
+              <div class="inline-verify-box">
+                <div class="inline-verify-row">
+                  <div class="inline-verify-label">
+                    <span class="verify-badge">SHA-256</span>
+                    <code class="inline-verify-hash" title="6f36a65df228544edaa36111ea7ae5eac11baa754fae81adc62956953267586e">6f36a65df228544edaa36111ea7ae5eac11baa754fae81adc62956953267586e</code>
+                  </div>
+                  <button type="button" class="btn-copy-checksum"
+                    data-hash="6f36a65df228544edaa36111ea7ae5eac11baa754fae81adc62956953267586e"
+                    title="Copy SHA-256 Checksum" id="btn-copy-win-exe">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
+                      <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+                    </svg>
+                    <span>Copy Hash</span>
+                  </button>
+                </div>
+                <div class="inline-verify-cmd-row">
+                  <span class="verify-cmd-prompt">PS&gt;</span>
+                  <code class="verify-cmd-text">Get-FileHash TruthBeacon_0.3.2_x64-setup.exe -Algorithm SHA256</code>
+                  <button type="button" class="btn-copy-inline-cmd" data-cmd="Get-FileHash TruthBeacon_0.3.2_x64-setup.exe -Algorithm SHA256" title="Copy verification command">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
+                      <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+                    </svg>
+                    <span>Copy Command</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Platform View 3: Linux -->
+            <div class="inline-platform-view" id="inline-view-linux" data-view-platform="linux" style="display: none;">
+              <div class="inline-view-header">
+                <div class="inline-view-icon-wrap linux-accent">
+                  <svg width="30" height="30" viewBox="0 0 24 24" fill="currentColor">
+                    <path
+                      d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14h-2v-4h2v4zm4 0h-2v-4h2v4zm-2-8a1.5 1.5 0 110-3 1.5 1.5 0 010 3z" />
+                  </svg>
+                </div>
+                <div>
+                  <div class="inline-view-platform-tag">Linux • Universal AppImage</div>
+                  <h3 class="inline-view-title">TruthBeacon for Linux</h3>
+                  <div class="inline-view-meta">x86_64 • Standalone Portable Bundle • ~86 MB</div>
+                </div>
+              </div>
+
+              <p class="inline-view-desc">
+                Standalone portable bundle compatible with Ubuntu, Arch, Fedora, Debian, Mint, and openSUSE. Zero root requirements or runtime dependencies.
+              </p>
+
+              <!-- Main CTA & Secondary Links -->
+              <div class="inline-action-row">
+                <a href="https://github.com/boredpolymath/truth-beacon/releases/download/v0.3.2/TruthBeacon_0.3.2_amd64.AppImage"
+                  class="inline-btn-download-primary" id="btn-download-linux-appimage">
+                  <div class="btn-download-icon-circle">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                      <polyline points="7 10 12 15 17 10" />
+                      <line x1="12" y1="15" x2="12" y2="3" />
+                    </svg>
+                  </div>
+                  <div class="btn-download-text-group">
+                    <span class="btn-download-title">Download for Linux (.AppImage)</span>
+                    <span class="btn-download-subtitle">v0.3.2 • Universal x86_64 Bundle • ~86 MB</span>
+                  </div>
+                </a>
+                <div class="inline-secondary-group">
+                  <a href="https://github.com/boredpolymath/truth-beacon/releases/download/v0.3.2/SHA256SUMS.txt"
+                    target="_blank" rel="noopener noreferrer" class="inline-btn-secondary" id="btn-view-linux-manifest">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                      <polyline points="14 2 14 8 20 8" />
+                    </svg>
+                    <span>Release Manifest</span>
+                  </a>
+                  <a href="https://github.com/boredpolymath/truth-beacon/releases/download/v0.3.2/SHA256SUMS.txt.asc"
+                    target="_blank" rel="noopener noreferrer" class="inline-btn-secondary">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                    </svg>
+                    <span>GPG Signature</span>
+                  </a>
+                </div>
+              </div>
+
+              <!-- Trust & Security Highlights -->
+              <div class="inline-trust-strip">
+                <div class="inline-trust-pill">
+                  <span class="trust-icon">🛡️</span>
+                  <div>
+                    <div class="trust-pill-title">Ed25519 Minisign Signed</div>
+                    <div class="trust-pill-desc">Universal glibc 2.31+</div>
+                  </div>
+                </div>
+                <div class="inline-trust-pill">
+                  <span class="trust-icon">⚡</span>
+                  <div>
+                    <div class="trust-pill-title">100% Offline</div>
+                    <div class="trust-pill-desc">Zero telemetry or cloud tracking</div>
+                  </div>
+                </div>
+                <div class="inline-trust-pill">
+                  <span class="trust-icon">🔒</span>
+                  <div>
+                    <div class="trust-pill-title">Cryptographically Verified</div>
+                    <div class="trust-pill-desc">SHA-256 &amp; GPG signed</div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Unified Verification Panel -->
+              <div class="inline-verify-box">
+                <div class="inline-verify-row">
+                  <div class="inline-verify-label">
+                    <span class="verify-badge">SHA-256</span>
+                    <code class="inline-verify-hash" title="ec3203b01db76b58b2c55311ea5fdbfeca4c97111cc8207073038c382ca9d3c3">ec3203b01db76b58b2c55311ea5fdbfeca4c97111cc8207073038c382ca9d3c3</code>
+                  </div>
+                  <button type="button" class="btn-copy-checksum"
+                    data-hash="ec3203b01db76b58b2c55311ea5fdbfeca4c97111cc8207073038c382ca9d3c3"
+                    title="Copy SHA-256 Checksum" id="btn-copy-linux-appimage">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
+                      <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+                    </svg>
+                    <span>Copy Hash</span>
+                  </button>
+                </div>
+                <div class="inline-verify-cmd-row">
+                  <span class="verify-cmd-prompt">$</span>
+                  <code class="verify-cmd-text">sha256sum TruthBeacon_0.3.2_amd64.AppImage</code>
+                  <button type="button" class="btn-copy-inline-cmd" data-cmd="sha256sum TruthBeacon_0.3.2_amd64.AppImage" title="Copy verification command">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
+                      <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+                    </svg>
+                    <span>Copy Command</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Card Footer Status Bar -->
+            <div class="inline-card-footer">
+              <div class="site-footer-badge">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                <span>GPG &amp; Ed25519 Minisign Signed</span>
+              </div>
+              <div class="site-footer-badge">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                <span>100% Offline • Zero Telemetry</span>
+              </div>
+              <div class="site-footer-badge">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+                <span>SHA-256 Checksum Verified</span>
+              </div>
+            </div>
+
+          </div>
         </div>
       </div>
     </section>
@@ -529,7 +771,7 @@ shasum -a 256 TruthBeacon_0.3.2_universal.dmg
             </p>
             <div>
               <a href="https://vibedoctor.io" target="_blank" rel="noopener noreferrer" class="vibedoctor-badge-link" id="verification-vibedoctor-badge" title="Monitored by VibeDoctor">
-                <img src="https://vibedoctor.io/api/badges/128b9586-dd4d-4db2-bf53-5a1f576507db" alt="Monitored by VibeDoctor" width="310" height="56" class="vibedoctor-badge-img">
+                <img src="https://vibedoctor.io/api/badges/128b9586-dd4d-4db2-bf53-5a1f576507db" alt="Monitored by VibeDoctor" width="310" height="56" loading="lazy" decoding="async" class="vibedoctor-badge-img">
               </a>
             </div>
           </div>
@@ -580,7 +822,7 @@ shasum -a 256 TruthBeacon_0.3.2_universal.dmg
 
             <div class="showcase-preview-frame" title="Click to view full image">
               <img src="assets/screenshot_protected.png" alt="TruthBeacon Active Protection Dashboard" width="800" height="500"
-                class="showcase-preview-img" id="showcase-item-img">
+                loading="lazy" decoding="async" class="showcase-preview-img" id="showcase-item-img">
               <span class="preview-overlay-hint">Click to enlarge</span>
             </div>
           </div>
@@ -612,10 +854,9 @@ shasum -a 256 TruthBeacon_0.3.2_universal.dmg
 
           <div class="pillar-card" id="pillar-vault">
             <div class="pillar-icon-box">🔐</div>
-            <h3>Domain-Bound AES-256-GCM Vault</h3>
+            <h3>AES-256-GCM Encrypted Vault</h3>
             <p>
-              Authenticated encryption strictly bound to application domain AAD (<code>TruthBeacon:EncryptedVault:v1</code>)
-              with Argon2id derivation, Zeroize-on-drop hygiene, and strict owner-only POSIX permissions.
+              Authenticated domain-bound encryption with Argon2id derivation, Zeroize memory hygiene, and strict owner-only POSIX permissions.
             </p>
           </div>
 
@@ -623,7 +864,7 @@ shasum -a 256 TruthBeacon_0.3.2_universal.dmg
             <div class="pillar-icon-box">🗄️</div>
             <h3>Forensic SQLite Quarantine</h3>
             <p>
-              Pre-flight SQLite integrity gates (<code>PRAGMA integrity_check</code>) preserve corrupt databases and WAL frames into timestamped archives without data loss, alongside non-blocking online backups.
+              Pre-flight integrity gates preserve corrupt databases and WAL frames into timestamped archives without data loss, with non-blocking online backups.
             </p>
           </div>
 
@@ -659,7 +900,7 @@ shasum -a 256 TruthBeacon_0.3.2_universal.dmg
   <div class="lightbox-modal" id="lightbox-modal">
     <div class="lightbox-content">
       <button type="button" class="lightbox-close" id="lightbox-close" aria-label="Close modal">&times;</button>
-      <img src="" alt="Full preview" width="1200" height="750" class="lightbox-img" id="lightbox-img">
+      <img src="" alt="Full preview" width="1200" height="750" decoding="async" class="lightbox-img" id="lightbox-img">
     </div>
   </div>
 
@@ -672,8 +913,8 @@ shasum -a 256 TruthBeacon_0.3.2_universal.dmg
       <div class="footer-top">
         <div class="footer-brand-col">
           <div class="footer-brand-header">
-            <img src="assets/truthbeacon_emblem.png" alt="TruthBeacon" width="28" height="28">
-            <img src="assets/truthbeacon_wordmark.png" alt="TruthBeacon" width="105" height="18">
+            <img src="assets/truthbeacon_emblem.png" alt="TruthBeacon" width="28" height="28" loading="lazy" decoding="async">
+            <img src="assets/truthbeacon_wordmark.png" alt="TruthBeacon" width="105" height="18" loading="lazy" decoding="async">
           </div>
           <p class="footer-desc">
             Next-Gen Discord Anti-Impersonation & Threat Defense. Built for server owners, moderators, and security
@@ -724,7 +965,7 @@ shasum -a 256 TruthBeacon_0.3.2_universal.dmg
   </footer>
 
   <!-- Scripts -->
-  <script src="js/main.js"></script>
+  <script defer src="js/main.js"></script>
 </body>
 
 </html>

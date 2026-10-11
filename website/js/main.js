@@ -85,32 +85,108 @@ function initOSDetection() {
   if (metaFormat) metaFormat.textContent = targetAsset.filename.split('.').pop().toUpperCase();
 }
 
-// 2. Platform Switcher Tabs (macOS, Windows, Linux, All)
+// 2. Platform Switcher & Inline Download Card Logic
+function openPlatformSite(platform) {
+  if (!platform) return;
+  const tabs = document.querySelectorAll('.platform-tabs .tab-btn');
+  const card = document.getElementById('inline-site-window');
+  const views = document.querySelectorAll('.inline-platform-view');
+
+  const wasClosed = !card || card.style.display === 'none' || !card.classList.contains('is-open');
+
+  tabs.forEach(t => {
+    const isSelected = t.getAttribute('data-platform') === platform;
+    t.classList.toggle('active', isSelected);
+    t.setAttribute('aria-selected', isSelected ? 'true' : 'false');
+  });
+
+  views.forEach(view => {
+    const isTarget = view.getAttribute('data-view-platform') === platform;
+    view.style.display = isTarget ? 'block' : 'none';
+  });
+
+  if (card) {
+    if (wasClosed) {
+      card.style.display = 'block';
+      card.classList.remove('is-closing');
+      card.classList.add('is-open');
+    }
+  }
+}
+
+function closePlatformSite() {
+  const tabs = document.querySelectorAll('.platform-tabs .tab-btn');
+  const card = document.getElementById('inline-site-window');
+
+  tabs.forEach(t => {
+    t.classList.remove('active');
+    t.setAttribute('aria-selected', 'false');
+  });
+
+  if (card && card.classList.contains('is-open')) {
+    card.classList.remove('is-open');
+    card.classList.add('is-closing');
+    setTimeout(() => {
+      card.style.display = 'none';
+      card.classList.remove('is-closing');
+    }, 240);
+  } else if (card) {
+    card.style.display = 'none';
+  }
+}
+
 function initPlatformTabs() {
   const tabs = document.querySelectorAll('.platform-tabs .tab-btn');
-  const cards = document.querySelectorAll('.downloads-grid .download-card');
-  const grid = document.getElementById('downloads-grid');
+  const closeBtn = document.getElementById('inline-site-close-btn');
 
   tabs.forEach(tab => {
     tab.addEventListener('click', () => {
-      tabs.forEach(t => t.classList.remove('active'));
-      tab.classList.add('active');
-
-      const filter = tab.getAttribute('data-platform');
-      if (grid) {
-        if (filter === 'all') {
-          grid.classList.remove('filtered-single');
-        } else {
-          grid.classList.add('filtered-single');
-        }
+      const platform = tab.getAttribute('data-platform');
+      if (tab.classList.contains('active')) {
+        closePlatformSite();
+      } else {
+        openPlatformSite(platform);
       }
-      cards.forEach(card => {
-        const cardPlatform = card.getAttribute('data-platform');
-        if (filter === 'all' || cardPlatform === filter) {
-          card.style.display = 'flex';
-        } else {
-          card.style.display = 'none';
-        }
+    });
+  });
+
+  if (closeBtn) closeBtn.addEventListener('click', closePlatformSite);
+
+  initHeroPlatformLink();
+  initInlineCommandCopy();
+}
+
+function initHeroPlatformLink() {
+  const heroOtherLink = document.getElementById('hero-other-platforms-link');
+  if (!heroOtherLink) return;
+
+  heroOtherLink.addEventListener('click', () => {
+    const ua = navigator.userAgent || '';
+    const platform = navigator.platform || '';
+    let targetOS = 'mac';
+    if (/Win/i.test(platform) || /Windows/i.test(ua)) {
+      targetOS = 'win';
+    } else if (/Linux/i.test(platform) || /Linux/i.test(ua)) {
+      targetOS = 'linux';
+    }
+    openPlatformSite(targetOS);
+  });
+}
+
+function initInlineCommandCopy() {
+  document.querySelectorAll('.btn-copy-inline-cmd').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const cmd = btn.getAttribute('data-cmd');
+      if (!cmd) return;
+      navigator.clipboard.writeText(cmd).then(() => {
+        showToast('Verification command copied!');
+        const origChildren = Array.from(btn.childNodes);
+        btn.textContent = '✓ Copied';
+        setTimeout(() => {
+          btn.replaceChildren(...origChildren);
+        }, 1800);
+      }).catch(err => {
+        console.error('Copy command failed:', err);
       });
     });
   });
