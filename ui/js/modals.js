@@ -1,5 +1,6 @@
 import { appState } from './state.js';
 import { openModal, closeModal, escapeHtml } from './utils.js';
+import { DOMPurify } from './dompurify.js';
 
 export function openAuthorizedAltModal(incidentId) {
   const modal = document.getElementById('modal-authorize-alt');
@@ -16,19 +17,36 @@ export function openAuthorizedAltModal(incidentId) {
 
   const d = incident.discrepancy;
   if (candidateSummary) {
-    candidateSummary.innerHTML = `
-      <div style="font-weight: 700; color: var(--text-primary); font-size: 0.95rem;">@${escapeHtml(d.suspect_username)}</div>
-      <div style="font-size: 0.78rem; color: var(--text-muted); font-family: var(--font-mono);">${escapeHtml(d.suspect_user_id)}</div>
-      <div style="font-size: 0.8rem; color: var(--text-secondary); margin-top: 4px;">Flagged against official account: <strong>@${escapeHtml(d.matched_benchmark_name)}</strong></div>
-    `;
+    candidateSummary.replaceChildren();
+    const nameEl = document.createElement('div');
+    nameEl.style.cssText = 'font-weight: 700; color: var(--text-primary); font-size: 0.95rem;';
+    nameEl.textContent = `@${d.suspect_username}`;
+
+    const idEl = document.createElement('div');
+    idEl.style.cssText = 'font-size: 0.78rem; color: var(--text-muted); font-family: var(--font-mono);';
+    idEl.textContent = d.suspect_user_id;
+
+    const flagEl = document.createElement('div');
+    flagEl.style.cssText = 'font-size: 0.8rem; color: var(--text-secondary); margin-top: 4px;';
+    flagEl.append('Flagged against official account: ');
+    const strongEl = document.createElement('strong');
+    strongEl.textContent = `@${d.matched_benchmark_name}`;
+    flagEl.appendChild(strongEl);
+
+    candidateSummary.append(nameEl, idEl, flagEl);
   }
 
   if (selectBenchmark) {
-    selectBenchmark.innerHTML = appState.benchmarks.map(bm => `
-      <option value="${escapeHtml(bm.id)}" ${bm.id === d.matched_benchmark_id ? 'selected' : ''}>
-        ${escapeHtml(bm.canonical_username)} (${escapeHtml(bm.community_role)})
-      </option>
-    `).join('');
+    selectBenchmark.replaceChildren();
+    appState.benchmarks.forEach(bm => {
+      const opt = document.createElement('option');
+      opt.value = bm.id;
+      opt.textContent = `${bm.canonical_username} (${bm.community_role})`;
+      if (bm.id === d.matched_benchmark_id) {
+        opt.selected = true;
+      }
+      selectBenchmark.appendChild(opt);
+    });
   }
 
   openModal(modal);

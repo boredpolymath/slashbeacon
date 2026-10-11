@@ -150,7 +150,9 @@ async function syncLiveDiagnostics() {
       appState.daemonHealth.circuit_breaker.tripped = !!diag.circuit_breaker_tripped;
       updateView();
     }
-  } catch (_) {}
+  } catch (err) {
+    console.warn('Diagnostics polling notice:', err);
+  }
 }
 
 function initApp() {

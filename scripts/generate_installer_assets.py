@@ -1,13 +1,10 @@
 #!/usr/bin/env python3
 """
-Generate Orange Heart branded installer assets for macOS DMG, Windows NSIS, and WiX.
-Matches the exact Discord-familiar charcoal & Orange Heart stewardship aesthetic of the main application.
-"""
+Generate Bored Polymath branded installer assets for macOS DMG, Windows NSIS, and WiX.
+Matches the exact Discord-familiar charcoal & Bored Polymath stewardship aesthetic of the main application.
+"""                                                                             
 
-try:
-    from PIL import Image, ImageDraw, ImageFont  # type: ignore[import]
-except ImportError:
-    pass
+from PIL import Image, ImageDraw, ImageFont  # type: ignore[import]
 import os
 import math
 
@@ -31,9 +28,9 @@ CLR_TEXT_PRIMARY = (219, 222, 225, 255)  # #dbdee1 - Readable body text
 CLR_TEXT_SECONDARY = (148, 155, 164, 255)# #949ba4 - Muted metadata
 CLR_TEXT_MUTED = (128, 132, 142, 255)    # #80848e - Helper hints
 
-CLR_OH_ORANGE = (249, 115, 22, 255)      # #f97316 - Primary Orange Heart accent
-CLR_OH_ORANGE_DARK = (234, 88, 12, 255)  # #ea580c - Deep orange gradient
-CLR_OH_ORANGE_LIGHT = (251, 146, 60, 255)# #fb923c - Light amber
+CLR_BP_AMBER = (245, 175, 22, 255)       # #f5af16 - Bored Polymath amber primary
+CLR_BP_AMBER_DARK = (230, 160, 10, 255)  # #e6a00a - Deep amber
+CLR_BP_AMBER_LIGHT = (251, 191, 59, 255) # #fbbff3 - Light amber
 CLR_BLURPLE = (88, 101, 242, 255)        # #5865f2 - Discord signature Blurple
 CLR_GREEN = (35, 165, 90, 255)           # #23a55a - Discord success green
 

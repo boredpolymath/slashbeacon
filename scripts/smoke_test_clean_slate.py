@@ -106,11 +106,16 @@ def test_clean_slate_environment():
     if os.path.exists(backup_dir):
         shutil.rmtree(backup_dir)
 
-    if os.path.exists(TB_DATA_DIR):
+    had_prior_data = os.path.exists(TB_DATA_DIR)
+    if had_prior_data:
         print(f"  Backing up existing data directory to {backup_dir}...")
         shutil.move(TB_DATA_DIR, backup_dir)
+        assert os.path.exists(backup_dir), f"Backup directory must exist after moving {TB_DATA_DIR}"
 
     check(not os.path.exists(TB_DATA_DIR), "Verified ~/.truthbeacon clean-slate (zero existing database)")
+    assert not os.path.exists(TB_DATA_DIR), (
+        f"Clean-slate verification failed: {TB_DATA_DIR} must not exist prior to cold launch"
+    )
 
 def test_presentation_state():
     log("3/5", "Verifying Initial Clean-Slate Presentation State...")
@@ -118,10 +123,13 @@ def test_presentation_state():
     app_js_path = os.path.join(UI_DIR, "js", "app.js")
     mock_data_path = os.path.join(UI_DIR, "js", "mock_data.js")
 
+    vault_js_path = os.path.join(UI_DIR, "js", "vault.js")
     with open(html_path, "r", encoding="utf-8") as f:
         html = f.read()
     with open(app_js_path, "r", encoding="utf-8") as f:
         app_js = f.read()
+    with open(vault_js_path, "r", encoding="utf-8") as f:
+        vault_js = f.read()
     with open(mock_data_path, "r", encoding="utf-8") as f:
         mock_data = f.read()
 
@@ -130,44 +138,52 @@ def test_presentation_state():
         '<span class="discord-badge-active disconnected" id="discord-hero-badge">DISCONNECTED</span>' in html,
         'Hero banner displays "DISCONNECTED"'
     )
+    assert '<span class="discord-badge-active disconnected" id="discord-hero-badge">DISCONNECTED</span>' in html
     check(
         '<span class="discord-status-indicator offline" id="discord-hero-status-dot" title="Disconnected"></span>' in html,
         'Hero banner status indicator is offline (grey)'
     )
+    assert '<span class="discord-status-indicator offline" id="discord-hero-status-dot" title="Disconnected"></span>' in html
 
     # 2. Active alerts counter reads "0"
     check(
         '<span class="tab-counter tab-counter-zero" id="counter-incidents">0</span>' in html,
         'Active alerts counter initialized to "0"'
     )
+    assert '<span class="tab-counter tab-counter-zero" id="counter-incidents">0</span>' in html
 
     # 3. Protected benchmarks counter reads "(0)"
     check(
         '<span class="tab-count-subtle" id="counter-vault">(0)</span>' in html,
         'Protected benchmarks counter reads "(0)"'
     )
+    assert '<span class="tab-count-subtle" id="counter-vault">(0)</span>' in html
     check(
         'export const INITIAL_BENCHMARKS = [];' in mock_data,
         'Ground-truth benchmark state initialized empty ([])'
     )
+    assert 'export const INITIAL_BENCHMARKS = [];' in mock_data
 
     # 4. Protected members grid shows empty state invitation ("No Protected Benchmarks Yet")
     check(
-        'No Protected Benchmarks Yet' in app_js,
+        'No Protected Benchmarks Yet' in vault_js or 'No Protected Benchmarks Yet' in app_js,
         'Protected members grid renders empty state invitation ("No Protected Benchmarks Yet")'
     )
+    assert 'No Protected Benchmarks Yet' in vault_js or 'No Protected Benchmarks Yet' in app_js
 
     # 5. Server ID input field is blank and ready for community guild entry
     check(
         'id="discord-guild-id-input"' in html and 'placeholder="e.g. 999888777666555444' in html,
         'Server ID input field is blank with placeholder'
     )
+    assert 'id="discord-guild-id-input"' in html
 
     # 6. Diagnostics tab shows "Awaiting verification"
     check(
         '<span class="diag-text">Token Format: <strong>Awaiting verification</strong></span>' in html,
         'Diagnostics checklist shows "Awaiting verification"'
     )
+    assert '<span class="diag-text">Token Format: <strong>Awaiting verification</strong></span>' in html
     assert len(html) > 0 and len(app_js) > 0, "Presentation templates verified"
 
 def test_cold_launch_and_shutdown():
@@ -193,7 +209,9 @@ def test_cold_launch_and_shutdown():
             break
         time.sleep(0.2)
     check(proc.poll() is None, "Cold launch process is running cleanly without crash")
+    assert proc.poll() is None, "Cold launch process must be running without crash"
     check(db_created, f"SQLite database created at {DB_PATH}")
+    assert db_created, f"SQLite database must be created at {DB_PATH}"
 
     # Query schema version from SQLite
     conn = sqlite3.connect(DB_PATH)
@@ -205,7 +223,9 @@ def test_cold_launch_and_shutdown():
     conn.close()
 
     check(version >= 2, f"SQLite schema initialized to user_version {version}")
+    assert version >= 2, f"SQLite schema user_version must be >= 2"
     check("benchmarks" in tables and "incidents" in tables and "audit_logs" in tables, f"Relational tables verified: {tables}")
+    assert "benchmarks" in tables and "incidents" in tables and "audit_logs" in tables, "Required tables must exist"
 
     log("5/5", "Testing Graceful Application Shutdown & WAL Checkpointing...")
     # Send SIGTERM for graceful shutdown
@@ -218,14 +238,17 @@ def test_cold_launch_and_shutdown():
     except subprocess.TimeoutExpired:
         proc.kill()
         check(False, "Process failed to shut down gracefully within 5 seconds")
+        assert False, "Process failed to shut down gracefully within 5 seconds"
 
     # Verify SQLite WAL clean checkpoint
     check(os.path.exists(DB_PATH), "Database file intact after shutdown")
+    assert os.path.exists(DB_PATH), f"Database file must exist at {DB_PATH} after shutdown"
 
     # Test WAL status
     if os.path.exists(DB_WAL_PATH):
         wal_size = os.path.getsize(DB_WAL_PATH)
         check(wal_size == 0 or wal_size <= 65536, f"WAL file checkpointed / bounded (size: {wal_size} bytes)")
+        assert wal_size == 0 or wal_size <= 65536, f"WAL file size must be bounded, found {wal_size} bytes"
     else:
         check(True, "WAL file checkpointed and synchronized to main database")
 
@@ -239,7 +262,9 @@ def test_cold_launch_and_shutdown():
     conn.close()
 
     check(integrity == "ok", "SQLite PRAGMA integrity_check passed ('ok')")
+    assert integrity == "ok", f"PRAGMA integrity_check must be 'ok', got {integrity}"
     check(journal.upper() == "WAL", f"SQLite PRAGMA journal_mode is WAL ('{journal}')")
+    assert journal.upper() == "WAL", f"PRAGMA journal_mode must be 'WAL', got {journal}"
 
 def restore_environment():
     backup_dir = os.path.join(USER_HOME, ".truthbeacon.preflight_bak")

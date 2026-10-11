@@ -6,7 +6,7 @@
 const ALLOWED_TAGS = new Set([
   'a', 'article', 'aside', 'b', 'blockquote', 'button', 'code', 'div', 'em',
   'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'hr', 'i', 'img', 'kbd', 'li', 'mark',
-  'nav', 'ol', 'p', 'pre', 'section', 'small', 'span', 'strong', 'sub', 'sup',
+  'nav', 'ol', 'option', 'optgroup', 'p', 'pre', 'section', 'select', 'small', 'span', 'strong', 'sub', 'sup',
   'svg', 'path', 'polyline', 'line', 'circle', 'rect', 'ellipse',
   'table', 'tbody', 'td', 'tfoot', 'th', 'thead', 'tr', 'u', 'ul'
 ]);
@@ -14,9 +14,9 @@ const ALLOWED_TAGS = new Set([
 const ALLOWED_ATTRS = new Set([
   'alt', 'aria-describedby', 'aria-hidden', 'aria-label', 'aria-live', 'class',
   'data-action', 'data-id', 'data-incident-id', 'data-platform', 'data-tab',
-  'data-verify-tab', 'data-showcase', 'data-hash', 'fill', 'height', 'href',
-  'id', 'points', 'radius', 'rel', 'role', 'src', 'stroke', 'stroke-linecap',
-  'stroke-linejoin', 'stroke-width', 'style', 'title', 'type', 'viewbox',
+  'data-verify-tab', 'data-showcase', 'data-hash', 'disabled', 'fill', 'height', 'href',
+  'id', 'points', 'radius', 'rel', 'role', 'selected', 'src', 'stroke', 'stroke-linecap',
+  'stroke-linejoin', 'stroke-width', 'style', 'title', 'type', 'value', 'viewbox',
   'width', 'x1', 'x2', 'y1', 'y2'
 ]);
 

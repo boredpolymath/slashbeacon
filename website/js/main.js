@@ -175,19 +175,21 @@ function initHeroPlatformLink() {
 
 function initInlineCommandCopy() {
   document.querySelectorAll('.btn-copy-inline-cmd').forEach(btn => {
-    btn.addEventListener('click', () => {
+    btn.addEventListener('click', async () => {
       const cmd = btn.getAttribute('data-cmd');
       if (!cmd) return;
-      navigator.clipboard.writeText(cmd).then(() => {
+      try {
+        await navigator.clipboard.writeText(cmd);
         showToast('Verification command copied!');
         const origChildren = Array.from(btn.childNodes);
         btn.textContent = '✓ Copied';
         setTimeout(() => {
           btn.replaceChildren(...origChildren);
         }, 1800);
-      }).catch(err => {
+      } catch (err) {
         console.error('Copy command failed:', err);
-      });
+        showToast('Failed to copy command');
+      }
     });
   });
 }
@@ -232,12 +234,14 @@ function initVerifyTabs() {
 
   const copyCodeBtn = document.getElementById('btn-copy-terminal-code');
   if (copyCodeBtn && codeEl) {
-    copyCodeBtn.addEventListener('click', () => {
-      navigator.clipboard.writeText(codeEl.textContent).then(() => {
+    copyCodeBtn.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(codeEl.textContent);
         showToast('Command copied to clipboard!');
-      }).catch(err => {
+      } catch (err) {
         console.warn('Clipboard copy notice:', err);
-      });
+        showToast('Failed to copy to clipboard');
+      }
     });
   }
 }
@@ -334,11 +338,12 @@ function initShowcaseTabs() {
 // 5. Copy Buttons & Toast Notifications
 function initCopyButtons() {
   document.querySelectorAll('.btn-copy-checksum').forEach(btn => {
-    btn.addEventListener('click', () => {
+    btn.addEventListener('click', async () => {
       const hash = btn.getAttribute('data-hash');
       if (!hash) return;
 
-      navigator.clipboard.writeText(hash).then(() => {
+      try {
+        await navigator.clipboard.writeText(hash);
         showToast('SHA-256 Checksum copied!');
         const checkSvg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
         checkSvg.setAttribute('width', '14');
@@ -356,9 +361,10 @@ function initCopyButtons() {
         setTimeout(() => {
           btn.replaceChildren(...origChildren);
         }, 1800);
-      }).catch(err => {
+      } catch (err) {
         console.error('Clipboard copy failed:', err);
-      });
+        showToast('Failed to copy checksum');
+      }
     });
   });
 }

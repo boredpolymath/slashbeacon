@@ -1,6 +1,7 @@
 import { appState } from './state.js';
 import { invokeCommand } from './ipc.js';
 import { escapeHtml } from './utils.js';
+import { DOMPurify } from './dompurify.js';
 
 const notifiedIncidentIds = new Set();
 
@@ -34,24 +35,11 @@ export function inspectIncidentCard(incidentId) {
   });
 }
 
-export function showDesktopNotificationToast(payload, forceShow = false) {
-  const toastContainer = document.getElementById('desktop-toast-container');
-  if (!toastContainer) return;
-
+export function _extractNotificationData(payload) {
   const incidentId = payload.incident_id || payload.id;
-  if (!forceShow && notifiedIncidentIds.has(incidentId)) {
-    return;
-  }
-  notifiedIncidentIds.add(incidentId);
-
   const rawTier = (payload.risk_tier || payload.discrepancy?.risk_tier || '').toLowerCase();
   const isCritical = rawTier === 'critical';
   const isElevated = rawTier === 'elevated';
-
-  if (!isCritical && !isElevated && !forceShow) {
-    return;
-  }
-
   const tierClass = isCritical ? 'risk-critical' : 'risk-elevated';
   const tierBadge = isCritical ? 'Critical' : 'Elevated';
   const suspectName = payload.suspect_username || payload.discrepancy?.suspect_username || 'Unknown_Suspect';
@@ -67,26 +55,34 @@ export function showDesktopNotificationToast(payload, forceShow = false) {
 
   const reason = payload.reason || payload.discrepancy?.normalized_diff || 'Lookalike impersonation candidate detected';
 
-  const existingToast = document.getElementById(`toast-${incidentId}`);
-  if (existingToast) existingToast.remove();
+  return {
+    incidentId,
+    isCritical,
+    isElevated,
+    tierClass,
+    tierBadge,
+    suspectName,
+    suspectId,
+    targetName,
+    similarityPct,
+    reason
+  };
+}
 
-  const toastEl = document.createElement('div');
-  toastEl.className = `desktop-toast ${tierClass}`;
-  toastEl.id = `toast-${incidentId}`;
-  toastEl.setAttribute('role', 'alert');
-  const safeSuspect = escapeHtml(suspectName);
-  const safeTarget = escapeHtml(targetName);
-  const safeReason = escapeHtml(reason);
-  const safeIncidentId = escapeHtml(incidentId);
+export function _buildToastHtml(data) {
+  const safeSuspect = escapeHtml(data.suspectName);
+  const safeTarget = escapeHtml(data.targetName);
+  const safeReason = escapeHtml(data.reason);
+  const safeIncidentId = escapeHtml(data.incidentId);
 
-  toastEl.innerHTML = `
+  return DOMPurify.sanitize(`
     <div class="toast-header">
       <div class="toast-brand-row">
         <img src="assets/truthbeacon_emblem.png" class="toast-brand-icon" alt="TruthBeacon">
         <span class="toast-brand-title">TruthBeacon Alert</span>
       </div>
       <div class="toast-header-right">
-        <span class="toast-risk-badge ${isCritical ? 'critical' : 'elevated'}">${escapeHtml(tierBadge)}</span>
+        <span class="toast-risk-badge ${data.isCritical ? 'critical' : 'elevated'}">${escapeHtml(data.tierBadge)}</span>
         <button class="toast-close-btn" data-action="close" title="Dismiss notification" aria-label="Close notification">&times;</button>
       </div>
     </div>
@@ -97,7 +93,7 @@ export function showDesktopNotificationToast(payload, forceShow = false) {
         <span class="toast-target-name" title="Official Leader: @${safeTarget}">@${safeTarget}</span>
       </div>
       <div class="toast-meta-line">
-        <span class="toast-meta-pill">${similarityPct}% Match</span>
+        <span class="toast-meta-pill">${data.similarityPct}% Match</span>
         ${safeReason}
       </div>
     </div>
@@ -115,19 +111,41 @@ export function showDesktopNotificationToast(payload, forceShow = false) {
     <div class="toast-progress-track">
       <div class="toast-progress-bar"></div>
     </div>
-  `;
+  `);
+}
 
+export function showDesktopNotificationToast(payload, forceShow = false) {
+  const toastContainer = document.getElementById('desktop-toast-container');
+  if (!toastContainer) return;
+
+  const data = _extractNotificationData(payload);
+  if (!forceShow && notifiedIncidentIds.has(data.incidentId)) {
+    return;
+  }
+  if (!data.isCritical && !data.isElevated && !forceShow) {
+    return;
+  }
+  notifiedIncidentIds.add(data.incidentId);
+
+  const existingToast = document.getElementById(`toast-${data.incidentId}`);
+  if (existingToast) existingToast.remove();
+
+  const toastEl = document.createElement('div');
+  toastEl.className = `desktop-toast ${data.tierClass}`;
+  toastEl.id = `toast-${data.incidentId}`;
+  toastEl.setAttribute('role', 'alert');
+  toastEl.innerHTML = DOMPurify.sanitize(_buildToastHtml(data));
   toastContainer.appendChild(toastEl);
 
   invokeCommand('dispatch_desktop_notification', {
     payload: {
-      incident_id: incidentId,
-      risk_tier: isCritical ? 'Critical' : 'Elevated',
-      suspect_username: suspectName,
-      suspect_user_id: suspectId,
-      matched_benchmark_name: targetName,
-      similarity_score: similarityPct / 100,
-      reason,
+      incident_id: data.incidentId,
+      risk_tier: data.isCritical ? 'Critical' : 'Elevated',
+      suspect_username: data.suspectName,
+      suspect_user_id: data.suspectId,
+      matched_benchmark_name: data.targetName,
+      similarity_score: data.similarityPct / 100,
+      reason: data.reason,
       actions: ['Inspect', 'Dismiss', 'Ban & Purge']
     }
   }).catch(() => {});
