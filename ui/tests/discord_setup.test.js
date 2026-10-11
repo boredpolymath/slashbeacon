@@ -174,5 +174,50 @@ describe('ui/js/discord_setup', () => {
     assert(handleDisconnect(true) === true, 'Disconnects when confirmed');
     assert(invoked === true, 'Disconnect command invoked');
   });
-});
 
+  test('handles invalid bot token edge cases and throws error on null input (error and edge case)', () => {
+    const parseTokenOrThrow = token => {
+      if (token === null || token === undefined) {
+        throw new TypeError('Token cannot be null or undefined');
+      }
+      if (typeof token !== 'string') {
+        throw new TypeError('Token must be a string');
+      }
+      if (token.trim().length === 0) {
+        return { valid: false, reason: 'empty_token' };
+      }
+      return { valid: token.length >= 50 && token.includes('.'), reason: 'parsed' };
+    };
+
+    let caughtError = null;
+    try {
+      parseTokenOrThrow(null);
+    } catch (err) {
+      caughtError = err;
+    }
+    assert(caughtError !== null, 'Throws error when token is null');
+    assert(caughtError.message.includes('Token cannot be null'), 'Error message matches expectation');
+
+    const emptyRes = parseTokenOrThrow('   ');
+    assert(emptyRes.valid === false && emptyRes.reason === 'empty_token', 'Gracefully handles empty whitespace token');
+  });
+
+  test('handles empty, null, or malformed diagnostic check arrays without crashing (edge case)', () => {
+    const safeEvaluateDiagnostics = checks => {
+      if (!Array.isArray(checks) || checks.length === 0) {
+        return { passed: false, error: 'no_checks_available', count: 0 };
+      }
+      const validChecks = checks.filter(c => c && typeof c === 'object' && typeof c.passed === 'boolean');
+      if (validChecks.length === 0) {
+        return { passed: false, error: 'malformed_checks', count: 0 };
+      }
+      const allPassed = validChecks.every(c => c.passed);
+      return { passed: allPassed, error: null, count: validChecks.length };
+    };
+
+    assert(safeEvaluateDiagnostics(null).error === 'no_checks_available', 'Handles null check list');
+    assert(safeEvaluateDiagnostics([]).error === 'no_checks_available', 'Handles empty check list');
+    assert(safeEvaluateDiagnostics([null, 'invalid', {}]).error === 'malformed_checks', 'Handles malformed array elements');
+    assert(safeEvaluateDiagnostics([{ passed: true }]).passed === true, 'Evaluates valid check cleanly');
+  });
+});

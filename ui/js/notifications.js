@@ -148,7 +148,9 @@ export function showDesktopNotificationToast(payload, forceShow = false) {
       reason: data.reason,
       actions: ['Inspect', 'Dismiss', 'Ban & Purge']
     }
-  }).catch(() => {});
+  }).catch(err => {
+    console.warn('Desktop notification dispatch warning:', err);
+  });
 
   toastEl._dismissTimer = setTimeout(() => {
     closeToastWithAnimation(toastEl);
@@ -173,7 +175,9 @@ export function initNotificationListeners() {
       invokeCommand('execute_notification_action', {
         incident_id: incidentId,
         action: 'Inspect'
-      }).catch(() => {});
+      }).catch(err => {
+        console.warn('Execute notification action warning:', err);
+      });
     } else if (action === 'dismiss') {
       try {
         await appState.resolveIncident(incidentId, 'dismiss');

@@ -1,6 +1,5 @@
 import { appState } from './state.js';
-import { openModal, closeModal, escapeHtml } from './utils.js';
-import { DOMPurify } from './dompurify.js';
+import { openModal, closeModal } from './utils.js';
 
 export function openAuthorizedAltModal(incidentId) {
   const modal = document.getElementById('modal-authorize-alt');

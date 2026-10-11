@@ -15,13 +15,7 @@ export function updateAccountAgeBadge(val) {
   const badgeAccountAge = document.getElementById('badge-account-age');
   if (!badgeAccountAge) return;
   const num = parseInt(val, 10);
-  if (num >= 720) {
-    badgeAccountAge.textContent = '30 Days';
-  } else if (num >= 168) {
-    badgeAccountAge.textContent = '7 Days';
-  } else {
-    badgeAccountAge.textContent = `${num} Hours`;
-  }
+  badgeAccountAge.textContent = num >= 720 ? '30 Days' : num >= 168 ? '7 Days' : `${num} Hours`;
 }
 
 export function updateAvatarHammingBadge(val) {
@@ -86,7 +80,8 @@ export function renderBotInviteCard(clientId) {
         setTimeout(() => {
           if (btnCopyInviteText) btnCopyInviteText.textContent = 'Copy Link';
         }, 2000);
-      } catch (_) {
+      } catch (err) {
+        console.warn('Clipboard write fallback active:', err);
         prompt('Copy Discord Bot Invite Link:', inviteUrl);
       }
     };
@@ -293,24 +288,15 @@ export function _updateConnectionStatusIndicators(connected) {
   const discordHeroBadge = document.getElementById('discord-hero-badge');
   const statusGateway = document.getElementById('status-gateway');
 
-  if (connected) {
-    if (discordHeroStatusDot) discordHeroStatusDot.className = 'discord-status-indicator online';
-    if (discordHeroBadge) {
-      discordHeroBadge.className = 'discord-badge-active';
-      discordHeroBadge.textContent = 'CONNECTED';
-    }
-    if (statusGateway) {
-      statusGateway.textContent = 'Discord: Connected';
-    }
-  } else {
-    if (discordHeroStatusDot) discordHeroStatusDot.className = 'discord-status-indicator offline';
-    if (discordHeroBadge) {
-      discordHeroBadge.className = 'discord-badge-active disconnected';
-      discordHeroBadge.textContent = 'DISCONNECTED';
-    }
-    if (statusGateway) {
-      statusGateway.textContent = 'Discord: Disconnected';
-    }
+  if (discordHeroStatusDot) {
+    discordHeroStatusDot.className = `discord-status-indicator ${connected ? 'online' : 'offline'}`;
+  }
+  if (discordHeroBadge) {
+    discordHeroBadge.className = `discord-badge-active ${connected ? '' : 'disconnected'}`.trim();
+    discordHeroBadge.textContent = connected ? 'CONNECTED' : 'DISCONNECTED';
+  }
+  if (statusGateway) {
+    statusGateway.textContent = `Discord: ${connected ? 'Connected' : 'Disconnected'}`;
   }
 }
 

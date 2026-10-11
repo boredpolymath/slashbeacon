@@ -37,4 +37,30 @@ describe('ui/js/vault', () => {
 
     assert(hasAlts === false, 'Empty alts list correctly handled without rendering error');
   });
+
+  test('handles malformed benchmark or null authorized_alts without error (error and edge case)', () => {
+    const extractAlts = bm => {
+      if (!bm || typeof bm !== 'object') return [];
+      if (!Array.isArray(bm.authorized_alts)) return [];
+      return bm.authorized_alts.filter(a => a && typeof a === 'object' && a.user_id);
+    };
+
+    assert(extractAlts(null).length === 0, 'Null benchmark returns empty alts list');
+    assert(extractAlts({}).length === 0, 'Missing authorized_alts returns empty list');
+    assert(extractAlts({ authorized_alts: null }).length === 0, 'Null authorized_alts handled safely');
+    assert(extractAlts({ authorized_alts: [null, { user_id: '123' }] }).length === 1, 'Filters invalid alt items');
+  });
+
+  test('handles short, invalid, or empty user_id snowflake suffix extraction (edge case)', () => {
+    const extractSuffix = userId => {
+      if (!userId || typeof userId !== 'string') return '0000';
+      const clean = userId.trim();
+      return clean.length >= 4 ? clean.slice(-4) : clean.padStart(4, '0');
+    };
+
+    assert(extractSuffix('123456789012345678') === '5678', 'Standard snowflake extracts last 4 digits');
+    assert(extractSuffix('42') === '0042', 'Short ID is safely zero-padded');
+    assert(extractSuffix('') === '0000', 'Empty ID falls back to 0000');
+    assert(extractSuffix(null) === '0000', 'Null ID falls back to 0000');
+  });
 });

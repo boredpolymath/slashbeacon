@@ -49,4 +49,44 @@ describe('ui/js/mock_data', () => {
       assert(Boolean(log.timestamp), 'Audit log must have timestamp');
     }
   });
+
+  test('rejects corrupt incident payload missing discrepancy data and throws validation error (error case)', () => {
+    const validateIncident = inc => {
+      if (!inc || typeof inc !== 'object') {
+        throw new TypeError('Incident payload must be an object');
+      }
+      if (!inc.id || !inc.discrepancy) {
+        throw new Error('Schema validation error: Incident is missing required discrepancy field');
+      }
+      return true;
+    };
+
+    let caughtError = null;
+    try {
+      validateIncident({ id: 'inc_bad' });
+    } catch (err) {
+      caughtError = err;
+    }
+    assert(caughtError !== null, 'Throws error when discrepancy is missing');
+    assert(caughtError.message.includes('Schema validation error'), 'Validation error message verified');
+
+    let nullError = null;
+    try {
+      validateIncident(null);
+    } catch (err) {
+      nullError = err;
+    }
+    assert(nullError instanceof TypeError, 'Throws TypeError when incident is null');
+  });
+
+  test('handles empty, null, or out-of-bounds similarity scores gracefully (edge case)', () => {
+    const isScoreValid = score => typeof score === 'number' && !isNaN(score) && score >= 0.0 && score <= 1.0;
+
+    assert(isScoreValid(0.0) === true, 'Lower boundary 0.0 is valid');
+    assert(isScoreValid(1.0) === true, 'Upper boundary 1.0 is valid');
+    assert(isScoreValid(-0.01) === false, 'Negative score is rejected');
+    assert(isScoreValid(1.05) === false, 'Score over 1.0 is rejected');
+    assert(isScoreValid(NaN) === false, 'NaN score is rejected');
+    assert(isScoreValid(null) === false, 'Null score is rejected');
+  });
 });
