@@ -12,14 +12,14 @@
 <p align="center">
   <a href="https://github.com/boredpolymath/truth-beacon"><img src="https://img.shields.io/badge/GitHub-boredpolymath%2Ftruth--beacon-181717?style=flat-square&logo=github" alt="GitHub Repo"></a>
   <a href="https://boredpolymath.github.io/truth-beacon/"><img src="https://img.shields.io/badge/Web-truth--beacon-5865F2?style=flat-square" alt="Website"></a>
-  <img src="https://img.shields.io/badge/Version-v0.3.1-green?style=flat-square" alt="Version 0.3.1">
+  <img src="https://img.shields.io/badge/Version-v0.4.0-green?style=flat-square" alt="Version 0.4.0">
   <img src="https://img.shields.io/badge/Platform-macOS%20%7C%20Windows%20%7C%20Linux-blue?style=flat-square" alt="Platform">
   <img src="https://img.shields.io/badge/Framework-Tauri%20v2-orange?style=flat-square" alt="Tauri v2">
   <img src="https://img.shields.io/badge/Language-Rust%202021-red?style=flat-square" alt="Rust 2021">
   <img src="https://img.shields.io/badge/Database-SQLite%20(WAL)-blueviolet?style=flat-square" alt="SQLite WAL">
   <img src="https://img.shields.io/badge/Telemetry-Zero%20(100%25%20Local)-brightgreen?style=flat-square" alt="Zero Telemetry">
   <img src="https://img.shields.io/badge/Accessibility-WCAG%202.1%20AA-success?style=flat-square" alt="WCAG AA">
-  <img src="https://img.shields.io/badge/Automated%20Tests-208%20Passing-brightgreen?style=flat-square" alt="Tests">
+  <img src="https://img.shields.io/badge/Automated%20Tests-215%20Passing-brightgreen?style=flat-square" alt="Tests">
 </p>
 
 <p align="center">

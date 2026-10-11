@@ -1,9 +1,9 @@
-# TruthBeacon v0.3.2 — Official Release Staging Manifest
+# TruthBeacon v0.4.0 — Official Release Staging Manifest
 **Bored Polymath Studios — Release Engineering Pipeline**
 
 ## Overview
 - **Application Name**: TruthBeacon
-- **Version**: 0.3.2
+- **Version**: 0.4.0
 - **Identifier**: `com.boredpolymath.truthbeacon`
 - **Frontend Engine**: Tauri 2 (Webkit / Cocoa WebView, zero npm blobs)
 - **Backend Architecture**: Rust 2021 (Universal 2: `x86_64` + `aarch64`)
@@ -15,6 +15,9 @@
 
 | Artifact File | Architecture | Size | SHA-256 Checksum | Description |
 | :--- | :--- | :--- | :--- | :--- |
+| `TruthBeacon_0.4.0_universal.dmg` | Universal 2 (Intel + Apple Silicon) | ~29 MB | `8af70d32f142f0d2316f6886cf8955a6b982a334e91392595883191d555115de` | Release deliverable |
+| `TruthBeacon_0.4.0_universal.app.tar.gz` | Universal 2 (Intel + Apple Silicon) | ~27 MB | `91b180bc8436a9080fbbaabd068d5d22000eb4b5688b7a98b7efee1fbf85e0d2` | Release deliverable |
+| `TruthBeacon_0.4.0_macos_universal.zip` | Universal 2 (Intel + Apple Silicon) | ~27 MB | `e8a3a1be2679251bf719e2f0519e212215879fdac9a1ab9e84413b9736c44c99` | Release deliverable |
 | `TruthBeacon_0.3.2_universal.dmg` | Universal 2 (Intel + Apple Silicon) | ~29 MB | `199d97bd6ef59f138eb279655c9ea7b938b48647667003db3a2a4ee8ce7a993a` | Release deliverable |
 | `TruthBeacon_0.3.2_universal.app.tar.gz` | Universal 2 (Intel + Apple Silicon) | ~27 MB | `1b56ae73fb77022a46d7d054b09d8658e3be0f0fca75e0f27b466a77bd39886f` | Release deliverable |
 | `TruthBeacon_0.3.2_macos_universal.zip` | Universal 2 (Intel + Apple Silicon) | ~27 MB | `08e357d8ff60533febf8062b4f05f5c77b0c2e7be2062bf3255df351f31a9ba6` | Release deliverable |

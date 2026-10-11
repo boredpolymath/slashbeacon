@@ -127,7 +127,7 @@ const mockSystemHandlers = {
   },
   check_for_updates: () => ({
     should_update: false,
-    current_version: "0.3.2",
+    current_version: "0.4.0",
     latest_version: null,
     release_notes: null,
     release_date: null
@@ -220,7 +220,7 @@ function _resolveIncidentRecord(args) {
 
   const auditAction = status === 'banned' ? 'ban_and_purge'
     : (status === 'whitelisted' ? 'whitelist_alternate'
-    : (status === 'excluded' ? 'exclude_user' : 'dismiss'));
+      : (status === 'excluded' ? 'exclude_user' : 'dismiss'));
 
   mockAuditLogs.unshift({
     id: `aud_${now}`,

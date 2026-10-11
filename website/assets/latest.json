@@ -1,23 +1,23 @@
 {
-  "version": "v0.3.2",
-  "notes": "TruthBeacon v0.3.2: Major security, resilience & release hardening including forensic SQLite quarantine, domain-bound AES-256-GCM vault, multi-keyframe pHash inspection, UTR #39 homoglyph detection, multi-guild gateway resumption, and sandboxed IPC.",
-  "pub_date": "2026-10-11T02:38:26Z",
+  "version": "v0.4.0",
+  "notes": "TruthBeacon v0.4.0: Major security, resilience & release hardening including forensic SQLite quarantine, domain-bound AES-256-GCM vault, multi-keyframe pHash inspection, UTR #39 homoglyph detection, multi-guild gateway resumption, and sandboxed IPC.",
+  "pub_date": "2026-10-11T23:40:36Z",
   "platforms": {
     "darwin-aarch64": {
-      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVTV2ZFdVBrR2JieTJoMm91YmdUNlRLM2FVcHRGYTZvRGxyeVJsdEpUd0ZnRHp1L1JkSXROZmZPbGE5R1loNHI5YXNmSFZlU1lHcVB4ZmlVSUpzMUtjNmlEL1BnM0hWYUFBPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzkxNjg2MTgyCWZpbGU6VHJ1dGhCZWFjb25fMC4zLjJfdW5pdmVyc2FsLmFwcC50YXIuZ3oJdmVyc2lvbjowLjMuMgp0b2RubEIxazd6K2Z2WnpCVEtneER1VDZ4QkI0Y0xBU0N2dlV1RWhtTHBMQ3I3Q1QwVkVDczFPUS9ydW03bUR1Q1MvekdjeFcvT1JMYW1IbzZVZVZDQT09Cg==",
-      "url": "https://github.com/boredpolymath/truth-beacon/releases/download/v0.3.2/TruthBeacon_0.3.2_universal.app.tar.gz"
+      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVTV2ZFdVBrR2JieTZHNzM0YU1GazVmK3RlRjZscmdsdXp6OGpjclpsWU9JeGI2QXVPelBQZGR5V2ZDTjBPdzFDblROeFZGVjg4dHdPbnhhckNHaWRrcTZtSTgrVHhld1FRPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzkxNzYxOTg0CWZpbGU6VHJ1dGhCZWFjb25fMC40LjBfdW5pdmVyc2FsLmFwcC50YXIuZ3oJdmVyc2lvbjowLjQuMApmUUVvVFB6cWhvUzBMNmZPOUd3ZDB1VGNDTWU5Uzd5aUQ1eFhVUHZEc1RSQU1RNDZva3dIeTZiRHJBMVlLRTVNdkRUdHJ6VFQzRXhHdzZLdnFvTTlBZz09Cg==",
+      "url": "https://github.com/boredpolymath/truth-beacon/releases/download/v0.4.0/TruthBeacon_0.4.0_universal.app.tar.gz"
     },
     "darwin-x86_64": {
-      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVTV2ZFdVBrR2JieTJoMm91YmdUNlRLM2FVcHRGYTZvRGxyeVJsdEpUd0ZnRHp1L1JkSXROZmZPbGE5R1loNHI5YXNmSFZlU1lHcVB4ZmlVSUpzMUtjNmlEL1BnM0hWYUFBPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzkxNjg2MTgyCWZpbGU6VHJ1dGhCZWFjb25fMC4zLjJfdW5pdmVyc2FsLmFwcC50YXIuZ3oJdmVyc2lvbjowLjMuMgp0b2RubEIxazd6K2Z2WnpCVEtneER1VDZ4QkI0Y0xBU0N2dlV1RWhtTHBMQ3I3Q1QwVkVDczFPUS9ydW03bUR1Q1MvekdjeFcvT1JMYW1IbzZVZVZDQT09Cg==",
-      "url": "https://github.com/boredpolymath/truth-beacon/releases/download/v0.3.2/TruthBeacon_0.3.2_universal.app.tar.gz"
+      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVTV2ZFdVBrR2JieTZHNzM0YU1GazVmK3RlRjZscmdsdXp6OGpjclpsWU9JeGI2QXVPelBQZGR5V2ZDTjBPdzFDblROeFZGVjg4dHdPbnhhckNHaWRrcTZtSTgrVHhld1FRPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzkxNzYxOTg0CWZpbGU6VHJ1dGhCZWFjb25fMC40LjBfdW5pdmVyc2FsLmFwcC50YXIuZ3oJdmVyc2lvbjowLjQuMApmUUVvVFB6cWhvUzBMNmZPOUd3ZDB1VGNDTWU5Uzd5aUQ1eFhVUHZEc1RSQU1RNDZva3dIeTZiRHJBMVlLRTVNdkRUdHJ6VFQzRXhHdzZLdnFvTTlBZz09Cg==",
+      "url": "https://github.com/boredpolymath/truth-beacon/releases/download/v0.4.0/TruthBeacon_0.4.0_universal.app.tar.gz"
     },
     "windows-x86_64": {
-      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVTV2ZFdVBrR2JieTJoMm91YmdUNlRLM2FVcHRGYTZvRGxyeVJsdEpUd0ZnRHp1L1JkSXROZmZPbGE5R1loNHI5YXNmSFZlU1lHcVB4ZmlVSUpzMUtjNmlEL1BnM0hWYUFBPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzkxNjg2MTgyCWZpbGU6VHJ1dGhCZWFjb25fMC4zLjJfdW5pdmVyc2FsLmFwcC50YXIuZ3oJdmVyc2lvbjowLjMuMgp0b2RubEIxazd6K2Z2WnpCVEtneER1VDZ4QkI0Y0xBU0N2dlV1RWhtTHBMQ3I3Q1QwVkVDczFPUS9ydW03bUR1Q1MvekdjeFcvT1JMYW1IbzZVZVZDQT09Cg==",
-      "url": "https://github.com/boredpolymath/truth-beacon/releases/download/v0.3.2/TruthBeacon_0.3.2_x64-setup.nsis.zip"
+      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVTV2ZFdVBrR2JieTZHNzM0YU1GazVmK3RlRjZscmdsdXp6OGpjclpsWU9JeGI2QXVPelBQZGR5V2ZDTjBPdzFDblROeFZGVjg4dHdPbnhhckNHaWRrcTZtSTgrVHhld1FRPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzkxNzYxOTg0CWZpbGU6VHJ1dGhCZWFjb25fMC40LjBfdW5pdmVyc2FsLmFwcC50YXIuZ3oJdmVyc2lvbjowLjQuMApmUUVvVFB6cWhvUzBMNmZPOUd3ZDB1VGNDTWU5Uzd5aUQ1eFhVUHZEc1RSQU1RNDZva3dIeTZiRHJBMVlLRTVNdkRUdHJ6VFQzRXhHdzZLdnFvTTlBZz09Cg==",
+      "url": "https://github.com/boredpolymath/truth-beacon/releases/download/v0.4.0/TruthBeacon_0.4.0_x64-setup.nsis.zip"
     },
     "linux-x86_64": {
-      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVTV2ZFdVBrR2JieTJoMm91YmdUNlRLM2FVcHRGYTZvRGxyeVJsdEpUd0ZnRHp1L1JkSXROZmZPbGE5R1loNHI5YXNmSFZlU1lHcVB4ZmlVSUpzMUtjNmlEL1BnM0hWYUFBPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzkxNjg2MTgyCWZpbGU6VHJ1dGhCZWFjb25fMC4zLjJfdW5pdmVyc2FsLmFwcC50YXIuZ3oJdmVyc2lvbjowLjMuMgp0b2RubEIxazd6K2Z2WnpCVEtneER1VDZ4QkI0Y0xBU0N2dlV1RWhtTHBMQ3I3Q1QwVkVDczFPUS9ydW03bUR1Q1MvekdjeFcvT1JMYW1IbzZVZVZDQT09Cg==",
-      "url": "https://github.com/boredpolymath/truth-beacon/releases/download/v0.3.2/TruthBeacon_0.3.2_amd64.AppImage.tar.gz"
+      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVTV2ZFdVBrR2JieTZHNzM0YU1GazVmK3RlRjZscmdsdXp6OGpjclpsWU9JeGI2QXVPelBQZGR5V2ZDTjBPdzFDblROeFZGVjg4dHdPbnhhckNHaWRrcTZtSTgrVHhld1FRPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzkxNzYxOTg0CWZpbGU6VHJ1dGhCZWFjb25fMC40LjBfdW5pdmVyc2FsLmFwcC50YXIuZ3oJdmVyc2lvbjowLjQuMApmUUVvVFB6cWhvUzBMNmZPOUd3ZDB1VGNDTWU5Uzd5aUQ1eFhVUHZEc1RSQU1RNDZva3dIeTZiRHJBMVlLRTVNdkRUdHJ6VFQzRXhHdzZLdnFvTTlBZz09Cg==",
+      "url": "https://github.com/boredpolymath/truth-beacon/releases/download/v0.4.0/TruthBeacon_0.4.0_amd64.AppImage.tar.gz"
     }
   }
 }
