@@ -57,6 +57,7 @@
     "url": "https://boredpolymath.github.io/truth-beacon/",
     "downloadUrl": "https://github.com/boredpolymath/truth-beacon/releases",
     "softwareVersion": "0.4.0",
+    "dateModified": "2026-10-11",
     "author": {
       "@type": "Organization",
       "name": "Bored Polymath Studios",
@@ -88,6 +89,7 @@
       <nav>
         <ul class="nav-links">
           <li><a href="#downloads" class="nav-link" id="nav-link-downloads">Downloads</a></li>
+          <li><a href="#whats-new" class="nav-link" id="nav-link-whats-new">What's New</a></li>
           <li><a href="#verification" class="nav-link" id="nav-link-verification">Verification</a></li>
           <li><a href="#showcase" class="nav-link" id="nav-link-showcase">Showcase</a></li>
           <li><a href="#architecture" class="nav-link" id="nav-link-architecture">Architecture</a></li>
@@ -631,6 +633,69 @@
               </div>
             </div>
 
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Release v0.4.0 Final Milestone Section -->
+    <section class="section" id="whats-new">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag" style="background: rgba(34, 197, 94, 0.15); color: #4ade80; border: 1px solid rgba(74, 222, 128, 0.3);">Final Production Release v0.4.0</span>
+          <h2 class="section-title">What's New &amp; Hardened Today</h2>
+          <p class="section-desc">
+            TruthBeacon v0.4.0 marks the definitive production milestone — featuring discrete cosine transform (DCT) perceptual defenses, exhaustive unit test suites, hardened gateway concurrency, and validated cryptographic manifests.
+          </p>
+        </div>
+
+        <div class="pillars-grid" id="whats-new-grid">
+          <div class="pillar-card" id="feat-rustfft">
+            <div class="pillar-icon-box">🧠</div>
+            <h3>Patched RustFFT Perceptual Defense</h3>
+            <p>
+              Integrated a hermetic in-tree patch for RustFFT powering high-performance discrete cosine transforms (DCT) for multi-keyframe perceptual avatar hashing (pHash). Maintains 100% mitigation in red-team drills against rotation, scaling, and color manipulation spoofing.
+            </p>
+          </div>
+
+          <div class="pillar-card" id="feat-test-suites">
+            <div class="pillar-icon-box">🧪</div>
+            <h3>Comprehensive Unit Test Suites</h3>
+            <p>
+              Engineered end-to-end automated ES module unit tests across all frontend components (State, Triage stream, Vault, Audit, DOMPurify, Modals, and Discord Setup), alongside 215 passed Rust backend test suites with zero failures under strict compiler gates.
+            </p>
+          </div>
+
+          <div class="pillar-card" id="feat-moderation">
+            <div class="pillar-icon-box">⚖️</div>
+            <h3>Authoritative REST Moderation</h3>
+            <p>
+              Integrated real Discord REST API execution for imposter "Ban &amp; Purge" actions with configurable message prune windows. Enforces anti-masquerading state guarantees and non-poisoning mutex guards during token disconnects.
+            </p>
+          </div>
+
+          <div class="pillar-card" id="feat-packaging">
+            <div class="pillar-icon-box">📦</div>
+            <h3>Hardened Installer &amp; Asset Pipeline</h3>
+            <p>
+              Updated official installers across macOS Universal 2 (.dmg with custom Finder background layout and 'pBBk' bookmark aliases), Windows 64-bit NSIS/WiX installers, and Linux AppImage with verified multi-resolution icon assets.
+            </p>
+          </div>
+
+          <div class="pillar-card" id="feat-web-sec">
+            <div class="pillar-icon-box">🛡️</div>
+            <h3>Secure Web &amp; Crawler Infrastructure</h3>
+            <p>
+              Deployed strict Content-Security-Policy (CSP), CORS, HSTS, and X-Frame-Options headers on the distribution site. Added complete <code>llms.txt</code> AI assistant guidance and <code>robots.txt</code> crawl parameters.
+            </p>
+          </div>
+
+          <div class="pillar-card" id="feat-vibedoctor">
+            <div class="pillar-icon-box">🩺</div>
+            <h3>VibeDoctor 24/7 Quality Gate</h3>
+            <p>
+              Validated against VibeDoctor real-time AST analysis with zero unresolved critical findings. Evaluated 671 transitive crates with zero copyleft or GPL licenses for clean single-binary distribution.
+            </p>
           </div>
         </div>
       </div>
