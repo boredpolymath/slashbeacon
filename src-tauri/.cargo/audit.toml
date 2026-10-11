@@ -1,7 +1,11 @@
 # Cargo Audit Configuration for TruthBeacon
 [advisories]
 ignore = [
-    # RUSTSEC-2023-0080: Buffer overflow in transpose due to integer overflow on huge slices.
-    # TruthBeacon uses fixed 8x8 DCT perceptual hashing which never encounters large slices.
-    "RUSTSEC-2023-0080",
+    # Note: RUSTSEC-2023-0080 / CVE-2023-53156 resolved by upgrading transpose to 0.2.3 via rustfft patch.
+    # RUSTSEC-2024-0429 (GHSA-wrw7-89jp-8q8g): Unsoundness in Iterator for glib::VariantStrIter.
+    # Fixed in glib >= 0.20.0, but Tauri v2 runtime on Linux (tao/wry/webkit2gtk/muda/tray-icon)
+    # is pinned to gtk-rs 0.18 (glib 0.18.5). Glib is Linux-only, and the vulnerable function
+    # (Variant::array_iter_str / VariantStrIter) is never invoked by TruthBeacon or Tauri.
+    "RUSTSEC-2024-0429",
 ]
+

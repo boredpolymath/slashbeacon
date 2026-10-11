@@ -55,11 +55,15 @@ allow-git = []
 
 [advisories]
 ignore = [
-    # RUSTSEC-2023-0080: transpose 0.1.0 integer overflow vulnerability inside rustfft v3.0.1 -> rustdct v0.4.0 -> img_hash.
-    # Exploitation requires huge slices overflowing usize; TruthBeacon uses fixed 8x8 (64-pixel) perceptual hashes.
-    "RUSTSEC-2023-0080",
+    # Note: RUSTSEC-2023-0080 (transpose 0.1.0 integer overflow) resolved by upgrading
+    # rustfft to depend on transpose 0.2.3 via [patch.crates-io].
     # Unmaintained informational notices for transitive build dependencies in Tauri/image tree:
     "RUSTSEC-2024-0436", # paste
     "RUSTSEC-2024-0370", # proc-macro-error
+    # RUSTSEC-2024-0429 (GHSA-wrw7-89jp-8q8g): Unsoundness in Iterator for glib::VariantStrIter (glib 0.18.5)
+    # Fixed in glib >= 0.20.0, but Tauri v2 runtime on Linux (tao/wry/webkit2gtk/muda/tray-icon)
+    # is pinned to gtk-rs 0.18 (glib 0.18.5). Glib is Linux-only, and the vulnerable function
+    # (Variant::array_iter_str / VariantStrIter) is never invoked by TruthBeacon or Tauri.
+    "RUSTSEC-2024-0429",
 ]
 

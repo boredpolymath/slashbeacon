@@ -9,7 +9,7 @@ Render pixel-accurate screenshots of TruthBeacon's Installer Windows:
 
 import os
 import tempfile
-from PIL import Image, ImageDraw, ImageFont, ImageFilter  # type: ignore[import]
+from PIL import Image, ImageDraw, ImageFont, ImageFilter
 
 ARTIFACTS_DIR = "/Users/wardagentic/.gemini/antigravity-ide/brain/f7c1a54b-6d96-4928-9d6c-7a561a70cdf8"
 os.makedirs(ARTIFACTS_DIR, exist_ok=True)
@@ -18,6 +18,8 @@ PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 ICONS_DIR = os.path.join(PROJECT_ROOT, "src-tauri", "icons")
 
 def get_font(size, bold=False):
+    if ImageFont is None:
+        return None
     paths = [
         "/System/Library/Fonts/SFNS.ttf",
         "/System/Library/Fonts/SFCompact.ttf",
@@ -30,7 +32,10 @@ def get_font(size, bold=False):
                 return ImageFont.truetype(p, int(size))
             except (OSError, ValueError):
                 continue
-    return ImageFont.load_default()
+    try:
+        return ImageFont.load_default()
+    except Exception:
+        return None
 
 # =============================================================================
 # 1. macOS DMG Finder Window Screenshot

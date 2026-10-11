@@ -1,0 +1,24 @@
+# Trivy Ignore Configuration for TruthBeacon
+# Prepared by Bored Polymath Studios • Security & Compliance Audit
+#
+# GHSA-wrw7-89jp-8q8g (RUSTSEC-2024-0429):
+# Unsoundness in Iterator and DoubleEndedIterator impls for glib::VariantStrIter
+#
+# Impact & Reachability Analysis:
+# 1. Package: glib v0.18.5 (fixed in glib >= 0.20.0).
+# 2. Dependency chain: Pulled transitively only on Linux targets via Tauri v2 -> wry -> tao / webkit2gtk -> gtk v0.18 -> glib v0.18.5.
+# 3. Not compiled on macOS or Windows.
+# 4. In Linux builds, the unsoundness is exclusively in VariantStrIter::impl_get, exposed only via Variant::array_iter_str().
+# 5. TruthBeacon and Tauri's runtime never call Variant::array_iter_str() or interact with VariantStrIter.
+# 6. Upgrading glib to 0.20+ is blocked upstream by Tauri v2 / wry / tao / webkit2gtk-rs ecosystem dependencies on gtk-rs 0.18.
+# 7. Snoozed until Tauri upstream updates GTK-rs bindings to glib >= 0.20.0.
+GHSA-wrw7-89jp-8q8g
+RUSTSEC-2024-0429
+
+# CVE-2023-53156 (RUSTSEC-2023-0080):
+# Integer overflow in transpose crate inside rustfft -> rustdct -> img_hash.
+# Resolution: Patched rustfft to depend on transpose 0.2.3 (fixed version >= 0.2.3).
+# Reachability Analysis:
+# TruthBeacon uses fixed 8x8 (64-pixel) perceptual hashing, which never processes large slices required for integer overflow.
+CVE-2023-53156
+RUSTSEC-2023-0080

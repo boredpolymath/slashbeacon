@@ -4,9 +4,9 @@ Generate Bored Polymath branded installer assets for macOS DMG, Windows NSIS, an
 Matches the exact Discord-familiar charcoal & Bored Polymath stewardship aesthetic of the main application.
 """                                                                             
 
-from PIL import Image, ImageDraw, ImageFont  # type: ignore[import]
-import os
 import math
+import os
+from PIL import Image, ImageDraw, ImageFont
 
 ICONS_DIR = os.path.join(os.path.dirname(__file__), "..", "src-tauri", "icons")
 ASSETS_DIR = os.path.join(os.path.dirname(__file__), "..", "ui", "assets")
@@ -31,11 +31,15 @@ CLR_TEXT_MUTED = (128, 132, 142, 255)    # #80848e - Helper hints
 CLR_BP_AMBER = (245, 175, 22, 255)       # #f5af16 - Bored Polymath amber primary
 CLR_BP_AMBER_DARK = (230, 160, 10, 255)  # #e6a00a - Deep amber
 CLR_BP_AMBER_LIGHT = (251, 191, 59, 255) # #fbbff3 - Light amber
+CLR_OH_ORANGE = CLR_BP_AMBER             # Compatibility alias for Bored Polymath amber
 CLR_BLURPLE = (88, 101, 242, 255)        # #5865f2 - Discord signature Blurple
 CLR_GREEN = (35, 165, 90, 255)           # #23a55a - Discord success green
 
+
 def get_font(size, bold=False):
     """Load SFNS font if available on macOS, falling back gracefully."""
+    if ImageFont is None:
+        return None
     font_paths = [
         "/System/Library/Fonts/SFNS.ttf",
         "/System/Library/Fonts/SFCompact.ttf",
@@ -48,7 +52,10 @@ def get_font(size, bold=False):
                 return ImageFont.truetype(path, size)
             except (OSError, ValueError):
                 continue
-    return ImageFont.load_default()
+    try:
+        return ImageFont.load_default()
+    except Exception:
+        return None
 
 def get_brand_icon(size):
     """Load high-res brand emblem, resized smoothly."""

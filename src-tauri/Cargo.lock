@@ -2382,7 +2382,7 @@ dependencies = [
  "image 0.23.14",
  "rustdct",
  "serde",
- "transpose 0.2.3",
+ "transpose",
 ]
 
 [[package]]
@@ -4278,14 +4278,12 @@ dependencies = [
 [[package]]
 name = "rustfft"
 version = "3.0.1"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "77008ed59a8923c8b4ac2e5eaa6d28fbe893d3b9515098a4a5fc7767d6430fe5"
 dependencies = [
  "num-complex 0.2.4",
  "num-integer",
  "num-traits",
  "strength_reduce",
- "transpose 0.1.0",
+ "transpose",
 ]
 
 [[package]]
@@ -5763,12 +5761,6 @@ checksum = "db97caf9d906fbde555dd62fa95ddba9eecfd14cb388e4f491a66d74cd5fb79a"
 dependencies = [
  "once_cell",
 ]
-
-[[package]]
-name = "transpose"
-version = "0.1.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "643e21580bb0627c7bb09e5cedbb42c8705b19d012de593ed6b0309270b3cd1e"
 
 [[package]]
 name = "transpose"

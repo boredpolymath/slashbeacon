@@ -46,3 +46,7 @@ getrandom = "0.2"
 
 [target.'cfg(target_os = "macos")'.dependencies]
 core-foundation = "0.10"
+
+[patch.crates-io]
+rustfft = { path = "patches/rustfft" }
+

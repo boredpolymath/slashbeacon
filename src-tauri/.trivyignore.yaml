@@ -1,0 +1,10 @@
+# Trivy Ignore Configuration for TruthBeacon (YAML Format)
+vulnerabilities:
+  - id: GHSA-wrw7-89jp-8q8g
+    statement: "Unsoundness in VariantStrIter in glib 0.18.5; unreachable in TruthBeacon and Tauri (Variant::array_iter_str is never called, and glib is a Linux-only dependency pinned by Tauri v2 / gtk-rs 0.18)."
+  - id: RUSTSEC-2024-0429
+    statement: "RustSec alias for GHSA-wrw7-89jp-8q8g; unreachable in TruthBeacon."
+  - id: CVE-2023-53156
+    statement: "Integer overflow in transpose crate; TruthBeacon uses fixed 8x8 DCT perceptual hashing which never encounters large slices."
+  - id: RUSTSEC-2023-0080
+    statement: "RustSec alias for CVE-2023-53156; unreachable in TruthBeacon."
