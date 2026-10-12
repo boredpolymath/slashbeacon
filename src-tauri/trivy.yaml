@@ -1,0 +1,7 @@
+# Trivy configuration for TruthBeacon (src-tauri)
+# Configures default vulnerability scanning and ignore file bindings
+exit-code: 0
+format: table
+
+vulnerability:
+  ignorefile: .trivyignore
