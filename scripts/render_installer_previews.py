@@ -8,6 +8,7 @@ Render pixel-accurate screenshots of TruthBeacon's Installer Windows:
 """
 
 import os
+import sys
 import tempfile
 from PIL import Image, ImageDraw, ImageFont, ImageFilter
 
@@ -426,6 +427,9 @@ def render_windows_wix_msi_window():
     print(f"Generated WiX MSI window screenshot: {out_path}")
 
 if __name__ == "__main__":
+    if Image is None or ImageDraw is None or ImageFont is None or ImageFilter is None:
+        print("Error: Pillow is required to render installer previews. Please install it with 'pip install pillow'.", file=sys.stderr)
+        sys.exit(1)
     render_macos_dmg_window()
     render_windows_nsis_welcome_window()
     render_windows_nsis_progress_window()

@@ -6,6 +6,7 @@ Matches the exact Discord-familiar charcoal & Bored Polymath stewardship aesthet
 
 import math
 import os
+import sys
 from PIL import Image, ImageDraw, ImageFont
 
 ICONS_DIR = os.path.join(os.path.dirname(__file__), "..", "src-tauri", "icons")
@@ -366,6 +367,9 @@ def generate_wix_assets():
     print(f"Generated WiX Dialog: {d_out} ({dw}x{dh})")
 
 if __name__ == "__main__":
+    if Image is None or ImageDraw is None or ImageFont is None:
+        print("Error: Pillow is required to generate installer assets. Please install it with 'pip install pillow'.", file=sys.stderr)
+        sys.exit(1)
     generate_dmg_background()
     generate_nsis_assets()
     generate_wix_assets()
