@@ -519,7 +519,7 @@ impl DiscordGatewayClient {
                 let delay = if is_first {
                     is_first = false;
                     let mut rand_buf = [0u8; 1];
-                    let _ = getrandom::getrandom(&mut rand_buf);
+                    let _ = getrandom::fill(&mut rand_buf);
                     let jitter_factor = (rand_buf[0] as f64) / 255.0;
                     ((base_delay as f64) * jitter_factor) as u64
                 } else {

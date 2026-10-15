@@ -66,7 +66,7 @@ impl ReconnectionBackoff {
             return base;
         }
         let mut rand_buf = [0u8; 2];
-        let _ = getrandom::getrandom(&mut rand_buf);
+        let _ = getrandom::fill(&mut rand_buf);
         let jitter_ms = (u16::from_ne_bytes(rand_buf) % 1000) as u64;
         base + Duration::from_millis(jitter_ms)
     }

@@ -269,7 +269,7 @@ fn get_or_create_vault_salt_in(dir: &std::path::Path) -> Result<[u8; SALT_LEN], 
     }
 
     let mut salt = [0u8; SALT_LEN];
-    getrandom::getrandom(&mut salt).map_err(|e| {
+    getrandom::fill(&mut salt).map_err(|e| {
         CredentialError::VaultError(format!(
             "Cryptographic RNG failure generating vault salt: {}",
             e
@@ -339,7 +339,7 @@ fn get_or_create_hardware_secret() -> Result<Zeroizing<String>, CredentialError>
         Ok(secret) if !secret.is_empty() => Zeroizing::new(secret),
         _ => {
             let mut secret_bytes = [0u8; 32];
-            if getrandom::getrandom(&mut secret_bytes).is_err() {
+            if getrandom::fill(&mut secret_bytes).is_err() {
                 return Err(CredentialError::VaultError(
                     "Cryptographic RNG entropy generation failure".into(),
                 ));
@@ -802,7 +802,7 @@ mod tests {
 
     fn generate_test_salt(modifier: u8) -> [u8; SALT_LEN] {
         let mut salt = [0u8; SALT_LEN];
-        let _ = getrandom::getrandom(&mut salt);
+        let _ = getrandom::fill(&mut salt);
         salt[0] ^= modifier;
         salt
     }
