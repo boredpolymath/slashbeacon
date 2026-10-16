@@ -13,9 +13,15 @@ RELEASE_DIR="${ROOT_DIR}/release"
 ENTITLEMENTS_FILE="${SRC_TAURI_DIR}/Entitlements.plist"
 
 VERSION=$(grep '^version =' "${SRC_TAURI_DIR}/Cargo.toml" | head -n 1 | cut -d '"' -f 2)
-APP_PATH="${SRC_TAURI_DIR}/target/universal-apple-darwin/release/bundle/macos/TruthBeacon.app"
-DMG_PATH="${SRC_TAURI_DIR}/target/universal-apple-darwin/release/bundle/dmg/TruthBeacon_${VERSION}_universal.dmg"
-RELEASE_DMG="${RELEASE_DIR}/TruthBeacon_${VERSION}_universal.dmg"
+APP_NAME="SlashBeacon"
+if [[ -d "${SRC_TAURI_DIR}/target/universal-apple-darwin/release/bundle/macos/SlashBeacon.app" ]]; then
+    APP_NAME="SlashBeacon"
+elif [[ -d "${SRC_TAURI_DIR}/target/universal-apple-darwin/release/bundle/macos/TruthBeacon.app" ]]; then
+    APP_NAME="TruthBeacon"
+fi
+APP_PATH="${SRC_TAURI_DIR}/target/universal-apple-darwin/release/bundle/macos/${APP_NAME}.app"
+DMG_PATH="${SRC_TAURI_DIR}/target/universal-apple-darwin/release/bundle/dmg/${APP_NAME}_${VERSION}_universal.dmg"
+RELEASE_DMG="${RELEASE_DIR}/${APP_NAME}_${VERSION}_universal.dmg"
 
 # Configuration via environment or parameters
 SIGN_IDENTITY="${APPLE_SIGNING_IDENTITY:-}"

@@ -73,7 +73,7 @@ def build_dmg():
         'text_size': 14,
         'files': [APP_BUNDLE],
         'symlinks': {'Applications': '/Applications'},
-        'hide_extensions': [f"{PRODUCT_NAME}.app", "TruthBeacon.app"],
+        'hide_extensions': [os.path.basename(APP_BUNDLE)],
         'icon_locations': {
             os.path.basename(APP_BUNDLE): (180, 200),
             'Applications': (480, 200)

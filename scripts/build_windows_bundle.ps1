@@ -51,7 +51,9 @@ $BundleDir = Join-Path $ReleaseDir "bundle"
 $PortableDir = Join-Path $BundleDir "portable"
 
 New-Item -ItemType Directory -Force -Path $PortableDir | Out-Null
-Copy-Item (Join-Path $ReleaseDir "truth-beacon.exe") (Join-Path $PortableDir "TruthBeacon-Portable.exe") -Force
+$ExeName = if (Test-Path (Join-Path $ReleaseDir "slashbeacon.exe")) { "slashbeacon.exe" } else { "truth-beacon.exe" }
+Copy-Item (Join-Path $ReleaseDir $ExeName) (Join-Path $PortableDir "SlashBeacon-Portable.exe") -Force
+Copy-Item (Join-Path $ReleaseDir $ExeName) (Join-Path $PortableDir "TruthBeacon-Portable.exe") -Force
 
 # 5. Optional Code Signing (Phase 24.2)
 if (-not $SkipSign) {
