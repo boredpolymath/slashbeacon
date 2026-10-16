@@ -35,7 +35,7 @@ with open(os.path.join(SRC_TAURI_DIR, "tauri.conf.json"), "r") as f:
 VERSION = conf.get("version", "0.2.2")
 
 SIGNABLE_EXTENSIONS = {".dmg", ".zip", ".exe", ".msi", ".deb", ".AppImage", ".gz"}
-SIGNABLE_NAMES = {"truth-beacon-universal", "TruthBeacon-Portable.exe"}
+SIGNABLE_NAMES = {"slashbeacon-universal", "truth-beacon-universal", "SlashBeacon-Portable.exe", "TruthBeacon-Portable.exe"}
 
 def compute_sha256(filepath):
     h = hashlib.sha256()
@@ -68,7 +68,7 @@ def update_checksums():
             continue
         ext = os.path.splitext(fname)[1]
         if ext in SIGNABLE_EXTENSIONS or fname in SIGNABLE_NAMES:
-            if fname.startswith("TruthBeacon_") and not fname.startswith(f"TruthBeacon_{VERSION}_"):
+            if (fname.startswith("TruthBeacon_") or fname.startswith("SlashBeacon_")) and not (fname.startswith(f"TruthBeacon_{VERSION}_") or fname.startswith(f"SlashBeacon_{VERSION}_")):
                 continue
             csum = compute_sha256(fpath)
             size_mb = os.path.getsize(fpath) / (1024 * 1024)

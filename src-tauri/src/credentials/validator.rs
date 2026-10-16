@@ -238,7 +238,7 @@ impl DiscordHandshakeValidator {
             .header("Authorization", format!("Bot {}", parts.clean_token))
             .header(
                 "User-Agent",
-                "DiscordBot (https://orangeheart.io/truthbeacon, 0.1.0)",
+                "DiscordBot (https://orangeheart.io/slashbeacon, 0.4.0)",
             )
             .send()
             .await
@@ -290,7 +290,7 @@ impl DiscordHandshakeValidator {
             .header("Authorization", format!("Bot {}", parts.clean_token))
             .header(
                 "User-Agent",
-                "DiscordBot (https://orangeheart.io/truthbeacon, 0.1.0)",
+                "DiscordBot (https://orangeheart.io/slashbeacon, 0.4.0)",
             )
             .send()
             .await

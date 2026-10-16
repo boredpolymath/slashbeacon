@@ -40,18 +40,18 @@ pub fn format_tray_status_summary() -> (String, String) {
     if is_tripped {
         (
             "⚠️ Status: Circuit Breaker Tripped (Paused)".to_string(),
-            "TruthBeacon — Circuit Breaker Tripped (Safety Paused)".to_string(),
+            "SlashBeacon — Circuit Breaker Tripped (Safety Paused)".to_string(),
         )
     } else if !is_running {
         if registered_guilds == 0 {
             (
                 "○ Status: Standby (No Guilds Configured)".to_string(),
-                "TruthBeacon — Standby (No Guilds Configured)".to_string(),
+                "SlashBeacon — Standby (No Guilds Configured)".to_string(),
             )
         } else {
             (
                 "○ Status: Disconnected (Standby)".to_string(),
-                "TruthBeacon — Disconnected (Standby)".to_string(),
+                "SlashBeacon — Disconnected (Standby)".to_string(),
             )
         }
     } else {
@@ -64,7 +64,7 @@ pub fn format_tray_status_summary() -> (String, String) {
             )
         };
         let tooltip = format!(
-            "TruthBeacon — Active Protection ({} Guilds)",
+            "SlashBeacon — Active Protection ({} Guilds)",
             registered_guilds
         );
         (label, tooltip)
@@ -79,7 +79,7 @@ pub fn setup_system_tray(app: &mut App) -> Result<TrayIcon, Box<dyn Error>> {
     let show_item = MenuItem::with_id(
         handle,
         "show_console",
-        "Open TruthBeacon Console",
+        "Open SlashBeacon Console",
         true,
         None::<&str>,
     )?;
@@ -99,7 +99,7 @@ pub fn setup_system_tray(app: &mut App) -> Result<TrayIcon, Box<dyn Error>> {
         None::<&str>,
     )?;
     let separator = PredefinedMenuItem::separator(handle)?;
-    let quit_item = MenuItem::with_id(handle, "quit_app", "Quit TruthBeacon", true, None::<&str>)?;
+    let quit_item = MenuItem::with_id(handle, "quit_app", "Quit SlashBeacon", true, None::<&str>)?;
 
     let menu = Menu::with_items(
         handle,
@@ -117,7 +117,7 @@ pub fn setup_system_tray(app: &mut App) -> Result<TrayIcon, Box<dyn Error>> {
     let icon_image = load_tray_image(TRAY_ICON_32)?;
 
     // 3. Build Persistent System Tray Icon
-    let tray = TrayIconBuilder::with_id("truthbeacon-main-tray")
+    let tray = TrayIconBuilder::with_id("slashbeacon-main-tray")
         .icon(icon_image)
         .tooltip(&tooltip_text)
         .menu(&menu)
@@ -149,7 +149,7 @@ pub fn setup_system_tray(app: &mut App) -> Result<TrayIcon, Box<dyn Error>> {
         })
         .build(app)?;
 
-    log::info!("TruthBeacon persistent system tray icon initialized successfully");
+    log::info!("SlashBeacon persistent system tray icon initialized successfully");
     Ok(tray)
 }
 
@@ -170,35 +170,35 @@ mod tests {
     fn test_format_tray_status_summary_reflects_protection_state() {
         let (label, tooltip) = format_tray_status_summary();
         assert!(label.starts_with('●') || label.starts_with('○') || label.starts_with("⚠️"));
-        assert!(tooltip.contains("TruthBeacon"));
+        assert!(tooltip.contains("SlashBeacon"));
     }
 
     #[test]
     fn test_multi_resolution_tray_assets_embedded_and_valid() {
         assert_eq!(
             TRAY_ICON_16.len(),
-            934,
-            "16x16 icon asset must be exactly 934 bytes"
+            598,
+            "16x16 icon asset must be exactly 598 bytes"
         );
         assert_eq!(
             TRAY_ICON_32.len(),
-            2927,
-            "32x32 icon asset must be exactly 2927 bytes"
+            1743,
+            "32x32 icon asset must be exactly 1743 bytes"
         );
         assert_eq!(
             TRAY_ICON_64.len(),
-            9128,
-            "64x64 icon asset must be exactly 9128 bytes"
+            5645,
+            "64x64 icon asset must be exactly 5645 bytes"
         );
         assert_eq!(
             TRAY_ICON_128.len(),
-            28729,
-            "128x128 icon asset must be exactly 28729 bytes"
+            19410,
+            "128x128 icon asset must be exactly 19410 bytes"
         );
         assert_eq!(
             TRAY_ICON_256.len(),
-            90826,
-            "256x256 icon asset must be exactly 90826 bytes"
+            74397,
+            "256x256 icon asset must be exactly 74397 bytes"
         );
 
         // Verify valid PNG headers (0x89 0x50 0x4E 0x47 0x0D 0x0A 0x1A 0x0A)

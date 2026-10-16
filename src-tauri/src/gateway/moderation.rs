@@ -68,6 +68,7 @@ impl Default for DiscordModerationClient {
 impl DiscordModerationClient {
     pub fn new() -> Self {
         let base_url = std::env::var("DISCORD_API_BASE_URL")
+            .or_else(|_| std::env::var("SLASHBEACON_DISCORD_API_BASE_URL"))
             .or_else(|_| std::env::var("TRUTHBEACON_DISCORD_API_BASE_URL"))
             .unwrap_or_else(|_| DEFAULT_DISCORD_API_URL.to_string());
         Self {
@@ -139,7 +140,7 @@ impl DiscordModerationClient {
             .put(&url)
             .header(AUTHORIZATION, format!("Bot {}", clean_token))
             .header(CONTENT_TYPE, "application/json")
-            .header(USER_AGENT, "TruthBeacon/0.1.0")
+            .header(USER_AGENT, "SlashBeacon/0.4.0")
             .json(&body);
 
         if let Some(r) = reason {

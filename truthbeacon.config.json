@@ -1,6 +1,6 @@
 {
   "application": {
-    "name": "TruthBeacon",
+    "name": "SlashBeacon",
     "version": "0.4.0",
     "vendor": "Bored Polymath Studios",
     "description": "Desktop Identity Ground-Truth & Impersonation Prevention Console"
@@ -19,7 +19,7 @@
     "cooling_period_seconds": 300
   },
   "storage": {
-    "sqlite_filename": "truthbeacon.local.db",
+    "sqlite_filename": "slashbeacon.local.db",
     "wal_mode": true,
     "busy_timeout_ms": 5000
   },

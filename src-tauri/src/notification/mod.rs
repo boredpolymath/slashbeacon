@@ -83,6 +83,7 @@ pub fn dispatch_native_notification(
 
     // Always emit internal Tauri event so running webviews and toast overlays receive it
     if let Some(handle) = app {
+        let _ = handle.emit("slashbeacon://native-notification", payload);
         let _ = handle.emit("truthbeacon://native-notification", payload);
     }
 
@@ -105,7 +106,7 @@ pub fn dispatch_native_notification(
     #[cfg(not(any(target_os = "macos", target_os = "windows", target_os = "linux")))]
     {
         log::info!(
-            "[TruthBeacon Desktop Notification] [{:?}] Suspect @{} flagged against @{}",
+            "[SlashBeacon Desktop Notification] [{:?}] Suspect @{} flagged against @{}",
             payload.risk_tier,
             payload.suspect_username,
             payload.matched_benchmark_name
@@ -118,9 +119,9 @@ pub fn dispatch_native_notification(
 #[cfg(target_os = "macos")]
 fn dispatch_macos_notification(payload: &NotificationPayload) -> Result<(), NotificationError> {
     let title = match payload.risk_tier {
-        RiskTier::Critical => "TruthBeacon Alert: Critical Imposter Flagged",
-        RiskTier::Elevated => "TruthBeacon Alert: Elevated Discrepancy",
-        _ => "TruthBeacon Notification",
+        RiskTier::Critical => "SlashBeacon Alert: Critical Imposter Flagged",
+        RiskTier::Elevated => "SlashBeacon Alert: Elevated Discrepancy",
+        _ => "SlashBeacon Notification",
     };
 
     let subtitle = format!(
@@ -165,9 +166,9 @@ fn dispatch_macos_notification(payload: &NotificationPayload) -> Result<(), Noti
 #[cfg(target_os = "windows")]
 fn dispatch_windows_notification(payload: &NotificationPayload) -> Result<(), NotificationError> {
     let title = match payload.risk_tier {
-        RiskTier::Critical => "TruthBeacon: Critical Imposter Detected",
-        RiskTier::Elevated => "TruthBeacon: Elevated Imposter Alert",
-        _ => "TruthBeacon Alert",
+        RiskTier::Critical => "SlashBeacon: Critical Imposter Detected",
+        RiskTier::Elevated => "SlashBeacon: Elevated Imposter Alert",
+        _ => "SlashBeacon Alert",
     };
 
     let clean_suspect = payload
@@ -190,7 +191,7 @@ fn dispatch_windows_notification(payload: &NotificationPayload) -> Result<(), No
          $textNodes = $template.GetElementsByTagName('text'); \
          $textNodes.Item(0).AppendChild($template.CreateTextNode($title)) > $null; \
          $textNodes.Item(1).AppendChild($template.CreateTextNode($body)) > $null; \
-         $notifier = [Windows.UI.Notifications.ToastNotificationManager]::CreateToastNotifier('TruthBeacon'); \
+         $notifier = [Windows.UI.Notifications.ToastNotificationManager]::CreateToastNotifier('SlashBeacon'); \
          $notifier.Show([Windows.UI.Notifications.ToastNotification]::new($template));"#;
 
     let _ = Command::new("powershell")
@@ -206,9 +207,9 @@ fn dispatch_windows_notification(payload: &NotificationPayload) -> Result<(), No
 #[cfg(target_os = "linux")]
 fn dispatch_linux_notification(payload: &NotificationPayload) -> Result<(), NotificationError> {
     let title = match payload.risk_tier {
-        RiskTier::Critical => "TruthBeacon Alert: Critical Imposter Flagged",
-        RiskTier::Elevated => "TruthBeacon Alert: Elevated Discrepancy",
-        _ => "TruthBeacon Notification",
+        RiskTier::Critical => "SlashBeacon Alert: Critical Imposter Flagged",
+        RiskTier::Elevated => "SlashBeacon Alert: Elevated Discrepancy",
+        _ => "SlashBeacon Notification",
     };
 
     let urgency = match payload.risk_tier {
@@ -228,7 +229,7 @@ fn dispatch_linux_notification(payload: &NotificationPayload) -> Result<(), Noti
         .arg("--urgency")
         .arg(urgency)
         .arg("--app-name")
-        .arg("TruthBeacon")
+        .arg("SlashBeacon")
         .arg(title)
         .arg(&body)
         .spawn();
@@ -250,12 +251,11 @@ pub async fn execute_notification_action(
             // Unminimize, show, and focus main window
             crate::tray::show_main_window(app);
             // Notify frontend to switch to triage tab and focus card
-            let _ = app.emit(
-                "truthbeacon://inspect-incident",
-                serde_json::json!({
-                    "incident_id": incident_id
-                }),
-            );
+            let event_data = serde_json::json!({
+                "incident_id": incident_id
+            });
+            let _ = app.emit("slashbeacon://inspect-incident", &event_data);
+            let _ = app.emit("truthbeacon://inspect-incident", &event_data);
             Ok(true)
         }
         "Dismiss" => {
@@ -269,13 +269,12 @@ pub async fn execute_notification_action(
             .await
             .map_err(|e| NotificationError::CommandError(e.to_string()))?;
 
-            let _ = app.emit(
-                "truthbeacon://incident-resolved",
-                serde_json::json!({
-                    "incident_id": incident_id,
-                    "action": "dismiss"
-                }),
-            );
+            let event_data = serde_json::json!({
+                "incident_id": incident_id,
+                "action": "dismiss"
+            });
+            let _ = app.emit("slashbeacon://incident-resolved", &event_data);
+            let _ = app.emit("truthbeacon://incident-resolved", &event_data);
             Ok(true)
         }
         "Ban & Purge" => {
@@ -289,13 +288,12 @@ pub async fn execute_notification_action(
             .await
             .map_err(|e| NotificationError::CommandError(e.to_string()))?;
 
-            let _ = app.emit(
-                "truthbeacon://incident-resolved",
-                serde_json::json!({
-                    "incident_id": incident_id,
-                    "action": "ban"
-                }),
-            );
+            let event_data = serde_json::json!({
+                "incident_id": incident_id,
+                "action": "ban"
+            });
+            let _ = app.emit("slashbeacon://incident-resolved", &event_data);
+            let _ = app.emit("truthbeacon://incident-resolved", &event_data);
             Ok(true)
         }
         unknown => Err(NotificationError::UnknownAction(unknown.to_string())),

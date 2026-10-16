@@ -21,7 +21,11 @@ ROOT_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 SRC_TAURI = os.path.join(ROOT_DIR, "src-tauri")
 ICONS_DIR = os.path.join(SRC_TAURI, "icons")
 CONF_FILE = os.path.join(SRC_TAURI, "tauri.conf.json")
-DESKTOP_FILE = os.path.join(SRC_TAURI, "desktop", "truthbeacon.desktop")
+DESKTOP_FILE = (
+    os.path.join(SRC_TAURI, "desktop", "slashbeacon.desktop")
+    if os.path.exists(os.path.join(SRC_TAURI, "desktop", "slashbeacon.desktop"))
+    else os.path.join(SRC_TAURI, "desktop", "truthbeacon.desktop")
+)
 
 def test_config():
     print("==> [1/5] Validating tauri.conf.json Bundle Configuration...")
@@ -105,11 +109,11 @@ def test_desktop_entry():
     
     assert "[Desktop Entry]" in content, "Missing [Desktop Entry] section header"
     assert "Type=Application" in content, "Missing Type=Application"
-    assert "Exec=truth-beacon" in content, "Missing Exec executable path"
-    assert "Icon=truth-beacon" in content, "Missing Icon specifier"
+    assert any(x in content for x in ("Exec=slashbeacon", "Exec=truth-beacon")), "Missing Exec executable path"
+    assert any(x in content for x in ("Icon=slashbeacon", "Icon=truth-beacon")), "Missing Icon specifier"
     assert "Categories=" in content and "Security" in content, "Missing Security Category"
-    assert "StartupWMClass=truth-beacon" in content, "Missing StartupWMClass for window manager grouping"
-    print("  ✓ truthbeacon.desktop meets Freedesktop Specification requirements")
+    assert any(x in content for x in ("StartupWMClass=slashbeacon", "StartupWMClass=truth-beacon")), "Missing StartupWMClass for window manager grouping"
+    print(f"  ✓ {os.path.basename(DESKTOP_FILE)} meets Freedesktop Specification requirements")
 
 def test_icons():
     print("==> [4/5] Validating Multi-Resolution Icon Assets...")
@@ -140,7 +144,7 @@ def test_scripts():
 
 def main():
     print("======================================================================")
-    print(" TruthBeacon: Cross-Platform Packaging Pipeline Verification Suite")
+    print(" SlashBeacon: Cross-Platform Packaging Pipeline Verification Suite")
     print("======================================================================")
     try:
         test_config()

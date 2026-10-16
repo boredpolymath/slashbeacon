@@ -35,17 +35,24 @@ echo "==> [4/5] Assembling Universal 2 Fat Binary via lipo..."
 UNIVERSAL_DIR="${SRC_TAURI_DIR}/target/universal-apple-darwin/release"
 mkdir -p "${UNIVERSAL_DIR}"
 
+BIN_NAME="slashbeacon"
+if [ ! -f "${SRC_TAURI_DIR}/target/aarch64-apple-darwin/release/slashbeacon" ] && [ -f "${SRC_TAURI_DIR}/target/aarch64-apple-darwin/release/truth-beacon" ]; then
+  BIN_NAME="truth-beacon"
+fi
+
 lipo -create \
-  "${SRC_TAURI_DIR}/target/aarch64-apple-darwin/release/truth-beacon" \
-  "${SRC_TAURI_DIR}/target/x86_64-apple-darwin/release/truth-beacon" \
-  -output "${UNIVERSAL_DIR}/truth-beacon"
+  "${SRC_TAURI_DIR}/target/aarch64-apple-darwin/release/${BIN_NAME}" \
+  "${SRC_TAURI_DIR}/target/x86_64-apple-darwin/release/${BIN_NAME}" \
+  -output "${UNIVERSAL_DIR}/slashbeacon"
+
+cp -f "${UNIVERSAL_DIR}/slashbeacon" "${UNIVERSAL_DIR}/truth-beacon" 2>/dev/null || true
 
 echo "Universal binary verified:"
-lipo -info "${UNIVERSAL_DIR}/truth-beacon"
-file "${UNIVERSAL_DIR}/truth-beacon"
+lipo -info "${UNIVERSAL_DIR}/slashbeacon"
+file "${UNIVERSAL_DIR}/slashbeacon"
 
 # 5. Build Tauri App bundle and package DMG via dmgbuild
-echo "==> [5/5] Packaging TruthBeacon Drag-and-Drop .dmg with Orange Heart layout..."
+echo "==> [5/5] Packaging SlashBeacon Drag-and-Drop .dmg with Orange Heart layout..."
 cd "${SRC_TAURI_DIR}"
 cargo tauri build --target universal-apple-darwin --no-sign -b app
 python3 "${SCRIPT_DIR}/package_macos_dmg.py"
@@ -53,11 +60,19 @@ python3 "${SCRIPT_DIR}/package_macos_dmg.py"
 # Package and sign macOS updater bundle (.app.tar.gz)
 VERSION=$(grep '^version =' "${SRC_TAURI_DIR}/Cargo.toml" | head -n 1 | cut -d '"' -f 2)
 APP_DIR="${SRC_TAURI_DIR}/target/universal-apple-darwin/release/bundle/macos"
-if [ -d "${APP_DIR}/TruthBeacon.app" ]; then
+TARGET_APP="SlashBeacon.app"
+if [ ! -d "${APP_DIR}/SlashBeacon.app" ] && [ -d "${APP_DIR}/TruthBeacon.app" ]; then
+    TARGET_APP="TruthBeacon.app"
+fi
+
+if [ -d "${APP_DIR}/${TARGET_APP}" ]; then
     echo "==> Generating macOS auto-updater archive (.app.tar.gz)..."
-    UPDATER_TAR="${APP_DIR}/TruthBeacon_${VERSION}_universal.app.tar.gz"
-    tar -czf "${UPDATER_TAR}" -C "${APP_DIR}" TruthBeacon.app
-    if [ -f "${ROOT_DIR}/scripts/.keys/truthbeacon_updater.key" ]; then
+    UPDATER_TAR="${APP_DIR}/SlashBeacon_${VERSION}_universal.app.tar.gz"
+    tar -czf "${UPDATER_TAR}" -C "${APP_DIR}" "${TARGET_APP}"
+    if [ -f "${ROOT_DIR}/scripts/.keys/slashbeacon_updater.key" ]; then
+        echo "==> Signing updater archive with minisign release key file..."
+        cargo tauri signer sign -f "${ROOT_DIR}/scripts/.keys/slashbeacon_updater.key" -p "" --app-version "${VERSION}" "${UPDATER_TAR}"
+    elif [ -f "${ROOT_DIR}/scripts/.keys/truthbeacon_updater.key" ]; then
         echo "==> Signing updater archive with minisign release key file..."
         cargo tauri signer sign -f "${ROOT_DIR}/scripts/.keys/truthbeacon_updater.key" -p "" --app-version "${VERSION}" "${UPDATER_TAR}"
     elif [ -n "${TAURI_SIGNING_PRIVATE_KEY:-}" ]; then
@@ -69,7 +84,7 @@ if [ -d "${APP_DIR}/TruthBeacon.app" ]; then
         cp -f "${UPDATER_TAR}.sig" "${ROOT_DIR}/release/" 2>/dev/null || true
     fi
     echo "==> Creating portable macOS .zip archive..."
-    (cd "${APP_DIR}" && zip -rq "${ROOT_DIR}/release/TruthBeacon_${VERSION}_macos_universal.zip" TruthBeacon.app)
+    (cd "${APP_DIR}" && zip -rq "${ROOT_DIR}/release/SlashBeacon_${VERSION}_macos_universal.zip" "${TARGET_APP}")
 fi
 
 # Optional: Execute Code Signing & Notarization if configured

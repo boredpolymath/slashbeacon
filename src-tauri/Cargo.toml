@@ -1,14 +1,14 @@
 [package]
-name = "truth-beacon"
+name = "slashbeacon"
 version = "0.4.0"
-description = "TruthBeacon: Desktop Identity Ground-Truth & Impersonation Prevention Console"
+description = "SlashBeacon: Desktop Identity Ground-Truth & Impersonation Prevention Console"
 authors = ["Bored Polymath Studios"]
 edition = "2021"
 license = "MIT OR Apache-2.0"
-default-run = "truth-beacon"
+default-run = "slashbeacon"
 
 [lib]
-name = "truth_beacon_lib"
+name = "slashbeacon_lib"
 crate-type = ["staticlib", "cdylib", "rlib"]
 
 [build-dependencies]

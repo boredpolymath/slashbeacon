@@ -1,5 +1,5 @@
 /**
- * Utility functions for TruthBeacon UI: escaping, formatting, and modal management.
+ * Utility functions for SlashBeacon UI: escaping, formatting, and modal management.
  */
 
 export function escapeHtml(str) {

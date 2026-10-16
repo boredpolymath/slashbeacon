@@ -94,11 +94,11 @@ jobs:
       - name: Upload macOS Bundles
         uses: actions/upload-artifact@v7
         with:
-          name: truthbeacon-macos-universal
+          name: slashbeacon-macos-universal
           path: |
             src-tauri/target/universal-apple-darwin/release/bundle/dmg/*.dmg
             src-tauri/target/universal-apple-darwin/release/bundle/macos/*.app
-            src-tauri/target/universal-apple-darwin/release/truth-beacon
+            src-tauri/target/universal-apple-darwin/release/*beacon*
             src-tauri/target/universal-apple-darwin/release/bundle/macos/*.tar.gz*
             release/*.tar.gz*
 
@@ -143,7 +143,7 @@ jobs:
       - name: Upload Windows Bundles
         uses: actions/upload-artifact@v7
         with:
-          name: truthbeacon-windows-x64
+          name: slashbeacon-windows-x64
           path: |
             src-tauri/target/x86_64-pc-windows-msvc/release/bundle/msi/*.msi
             src-tauri/target/x86_64-pc-windows-msvc/release/bundle/nsis/*.exe
@@ -186,7 +186,7 @@ jobs:
       - name: Upload Linux Bundles
         uses: actions/upload-artifact@v7
         with:
-          name: truthbeacon-linux-x86_64
+          name: slashbeacon-linux-x86_64
           path: |
             src-tauri/target/release/bundle/deb/*.deb
             src-tauri/target/release/bundle/appimage/*.AppImage*
@@ -208,19 +208,19 @@ jobs:
       - name: Download macOS Artifacts
         uses: actions/download-artifact@v8
         with:
-          name: truthbeacon-macos-universal
+          name: slashbeacon-macos-universal
           path: release
 
       - name: Download Windows Artifacts
         uses: actions/download-artifact@v8
         with:
-          name: truthbeacon-windows-x64
+          name: slashbeacon-windows-x64
           path: release
 
       - name: Download Linux Artifacts
         uses: actions/download-artifact@v8
         with:
-          name: truthbeacon-linux-x86_64
+          name: slashbeacon-linux-x86_64
           path: release
 
       - name: Generate Checksums & Detached GPG Signatures
@@ -234,7 +234,7 @@ jobs:
       - name: Upload Release Checksums & Signatures
         uses: actions/upload-artifact@v7
         with:
-          name: truthbeacon-release-manifest
+          name: slashbeacon-release-manifest
           path: |
             release/SHA256SUMS.txt
             release/SHA256SUMS.txt.asc
@@ -262,7 +262,7 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           mkdir -p dist
-          find release-dist -type f \( -name "*.dmg" -o -name "*.zip" -o -name "*.exe" -o -name "*.msi" -o -name "*.deb" -o -name "*.AppImage" -o -name "*.tar.gz" -o -name "*.sig" -o -name "*.json" -o -name "truth-beacon*" -o -name "SHA256SUMS*" -o -name "RELEASE_MANIFEST*" \) -exec cp -f {} dist/ \;
+          find release-dist -type f \( -name "*.dmg" -o -name "*.zip" -o -name "*.exe" -o -name "*.msi" -o -name "*.deb" -o -name "*.AppImage" -o -name "*.tar.gz" -o -name "*.sig" -o -name "*.json" -o -name "*beacon*" -o -name "SHA256SUMS*" -o -name "RELEASE_MANIFEST*" \) -exec cp -f {} dist/ \;
           echo "==> Release artifacts ready for publishing:"
           ls -la dist/
 
@@ -271,7 +271,7 @@ jobs:
 
           # Create GitHub Release if not already existing, then upload/clobber assets
           gh release view "${RELEASE_TAG}" >/dev/null 2>&1 || \
-            gh release create "${RELEASE_TAG}" --title "TruthBeacon ${RELEASE_TAG}" --notes-file RELEASE_NOTES.md --verify-tag
+            gh release create "${RELEASE_TAG}" --title "SlashBeacon ${RELEASE_TAG}" --notes-file RELEASE_NOTES.md --verify-tag
 
           gh release upload "${RELEASE_TAG}" dist/* --clobber
           echo "✓ All cross-platform release assets successfully published to GitHub Release!"

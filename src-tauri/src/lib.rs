@@ -72,15 +72,14 @@ pub fn run() {
                 use tauri_plugin_updater::UpdaterExt;
                 if let Ok(updater) = app_handle.updater() {
                     if let Ok(Some(update)) = updater.check().await {
-                        log::info!("TruthBeacon update available: v{}", update.version);
-                        let _ = app_handle.emit(
-                            "truthbeacon://update-available",
-                            serde_json::json!({
-                                "version": update.version,
-                                "body": update.body,
-                                "date": update.date.map(|d| d.to_string()),
-                            }),
-                        );
+                        log::info!("SlashBeacon update available: v{}", update.version);
+                        let update_payload = serde_json::json!({
+                            "version": update.version,
+                            "body": update.body,
+                            "date": update.date.map(|d| d.to_string()),
+                        });
+                        let _ = app_handle.emit("slashbeacon://update-available", &update_payload);
+                        let _ = app_handle.emit("truthbeacon://update-available", &update_payload);
                     }
                 }
             });
@@ -125,7 +124,7 @@ pub fn run() {
             install_update
         ])
         .build(tauri::generate_context!())
-        .expect("error while running TruthBeacon application")
+        .expect("error while running SlashBeacon application")
         .run(|_app_handle, event| {
             if matches!(event, tauri::RunEvent::Exit | tauri::RunEvent::ExitRequested { .. }) {
                 diagnostics::graceful_shutdown();

@@ -2,7 +2,7 @@
 
 ## Supported Versions
 
-Only the latest stable release of TruthBeacon receives active security patches.
+Only the latest stable release of SlashBeacon receives active security patches.
 
 | Version | Supported          |
 | ------- | ------------------ |
@@ -11,12 +11,12 @@ Only the latest stable release of TruthBeacon receives active security patches.
 
 ## Reporting a Vulnerability
 
-The TruthBeacon team takes security vulnerabilities seriously. We appreciate your efforts to responsibly disclose findings.
+The SlashBeacon team takes security vulnerabilities seriously. We appreciate your efforts to responsibly disclose findings.
 
 ### Private Vulnerability Reporting (Preferred)
 
 Please use GitHub's **Private Vulnerability Reporting** to report security issues privately:
-1. Navigate to the [TruthBeacon Security Advisories tab](https://github.com/boredpolymath/truth-beacon/security/advisories).
+1. Navigate to the [SlashBeacon Security Advisories tab](https://github.com/boredpolymath/slashbeacon/security/advisories).
 2. Click **"Report a vulnerability"** to submit a private draft advisory.
 3. Include detailed reproduction steps, proof of concept, and impacted platforms (macOS, Windows, Linux).
 

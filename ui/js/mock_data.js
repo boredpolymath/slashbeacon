@@ -1,5 +1,5 @@
 /**
- * TruthBeacon: Scaffolded Initial State & Mock Ground-Truth Data
+ * SlashBeacon: Scaffolded Initial State & Mock Ground-Truth Data
  * Designed according to Orange Heart Industries Human-Centered Stewardship ethos.
  */
 

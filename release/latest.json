@@ -1,23 +1,23 @@
 {
   "version": "v0.4.0",
-  "notes": "TruthBeacon v0.4.0: Major security, resilience & release hardening including forensic SQLite quarantine, domain-bound AES-256-GCM vault, multi-keyframe pHash inspection, UTR #39 homoglyph detection, multi-guild gateway resumption, and sandboxed IPC.",
-  "pub_date": "2026-10-11T23:40:36Z",
+  "notes": "SlashBeacon v0.4.0: Major security, resilience & release hardening including forensic SQLite quarantine, domain-bound AES-256-GCM vault, multi-keyframe pHash inspection, UTR #39 homoglyph detection, multi-guild gateway resumption, and sandboxed IPC.",
+  "pub_date": "2026-10-16T07:19:52Z",
   "platforms": {
     "darwin-aarch64": {
       "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVTV2ZFdVBrR2JieTZHNzM0YU1GazVmK3RlRjZscmdsdXp6OGpjclpsWU9JeGI2QXVPelBQZGR5V2ZDTjBPdzFDblROeFZGVjg4dHdPbnhhckNHaWRrcTZtSTgrVHhld1FRPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzkxNzYxOTg0CWZpbGU6VHJ1dGhCZWFjb25fMC40LjBfdW5pdmVyc2FsLmFwcC50YXIuZ3oJdmVyc2lvbjowLjQuMApmUUVvVFB6cWhvUzBMNmZPOUd3ZDB1VGNDTWU5Uzd5aUQ1eFhVUHZEc1RSQU1RNDZva3dIeTZiRHJBMVlLRTVNdkRUdHJ6VFQzRXhHdzZLdnFvTTlBZz09Cg==",
-      "url": "https://github.com/boredpolymath/truth-beacon/releases/download/v0.4.0/TruthBeacon_0.4.0_universal.app.tar.gz"
+      "url": "https://github.com/boredpolymath/slashbeacon/releases/download/v0.4.0/SlashBeacon_0.4.0_universal.app.tar.gz"
     },
     "darwin-x86_64": {
       "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVTV2ZFdVBrR2JieTZHNzM0YU1GazVmK3RlRjZscmdsdXp6OGpjclpsWU9JeGI2QXVPelBQZGR5V2ZDTjBPdzFDblROeFZGVjg4dHdPbnhhckNHaWRrcTZtSTgrVHhld1FRPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzkxNzYxOTg0CWZpbGU6VHJ1dGhCZWFjb25fMC40LjBfdW5pdmVyc2FsLmFwcC50YXIuZ3oJdmVyc2lvbjowLjQuMApmUUVvVFB6cWhvUzBMNmZPOUd3ZDB1VGNDTWU5Uzd5aUQ1eFhVUHZEc1RSQU1RNDZva3dIeTZiRHJBMVlLRTVNdkRUdHJ6VFQzRXhHdzZLdnFvTTlBZz09Cg==",
-      "url": "https://github.com/boredpolymath/truth-beacon/releases/download/v0.4.0/TruthBeacon_0.4.0_universal.app.tar.gz"
+      "url": "https://github.com/boredpolymath/slashbeacon/releases/download/v0.4.0/SlashBeacon_0.4.0_universal.app.tar.gz"
     },
     "windows-x86_64": {
       "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVTV2ZFdVBrR2JieTZHNzM0YU1GazVmK3RlRjZscmdsdXp6OGpjclpsWU9JeGI2QXVPelBQZGR5V2ZDTjBPdzFDblROeFZGVjg4dHdPbnhhckNHaWRrcTZtSTgrVHhld1FRPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzkxNzYxOTg0CWZpbGU6VHJ1dGhCZWFjb25fMC40LjBfdW5pdmVyc2FsLmFwcC50YXIuZ3oJdmVyc2lvbjowLjQuMApmUUVvVFB6cWhvUzBMNmZPOUd3ZDB1VGNDTWU5Uzd5aUQ1eFhVUHZEc1RSQU1RNDZva3dIeTZiRHJBMVlLRTVNdkRUdHJ6VFQzRXhHdzZLdnFvTTlBZz09Cg==",
-      "url": "https://github.com/boredpolymath/truth-beacon/releases/download/v0.4.0/TruthBeacon_0.4.0_x64-setup.nsis.zip"
+      "url": "https://github.com/boredpolymath/slashbeacon/releases/download/v0.4.0/SlashBeacon_0.4.0_x64-setup.nsis.zip"
     },
     "linux-x86_64": {
       "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVTV2ZFdVBrR2JieTZHNzM0YU1GazVmK3RlRjZscmdsdXp6OGpjclpsWU9JeGI2QXVPelBQZGR5V2ZDTjBPdzFDblROeFZGVjg4dHdPbnhhckNHaWRrcTZtSTgrVHhld1FRPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzkxNzYxOTg0CWZpbGU6VHJ1dGhCZWFjb25fMC40LjBfdW5pdmVyc2FsLmFwcC50YXIuZ3oJdmVyc2lvbjowLjQuMApmUUVvVFB6cWhvUzBMNmZPOUd3ZDB1VGNDTWU5Uzd5aUQ1eFhVUHZEc1RSQU1RNDZva3dIeTZiRHJBMVlLRTVNdkRUdHJ6VFQzRXhHdzZLdnFvTTlBZz09Cg==",
-      "url": "https://github.com/boredpolymath/truth-beacon/releases/download/v0.4.0/TruthBeacon_0.4.0_amd64.AppImage.tar.gz"
+      "url": "https://github.com/boredpolymath/slashbeacon/releases/download/v0.4.0/SlashBeacon_0.4.0_amd64.AppImage.tar.gz"
     }
   }
 }

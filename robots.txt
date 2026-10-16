@@ -1,4 +1,4 @@
-# robots.txt for TruthBeacon (https://boredpolymath.github.io/truth-beacon/)
+# robots.txt for SlashBeacon (https://boredpolymath.github.io/slashbeacon/)
 
 # Default crawl guidance for all crawlers
 User-agent: *
@@ -34,4 +34,4 @@ User-agent: Google-Extended
 Allow: /
 
 # Sitemap
-Sitemap: https://boredpolymath.github.io/truth-beacon/sitemap.xml
+Sitemap: https://boredpolymath.github.io/slashbeacon/sitemap.xml

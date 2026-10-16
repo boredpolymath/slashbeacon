@@ -151,7 +151,7 @@ export async function discoverServers(tokenOverride) {
           discordGuildSelect.value = guilds[0].id;
           if (discordGuildIdInput) {
             discordGuildIdInput.value = guilds[0].id;
-            sessionStorage.setItem('truthbeacon_setup_guild_id', guilds[0].id);
+            sessionStorage.setItem('slashbeacon_setup_guild_id', guilds[0].id);
           }
         }
       }
@@ -231,7 +231,7 @@ export function renderHandshakeResult(res) {
   }
 
   const serverName = res.guild_name || res.target_guild_name || 'Target Server';
-  const botName = res.bot_name || res.bot_username || 'TruthBeacon Guard';
+  const botName = res.bot_name || res.bot_username || 'SlashBeacon Guard';
 
   setDiagItem(diagCheckFormat, formatValid, 'Token Format: Official 3-Part Bot Token', 'Token Format: Invalid or Malformed Token');
   setDiagItem(diagCheckAuth, authValid, 'Gateway Handshake: Authenticated with Discord v10', 'Gateway Handshake: Authentication Failed (401)');
@@ -250,7 +250,7 @@ export function _updateDiscordHeroAndGuild(config) {
   const currentGuildName = document.getElementById('current-guild-name');
   const currentGuildIcon = document.getElementById('current-guild-icon');
 
-  if (discordHeroBotName) discordHeroBotName.textContent = config.bot_name || 'TruthBeacon Bot';
+  if (discordHeroBotName) discordHeroBotName.textContent = config.bot_name || 'SlashBeacon Bot';
   if (discordHeroServerName) discordHeroServerName.textContent = config.guild_name || 'Not Configured';
   if (discordHeroGuildId) discordHeroGuildId.textContent = config.guild_id ? `ID: ${config.guild_id}` : 'No Server Set';
 
@@ -279,14 +279,14 @@ export function _populateDiscordInputs(config) {
   const discordTokenInput = _getTokenInput();
 
   if (discordGuildIdInput && !discordGuildIdInput.matches(':focus')) {
-    discordGuildIdInput.value = config.guild_id || sessionStorage.getItem('truthbeacon_setup_guild_id') || '';
+    discordGuildIdInput.value = config.guild_id || sessionStorage.getItem('slashbeacon_setup_guild_id') || sessionStorage.getItem('truthbeacon_setup_guild_id') || '';
   }
 
   if (discordTokenInput && !discordTokenInput.matches(':focus')) {
     if (config.has_token) {
       discordTokenInput.value = config.token_masked || '••••••••••••••••••••••••••••••••';
     } else {
-      discordTokenInput.value = sessionStorage.getItem('truthbeacon_setup_token_draft') || '';
+      discordTokenInput.value = sessionStorage.getItem('slashbeacon_setup_token_draft') || sessionStorage.getItem('truthbeacon_setup_token_draft') || '';
     }
   }
 }
@@ -353,7 +353,7 @@ export async function loadDiscordConfig() {
   try {
     const config = await invokeCommand('get_discord_config') || {};
     try {
-      const localThresh = localStorage.getItem('truthbeacon_thresholds');
+      const localThresh = localStorage.getItem('slashbeacon_thresholds') || localStorage.getItem('truthbeacon_thresholds');
       if (localThresh) {
         const parsed = JSON.parse(localThresh);
         if (!config.thresholds) config.thresholds = {};
@@ -397,7 +397,7 @@ export function _initTokenListeners() {
   discordTokenInput?.addEventListener('input', e => {
     const val = e.target.value.trim();
     if (!val.startsWith('••••')) {
-      sessionStorage.setItem('truthbeacon_setup_token_draft', val);
+      sessionStorage.setItem('slashbeacon_setup_token_draft', val);
       updateBotInviteCard(val);
       if (val.split('.').length >= 3) {
         discoverServers(val);
@@ -416,14 +416,14 @@ export function _initGuildSelectionListeners() {
     const input = _getGuildIdInput();
     if (val && input) {
       input.value = val;
-      sessionStorage.setItem('truthbeacon_setup_guild_id', val);
+      sessionStorage.setItem('slashbeacon_setup_guild_id', val);
     }
   });
 
   btnRefreshGuilds?.addEventListener('click', () => discoverServers());
 
   discordGuildIdInput?.addEventListener('input', e => {
-    sessionStorage.setItem('truthbeacon_setup_guild_id', e.target.value.trim());
+    sessionStorage.setItem('slashbeacon_setup_guild_id', e.target.value.trim());
   });
 }
 

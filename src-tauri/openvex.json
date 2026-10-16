@@ -1,7 +1,7 @@
 {
   "@context": "https://openvex.dev/ns/v0.2.0",
-  "@id": "truth-beacon/vex/2026-10-12",
-  "author": "TruthBeacon Security Team <security@boredpolymath.com>",
+  "@id": "slashbeacon/vex/2026-10-12",
+  "author": "SlashBeacon Security Team <security@boredpolymath.com>",
   "timestamp": "2026-10-12T00:00:00Z",
   "version": 1,
   "statements": [
@@ -16,7 +16,7 @@
       ],
       "status": "not_affected",
       "justification": "vulnerable_code_not_in_execute_path",
-      "impact_statement": "Variant::array_iter_str / VariantStrIter is never called by TruthBeacon or Tauri. Glib is a Linux-only transitive dependency pinned upstream by Tauri v2 / gtk-rs 0.18."
+      "impact_statement": "Variant::array_iter_str / VariantStrIter is never called by SlashBeacon or Tauri. Glib is a Linux-only transitive dependency pinned upstream by Tauri v2 / gtk-rs 0.18."
     },
     {
       "vulnerability": {
@@ -29,7 +29,7 @@
       ],
       "status": "not_affected",
       "justification": "vulnerable_code_not_in_execute_path",
-      "impact_statement": "RustSec alias for GHSA-wrw7-89jp-8q8g. Unreachable in TruthBeacon."
+      "impact_statement": "RustSec alias for GHSA-wrw7-89jp-8q8g. Unreachable in SlashBeacon."
     },
     {
       "vulnerability": {
@@ -42,7 +42,7 @@
       ],
       "status": "not_affected",
       "justification": "vulnerable_code_not_in_execute_path",
-      "impact_statement": "TruthBeacon uses fixed 8x8 DCT perceptual hashing which never processes large slices required for integer overflow. Patched rustfft to transpose >= 0.2.3."
+      "impact_statement": "SlashBeacon uses fixed 8x8 DCT perceptual hashing which never processes large slices required for integer overflow. Patched rustfft to transpose >= 0.2.3."
     },
     {
       "vulnerability": {
@@ -55,7 +55,7 @@
       ],
       "status": "not_affected",
       "justification": "vulnerable_code_not_in_execute_path",
-      "impact_statement": "RustSec alias for CVE-2023-53156. Resolved and unreachable in TruthBeacon."
+      "impact_statement": "RustSec alias for CVE-2023-53156. Resolved and unreachable in SlashBeacon."
     }
   ]
 }

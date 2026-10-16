@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="TruthBeacon: Community Impersonation Protection Console">
-  <title>TruthBeacon — Community Impersonation Protection</title>
+  <meta name="description" content="SlashBeacon: Community Impersonation Protection Console">
+  <title>SlashBeacon — Community Impersonation Protection</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,600&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -14,10 +14,10 @@
   <!-- Header Bar -->
   <header class="global-header" id="app-header">
     <div class="brand-section">
-      <img src="assets/truthbeacon_emblem.png" alt="TruthBeacon Emblem" class="brand-logo" id="header-logo">
+      <img src="assets/slashbeacon_emblem.png" alt="SlashBeacon Emblem" class="brand-logo" id="header-logo">
       <div class="brand-title-group">
         <h1 id="main-heading" class="brand-heading-img">
-          <img src="assets/truthbeacon_wordmark.png" alt="TruthBeacon" class="brand-wordmark-img" id="header-wordmark">
+          <img src="assets/slashbeacon_wordmark.png" alt="SlashBeacon" class="brand-wordmark-img" id="header-wordmark">
         </h1>
         <p class="brand-subtitle">Community Impersonation Protection</p>
       </div>
@@ -110,7 +110,7 @@
       <div class="triage-header-bar">
         <div>
           <h2 class="section-title">Protected Community Leaders</h2>
-          <p class="section-caption">People and official roles that TruthBeacon guards against impersonation</p>
+          <p class="section-caption">People and official roles that SlashBeacon guards against impersonation</p>
         </div>
         <button class="btn btn-primary" id="btn-add-benchmark">+ Protect New Member</button>
       </div>
@@ -170,7 +170,7 @@
           </div>
           <div class="discord-hero-meta">
             <div class="discord-hero-title-row">
-              <h3 class="discord-bot-name" id="discord-hero-bot-name">TruthBeacon Bot</h3>
+              <h3 class="discord-bot-name" id="discord-hero-bot-name">SlashBeacon Bot</h3>
               <span class="discord-bot-tag">BOT</span>
               <span class="discord-badge-active disconnected" id="discord-hero-badge">DISCONNECTED</span>
             </div>
@@ -230,7 +230,7 @@
                   </div>
                   <span class="bot-client-id-text" id="bot-client-id-label">App ID: —</span>
                 </div>
-                <p class="bot-invite-desc">TruthBeacon pre-calculated all required moderation permissions. Click below to add this bot to your Discord server in 1 click (no manual OAuth2 setup needed):</p>
+                <p class="bot-invite-desc">SlashBeacon pre-calculated all required moderation permissions. Click below to add this bot to your Discord server in 1 click (no manual OAuth2 setup needed):</p>
                 <div class="bot-invite-action-strip">
                   <a href="#" target="_blank" rel="noopener noreferrer" class="btn btn-purple-invite" id="btn-quick-invite-bot">
                     <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
@@ -264,7 +264,7 @@
 
               <input type="text" id="discord-guild-id-input" class="form-input" placeholder="e.g. 999888777666555444 (or select discovered server above)" spellcheck="false" required>
               <p class="form-field-hint-text" id="guild-discovery-status">
-                Paste your Bot Token above and TruthBeacon will automatically discover your servers.
+                Paste your Bot Token above and SlashBeacon will automatically discover your servers.
               </p>
             </div>
 
@@ -405,7 +405,7 @@
           </div>
           <div>
             <h3 style="font-size: 1.05rem; font-weight: 700; color: #ffffff; margin-bottom: 4px;">Private & Sovereign Discord Integration</h3>
-            <p style="font-size: 0.85rem; color: var(--text-secondary); margin: 0; line-height: 1.45;">TruthBeacon does not require third-party cloud hosting or bot sharing. Follow these 4 steps to configure your own private bot application running securely on your local workstation.</p>
+            <p style="font-size: 0.85rem; color: var(--text-secondary); margin: 0; line-height: 1.45;">SlashBeacon does not require third-party cloud hosting or bot sharing. Follow these 4 steps to configure your own private bot application running securely on your local workstation.</p>
           </div>
         </div>
         <div class="help-overview-right">
@@ -432,11 +432,11 @@
             <div class="step-badge">1</div>
             <div class="step-content">
               <h4>Create an Application in the Discord Developer Portal</h4>
-              <p>TruthBeacon operates locally on your machine using your own private Discord Bot. You do not share access with any third parties.</p>
+              <p>SlashBeacon operates locally on your machine using your own private Discord Bot. You do not share access with any third parties.</p>
               <ol class="step-instructions-list">
                 <li>Navigate to the official <a href="https://discord.com/developers/applications" target="_blank" rel="noopener noreferrer" class="link-discord">Discord Developer Portal &nearr;</a> and log in with your Discord account.</li>
                 <li>Click the blue <strong>"New Application"</strong> button in the upper-right corner.</li>
-                <li>Give your application a clear name (for example: <code>TruthBeacon Guard</code> or <code>Community Guard</code>) and agree to Discord's Developer Terms.</li>
+                <li>Give your application a clear name (for example: <code>SlashBeacon Guard</code> or <code>Community Guard</code>) and agree to Discord's Developer Terms.</li>
                 <li>In the left sidebar, click <strong>"Bot"</strong>.</li>
                 <li>Click <strong>"Reset Token"</strong> (and enter your 2FA code if prompted). Click <strong>"Copy"</strong> to copy the bot token. Keep this safe!</li>
               </ol>
@@ -490,7 +490,7 @@
             <div class="step-badge">4</div>
             <div class="step-content">
               <h4>Find & Copy Your Discord Server ID</h4>
-              <p>TruthBeacon needs to know which server it is designated to protect:</p>
+              <p>SlashBeacon needs to know which server it is designated to protect:</p>
               <ol class="step-instructions-list">
                 <li>In your desktop Discord client, open <strong>User Settings</strong> (the gear icon near your name).</li>
                 <li>Go to <strong>Advanced</strong> (under App Settings) and toggle <strong>"Developer Mode"</strong> to <strong>ON</strong>.</li>
@@ -540,7 +540,7 @@
             </div>
             <div class="faq-content">
               <h4>Is our Discord Bot Token ever transmitted to a cloud server?</h4>
-              <p>No. TruthBeacon has a <strong>zero-cloud-tracking, 100% sovereign policy</strong>. Your token is encrypted locally with zero-prompt authenticated AES-256-GCM (Ring AEAD) bound to machine entropy with strict POSIX 0600 permissions. It is never sent to any external telemetry or logging service.</p>
+              <p>No. SlashBeacon has a <strong>zero-cloud-tracking, 100% sovereign policy</strong>. Your token is encrypted locally with zero-prompt authenticated AES-256-GCM (Ring AEAD) bound to machine entropy with strict POSIX 0600 permissions. It is never sent to any external telemetry or logging service.</p>
             </div>
           </div>
 
@@ -683,7 +683,7 @@
 
   <!-- Global Footer -->
   <footer class="global-footer" id="app-footer">
-    <div>TruthBeacon &bull; Community Impersonation Protection</div>
+    <div>SlashBeacon &bull; Community Impersonation Protection</div>
     
     <div class="footer-hotkeys-strip" aria-label="Keyboard Shortcuts">
       <span class="hotkey-legend-item"><kbd>B</kbd> Ban Imposter</span>

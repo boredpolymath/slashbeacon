@@ -1,0 +1,17 @@
+[Desktop Entry]
+Version=1.5
+Type=Application
+Name=SlashBeacon
+GenericName=Impersonation Protection Console
+Comment=Desktop Identity Ground-Truth & Community Impersonation Prevention Console
+Exec=slashbeacon %u
+Icon=slashbeacon
+Terminal=false
+Categories=Utility;Security;Network;
+StartupWMClass=slashbeacon
+Keywords=Discord;Security;Impersonation;Protection;Community;Moderation;
+Actions=Open;
+
+[Desktop Action Open]
+Name=Open SlashBeacon
+Exec=slashbeacon

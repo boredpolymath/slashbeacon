@@ -1,4 +1,4 @@
-// TruthBeacon - GitHub Pages Interactive Logic
+// SlashBeacon - GitHub Pages Interactive Logic
 // OS Detection, Asset Routing, Dynamic Filtering, and Clipboard Utilities
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -11,10 +11,10 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // Release Asset Configuration (v0.4.0)
-const RELEASE_BASE_URL = 'https://github.com/boredpolymath/truth-beacon/releases/download/v0.4.0/';
+const RELEASE_BASE_URL = 'https://github.com/boredpolymath/slashbeacon/releases/download/v0.4.0/';
 const ASSETS = {
   mac_dmg: {
-    filename: 'TruthBeacon_0.4.0_universal.dmg',
+    filename: 'SlashBeacon_0.4.0_universal.dmg',
     size: '29.5 MB',
     arch: 'Universal 2 (Apple Silicon & Intel)',
     label: 'Download for macOS',
@@ -22,7 +22,7 @@ const ASSETS = {
     hash: '8af70d32f142f0d2316f6886cf8955a6b982a334e91392595883191d555115de'
   },
   win_exe: {
-    filename: 'TruthBeacon_0.4.0_x64-setup.exe',
+    filename: 'SlashBeacon_0.4.0_x64-setup.exe',
     size: '9.5 MB',
     arch: 'Windows 64-bit (NSIS Installer)',
     label: 'Download for Windows',
@@ -30,7 +30,7 @@ const ASSETS = {
     hash: '6f36a65df228544edaa36111ea7ae5eac11baa754fae81adc62956953267586e'
   },
   linux_appimage: {
-    filename: 'TruthBeacon_0.4.0_amd64.AppImage',
+    filename: 'SlashBeacon_0.4.0_amd64.AppImage',
     size: '86 MB',
     arch: 'Linux x86_64 (Universal AppImage)',
     label: 'Download for Linux',
@@ -198,19 +198,19 @@ function initInlineCommandCopy() {
 const VERIFY_SNIPPETS = {
   macos: {
     title: 'terminal — zsh (macOS)',
-    code: `# Verify SHA-256 Checksum on macOS\nshasum -a 256 TruthBeacon_0.4.0_universal.dmg\n\n# Expected Output:\n# 8af70d32f142f0d2316f6886cf8955a6b982a334e91392595883191d555115de  TruthBeacon_0.4.0_universal.dmg`
+    code: `# Verify SHA-256 Checksum on macOS\nshasum -a 256 SlashBeacon_0.4.0_universal.dmg\n\n# Expected Output:\n# 8af70d32f142f0d2316f6886cf8955a6b982a334e91392595883191d555115de  SlashBeacon_0.4.0_universal.dmg`
   },
   linux: {
     title: 'bash — terminal (Linux)',
-    code: `# Verify SHA-256 Checksum on Linux\nsha256sum TruthBeacon_0.4.0_amd64.AppImage\n\n# Expected Output:\n# ec3203b01db76b58b2c55311ea5fdbfeca4c97111cc8207073038c382ca9d3c3  TruthBeacon_0.4.0_amd64.AppImage`
+    code: `# Verify SHA-256 Checksum on Linux\nsha256sum SlashBeacon_0.4.0_amd64.AppImage\n\n# Expected Output:\n# ec3203b01db76b58b2c55311ea5fdbfeca4c97111cc8207073038c382ca9d3c3  SlashBeacon_0.4.0_amd64.AppImage`
   },
   windows: {
     title: 'PowerShell — Windows 10 / 11',
-    code: `# Verify SHA-256 Checksum in Windows PowerShell\nGet-FileHash TruthBeacon_0.4.0_x64-setup.exe -Algorithm SHA256\n\n# Expected Output:\n# 6F36A65DF228544EDAA36111EA7AE5EAC11BAA754FAE81ADC62956953267586E`
+    code: `# Verify SHA-256 Checksum in Windows PowerShell\nGet-FileHash SlashBeacon_0.4.0_x64-setup.exe -Algorithm SHA256\n\n# Expected Output:\n# 6F36A65DF228544EDAA36111EA7AE5EAC11BAA754FAE81ADC62956953267586E`
   },
   gpg: {
     title: 'terminal — GnuPG Detached Signature',
-    code: `# Download SHA256SUMS and signature:\ncurl -LO https://github.com/boredpolymath/truth-beacon/releases/download/v0.4.0/SHA256SUMS.txt\ncurl -LO https://github.com/boredpolymath/truth-beacon/releases/download/v0.4.0/SHA256SUMS.txt.asc\n\n# Verify GPG Detached Signature:\ngpg --verify SHA256SUMS.txt.asc SHA256SUMS.txt\n\n# Batch check all files:\nshasum -a 256 -c SHA256SUMS.txt`
+    code: `# Download SHA256SUMS and signature:\ncurl -LO https://github.com/boredpolymath/slashbeacon/releases/download/v0.4.0/SHA256SUMS.txt\ncurl -LO https://github.com/boredpolymath/slashbeacon/releases/download/v0.4.0/SHA256SUMS.txt.asc\n\n# Verify GPG Detached Signature:\ngpg --verify SHA256SUMS.txt.asc SHA256SUMS.txt\n\n# Batch check all files:\nshasum -a 256 -c SHA256SUMS.txt`
   }
 };
 
@@ -257,7 +257,7 @@ const SHOWCASE_ITEMS = {
       'Instant toggle for live Discord client memory & asset hooks'
     ],
     imgSrc: 'assets/screenshot_protected.png',
-    imgAlt: 'TruthBeacon Active Protection Dashboard'
+    imgAlt: 'SlashBeacon Active Protection Dashboard'
   },
   alerts: {
     title: 'Instant Threat Isolation & Alerts',
@@ -268,7 +268,7 @@ const SHOWCASE_ITEMS = {
       'Direct one-click threat review with payload signatures and stack traces'
     ],
     imgSrc: 'assets/screenshot_alerts.png',
-    imgAlt: 'TruthBeacon Threat Alerts View'
+    imgAlt: 'SlashBeacon Threat Alerts View'
   },
   activity: {
     title: 'Audit-Grade Activity Journal',
@@ -279,7 +279,7 @@ const SHOWCASE_ITEMS = {
       'Exportable audit trail in JSON & CSV for security team investigations'
     ],
     imgSrc: 'assets/screenshot_activity_log.png',
-    imgAlt: 'TruthBeacon Activity Log View'
+    imgAlt: 'SlashBeacon Activity Log View'
   },
   discord: {
     title: 'Frictionless Discord Integration',
@@ -290,7 +290,7 @@ const SHOWCASE_ITEMS = {
       'Zero modification of official Discord binaries or API credentials'
     ],
     imgSrc: 'assets/screenshot_discord_setup.png',
-    imgAlt: 'TruthBeacon Discord Setup Guide'
+    imgAlt: 'SlashBeacon Discord Setup Guide'
   }
 };
 

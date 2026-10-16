@@ -160,7 +160,7 @@ class StateStore {
 
     const incident = this.incidents[incIndex];
     if (incident.status !== 'pending') {
-      console.warn(`[TruthBeacon] Incident '${id}' is already resolved with status '${incident.status}'`);
+      console.warn(`[SlashBeacon] Incident '${id}' is already resolved with status '${incident.status}'`);
       return false;
     }
 
@@ -285,7 +285,7 @@ class StateStore {
 
       this.notify();
     } catch (e) {
-      console.warn('[TruthBeacon State] Hydration from backend fallback active:', e);
+      console.warn('[SlashBeacon State] Hydration from backend fallback active:', e);
     }
   }
 

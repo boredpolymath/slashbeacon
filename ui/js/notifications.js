@@ -78,8 +78,8 @@ export function _buildToastHtml(data) {
   return DOMPurify.sanitize(`
     <div class="toast-header">
       <div class="toast-brand-row">
-        <img src="assets/truthbeacon_emblem.png" class="toast-brand-icon" alt="TruthBeacon">
-        <span class="toast-brand-title">TruthBeacon Alert</span>
+        <img src="assets/slashbeacon_emblem.png" class="toast-brand-icon" alt="SlashBeacon">
+        <span class="toast-brand-title">SlashBeacon Alert</span>
       </div>
       <div class="toast-header-right">
         <span class="toast-risk-badge ${data.isCritical ? 'critical' : 'elevated'}">${escapeHtml(data.tierBadge)}</span>
@@ -213,19 +213,23 @@ export function initNotificationListeners() {
   });
 
   if (typeof window !== 'undefined' && window.__TAURI__?.event?.listen) {
-    window.__TAURI__.event.listen('truthbeacon://inspect-incident', event => {
+    const onInspect = event => {
       if (event.payload?.incident_id) {
         inspectIncidentCard(event.payload.incident_id);
       }
-    });
+    };
+    window.__TAURI__.event.listen('slashbeacon://inspect-incident', onInspect);
+    window.__TAURI__.event.listen('truthbeacon://inspect-incident', onInspect);
 
-    window.__TAURI__.event.listen('truthbeacon://native-notification', event => {
+    const onNativeNotification = event => {
       if (event.payload) {
         showDesktopNotificationToast(event.payload);
       }
-    });
+    };
+    window.__TAURI__.event.listen('slashbeacon://native-notification', onNativeNotification);
+    window.__TAURI__.event.listen('truthbeacon://native-notification', onNativeNotification);
 
-    window.__TAURI__.event.listen('truthbeacon://incident-resolved', event => {
+    const onResolved = event => {
       if (event.payload?.incident_id) {
         const incId = event.payload.incident_id;
         const action = event.payload.action;
@@ -235,6 +239,8 @@ export function initNotificationListeners() {
           appState.notify();
         }
       }
-    });
+    };
+    window.__TAURI__.event.listen('slashbeacon://incident-resolved', onResolved);
+    window.__TAURI__.event.listen('truthbeacon://incident-resolved', onResolved);
   }
 }

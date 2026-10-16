@@ -61,6 +61,7 @@ def get_font(size, bold=False):
 def get_brand_icon(size):
     """Load high-res brand emblem, resized smoothly."""
     candidates = [
+        os.path.join(ASSETS_DIR, "slashbeacon_emblem.png"),
         os.path.join(ASSETS_DIR, "truthbeacon_emblem.png"),
         os.path.join(ICONS_DIR, "128x128@2x.png"),
         os.path.join(ICONS_DIR, "128x128.png")
@@ -101,7 +102,7 @@ def _draw_dmg_header(draw, canvas, w):
     emblem_32 = get_brand_icon(28)
     canvas.paste(emblem_32, (18, 10), emblem_32)
     font_title = get_font(15, bold=True)
-    draw.text((54, 15), "TruthBeacon", fill=CLR_TEXT_HEADER, font=font_title)
+    draw.text((54, 15), "SlashBeacon", fill=CLR_TEXT_HEADER, font=font_title)
 
 
 def _draw_dmg_drop_pod(draw, cx, cy, is_target, font_badge):
@@ -227,7 +228,7 @@ def generate_nsis_assets():
     font_nh = get_font(12, bold=True)
     font_nhs = get_font(9)
 
-    h_draw.text((10, 12), "TruthBeacon", fill=CLR_TEXT_HEADER, font=font_nh)
+    h_draw.text((10, 12), "SlashBeacon", fill=CLR_TEXT_HEADER, font=font_nh)
     h_draw.text((10, 30), "Identity Protection", fill=CLR_TEXT_SECONDARY, font=font_nhs)
 
     h_out = os.path.join(ICONS_DIR, "nsis-header.bmp")
@@ -262,7 +263,7 @@ def generate_nsis_assets():
     font_muted = get_font(8)
 
     # Title & Subtitle
-    s_draw.text((16, 96), "TruthBeacon", fill=CLR_TEXT_HEADER, font=font_sb)
+    s_draw.text((16, 96), "SlashBeacon", fill=CLR_TEXT_HEADER, font=font_sb)
     s_draw.text((16, 118), "Impersonation Defense", fill=CLR_OH_ORANGE, font=font_sub)
 
     # Feature List Card (#2b2d31)
@@ -306,7 +307,7 @@ def generate_wix_assets():
     font_wb = get_font(13, bold=True)
     font_ws = get_font(9.5)
 
-    b_draw.text((20, 12), "TruthBeacon Setup Wizard", fill=CLR_TEXT_HEADER, font=font_wb)
+    b_draw.text((20, 12), "SlashBeacon Setup Wizard", fill=CLR_TEXT_HEADER, font=font_wb)
     b_draw.text((20, 32), "Orange Heart Community Impersonation Defense Installation", fill=CLR_TEXT_SECONDARY, font=font_ws)
 
     b_out = os.path.join(ICONS_DIR, "wix-banner.bmp")
@@ -341,15 +342,15 @@ def generate_wix_assets():
     font_badge = get_font(9, bold=True)
     font_dfoot = get_font(8.5)
 
-    d_draw.text((114, 32), "TruthBeacon Console", fill=CLR_TEXT_HEADER, font=font_dt)
+    d_draw.text((114, 32), "SlashBeacon Console", fill=CLR_TEXT_HEADER, font=font_dt)
     d_draw.text((114, 60), "Community Ground-Truth & Kinship Stewardship", fill=CLR_OH_ORANGE, font=font_dsub)
 
     # Info card
     cy0 = 106
     d_draw.rounded_rectangle([32, cy0, dw - 32, cy0 + 138], radius=8, fill=(43, 45, 49, 255), outline=CLR_BORDER_SUBTLE, width=1)
     
-    d_draw.text((48, cy0 + 16), "Welcome to the TruthBeacon Setup Wizard.", fill=CLR_TEXT_HEADER, font=font_db)
-    d_draw.text((48, cy0 + 38), "This wizard installs TruthBeacon with local SQLite WAL storage and native", fill=CLR_TEXT_PRIMARY, font=font_db)
+    d_draw.text((48, cy0 + 16), "Welcome to the SlashBeacon Setup Wizard.", fill=CLR_TEXT_HEADER, font=font_db)
+    d_draw.text((48, cy0 + 38), "This wizard installs SlashBeacon with local SQLite WAL storage and native", fill=CLR_TEXT_PRIMARY, font=font_db)
     d_draw.text((48, cy0 + 56), "OS Enclave (Windows DPAPI / Credential Manager) protection.", fill=CLR_TEXT_PRIMARY, font=font_db)
     
     # Feature Badges (Discord-style translucent badges)

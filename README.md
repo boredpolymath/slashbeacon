@@ -1,17 +1,17 @@
-# TruthBeacon
+# SlashBeacon
 
 ### Friendly Community Impersonation Defense & Identity Protection Console
 **Built with Tauri v2 &bull; Powered by Rust &bull; 100% Local &bull; Zero Cloud Telemetry**
 
 <p align="center">
-  <img src="logo.png" alt="TruthBeacon: Community Impersonation Protection - Discord Bot & Security Suite" width="100%" style="border-radius: 8px; box-shadow: 0 12px 32px rgba(0,0,0,0.35);">
+  <img src="logo.png" alt="SlashBeacon: Community Impersonation Protection - Discord Bot & Security Suite" width="100%" style="border-radius: 8px; box-shadow: 0 12px 32px rgba(0,0,0,0.35);">
   <br>
-  <em>TruthBeacon: Community Impersonation Protection &bull; Discord Bot & Security Suite</em>
+  <em>SlashBeacon: Community Impersonation Protection &bull; Discord Bot & Security Suite</em>
 </p>
 
 <p align="center">
-  <a href="https://github.com/boredpolymath/truth-beacon"><img src="https://img.shields.io/badge/GitHub-boredpolymath%2Ftruth--beacon-181717?style=flat-square&logo=github" alt="GitHub Repo"></a>
-  <a href="https://boredpolymath.github.io/truth-beacon/"><img src="https://img.shields.io/badge/Web-truth--beacon-5865F2?style=flat-square" alt="Website"></a>
+  <a href="https://github.com/boredpolymath/slashbeacon"><img src="https://img.shields.io/badge/GitHub-boredpolymath%2Fslashbeacon-181717?style=flat-square&logo=github" alt="GitHub Repo"></a>
+  <a href="https://boredpolymath.github.io/slashbeacon/"><img src="https://img.shields.io/badge/Web-slashbeacon-5865F2?style=flat-square" alt="Website"></a>
   <img src="https://img.shields.io/badge/Version-v0.4.0-green?style=flat-square" alt="Version 0.4.0">
   <img src="https://img.shields.io/badge/Platform-macOS%20%7C%20Windows%20%7C%20Linux-blue?style=flat-square" alt="Platform">
   <img src="https://img.shields.io/badge/Framework-Tauri%20v2-orange?style=flat-square" alt="Tauri v2">
@@ -30,7 +30,7 @@
 
 ---
 
-## Welcome to TruthBeacon
+## Welcome to SlashBeacon
 
 If you run a Discord server for a creator community, gaming group, charity, open-source project, or faith community, you know the dread: **someone joins with a stolen avatar and a sneaky lookalike name to scam your members in private messages.**
 
@@ -39,15 +39,15 @@ Most moderation tools today either:
 2. Miss subtle visual tricks (like swapped Greek or Cyrillic letters, invisible zero-width spaces, or slightly edited avatars).
 3. Overwhelm moderators with messy raw logs and confusing text commands.
 
-**TruthBeacon is different.** It is a friendly, quiet desktop app that acts like a trusted watchman at your community's door. It monitors member joins and profile changes locally on your computer, spots sneaky lookalikes in under 50 milliseconds, and presents clean side-by-side comparison cards so you can take action in seconds.
+**SlashBeacon is different.** It is a friendly, quiet desktop app that acts like a trusted watchman at your community's door. It monitors member joins and profile changes locally on your computer, spots sneaky lookalikes in under 50 milliseconds, and presents clean side-by-side comparison cards so you can take action in seconds.
 
-Best of all? **It respects your privacy completely.** TruthBeacon has zero tracking, zero cloud telemetry, and keeps all sensitive tokens securely in an authenticated local AES-256-GCM vault with domain-separated AAD binding (`TruthBeacon:EncryptedVault:v1`), Argon2id key derivation, and strict POSIX permissions.
+Best of all? **It respects your privacy completely.** SlashBeacon has zero tracking, zero cloud telemetry, and keeps all sensitive tokens securely in an authenticated local AES-256-GCM vault with domain-separated AAD binding (`SlashBeacon:EncryptedVault:v1`, with fallback to `TruthBeacon:EncryptedVault:v1`), Argon2id key derivation, and strict POSIX permissions.
 
 ### Security, Reliability & Production Hardening (v0.2.2)
-- 🧪 **Hermetic Test Storage & Workspace Isolation**: Fully isolated test SQLite database storage (`#[cfg(test)]`) and credential vault paths to temporary test environments, guaranteeing automated test suites (`cargo test`) never pollute developer or production user storage directories (`~/.truthbeacon/`).
+- 🧪 **Hermetic Test Storage & Workspace Isolation**: Fully isolated test SQLite database storage (`#[cfg(test)]`) and credential vault paths to temporary test environments, guaranteeing automated test suites (`cargo test`) never pollute developer or production user storage directories (`~/.slashbeacon/` or legacy `~/.truthbeacon/`).
 - 🧹 **Neutralized Production Guidance Placeholders**: Sanitized UI input hints and modal placeholder copy with neutral, professional examples (`@AlexMorgan`, `@Alex (Community Lead)`), eliminating developer test fixtures from production displays.
 - 🛡️ **Forensic Database Quarantine & Multi-Guild Benchmark Persistence**: Pre-flight SQLite integrity gates preserve corrupt databases and WAL frames into timestamped forensic archives without silent deletion. Persistent benchmark records maintain strict per-guild isolation and duplicate rejection.
-- 🔐 **Domain-Bound Cryptographic Vault**: AES-256-GCM authenticated encryption bound to application domain AAD (`TruthBeacon:EncryptedVault:v1`) with Argon2id derivation, Zeroize-on-drop hygiene, tamper detection, and token redaction. Multi-threaded test isolation flushes vault caches to eliminate concurrency crosstalk.
+- 🔐 **Domain-Bound Cryptographic Vault**: AES-256-GCM authenticated encryption bound to application domain AAD (`SlashBeacon:EncryptedVault:v1`) with Argon2id derivation, Zeroize-on-drop hygiene, tamper detection, and token redaction. Multi-threaded test isolation flushes vault caches to eliminate concurrency crosstalk.
 - ⚡ **Authoritative Backend Moderation & Anti-Replay**: Replay-immune incident resolution validated against local SQLite records; operator identity strictly required for consequential actions.
 - 🔄 **Persistent Circuit Breakers**: Rate limit trips, moderation bursts, and cooldown timers persist across UI restarts to prevent evasion.
 - 🌐 **Multi-Guild Gateway Registry & Heartbeat Watchdog**: Dynamic connection lifecycle manager restores all registered guild connections with heartbeat ACK timeout monitoring, zombied connection detection, and opcode 6 session resumption ring buffers.
@@ -62,13 +62,13 @@ Best of all? **It respects your privacy completely.** TruthBeacon has zero track
 ## Why Community Leaders & Moderators Love It
 
 - 🛡️ **Catches Deceptive Trickery Automatically**  
-  Spotted an imposter using a Cyrillic `а` instead of an English `a`, invisible spaces, or `rn` to mimic `m`? TruthBeacon catches them all instantly before they can trick your members.
+  Spotted an imposter using a Cyrillic `а` instead of an English `a`, invisible spaces, or `rn` to mimic `m`? SlashBeacon catches them all instantly before they can trick your members.
 
 - 🖼️ **Identifies Stolen Profile Pictures**  
-  Even if an imposter slightly crops, resizes, or color-tweaks a leader's avatar, TruthBeacon's visual comparison engine recognizes the original photo.
+  Even if an imposter slightly crops, resizes, or color-tweaks a leader's avatar, SlashBeacon's visual comparison engine recognizes the original photo.
 
 - 🔍 **No More Squinting or Cut-Off Usernames**  
-  Tired of discord moderation bots truncating names with `...`? TruthBeacon's high-contrast threat bar shows both the full real username and the imposter username side by side with monospace clarity and a percentage match.
+  Tired of discord moderation bots truncating names with `...`? SlashBeacon's high-contrast threat bar shows both the full real username and the imposter username side by side with monospace clarity and a percentage match.
 
 - ⚡ **Lightning-Fast Triage in Seconds**  
   Review flagged incidents on an intuitive 2x2 grid with keyboard shortcuts:
@@ -82,7 +82,7 @@ Best of all? **It respects your privacy completely.** TruthBeacon has zero track
   Your data stays on your machine. Your Discord bot token is encrypted locally with authenticated AES-256-GCM bound to machine entropy with strict POSIX 0600 file permissions and zero plaintext disk exposure. No remote databases, no telemetry, no tracking. Ever.
 
 - 🛑 **Built-in Safety Brake (Circuit Breaker)**  
-  Worried about an automated tool going wild during a server raid? TruthBeacon automatically limits rapid moderation actions to prevent moderation cascades and gives you a one-click manual reset right from the status bar or system tray.
+  Worried about an automated tool going wild during a server raid? SlashBeacon automatically limits rapid moderation actions to prevent moderation cascades and gives you a one-click manual reset right from the status bar or system tray.
 
 - 🧪 **Interactive Testing Sandbox**  
   Test any tricky username in real time! Type in suspicious text strings to see how the detection algorithms break down and decode character substitutions.
@@ -91,7 +91,7 @@ Best of all? **It respects your privacy completely.** TruthBeacon has zero track
 
 ## How It Works
 
-TruthBeacon makes protecting your server straightforward:
+SlashBeacon makes protecting your server straightforward:
 
 ```
   New Member Joins or Updates Profile
@@ -154,7 +154,7 @@ TruthBeacon makes protecting your server straightforward:
 
 ## Why You'll Love Contributing
 
-Whether you love building sleek web interfaces or writing blazingly fast systems code in Rust, TruthBeacon is built to be a joy to work on:
+Whether you love building sleek web interfaces or writing blazingly fast systems code in Rust, SlashBeacon is built to be a joy to work on:
 
 ### 🎨 Frontend Developers (HTML, CSS, JavaScript)
 - **Zero Rust setup required to start!** You can spin up our built-in browser simulation mode in 5 seconds flat with a single Python command.
@@ -164,7 +164,7 @@ Whether you love building sleek web interfaces or writing blazingly fast systems
 ### 🦀 Rust & Systems Engineers
 - Modern, clean codebase using **Rust 2021**, **Tokio**, and **Tauri v2**.
 - High-performance, memory-safe heuristics (< 50ms evaluation budget).
-- Comprehensive test suite with **177 passing automated tests** ready to validate your changes.
+- Comprehensive test suite with **215 passing automated tests** ready to validate your changes.
 - Safe concurrency with SQLite Write-Ahead Logging (WAL) and native OS Keychain bindings.
 
 ### 🌟 Great Ways to Jump In
@@ -186,7 +186,7 @@ Want to explore the user interface without compiling any native desktop code?
 python3 -m http.server 8080 --directory ui
 ```
 
-Open [http://localhost:8080](http://localhost:8080) in your web browser. TruthBeacon will automatically load in **simulation mode** with sample incidents, realistic mock data, and working keyboard shortcuts!
+Open [http://localhost:8080](http://localhost:8080) in your web browser. SlashBeacon will automatically load in **simulation mode** with sample incidents, realistic mock data, and working keyboard shortcuts!
 
 ---
 
@@ -201,7 +201,7 @@ To run the native desktop application with full Discord connectivity:
   - **Windows:** Visual Studio C++ Build Tools
   - **Linux:** WebKitGTK and build essentials (`sudo apt install libwebkit2gtk-4.1-dev build-essential curl wget`)
 
-#### Launch TruthBeacon
+#### Launch SlashBeacon
 ```bash
 # Navigate to the native application core
 cd src-tauri
@@ -214,12 +214,12 @@ cargo run
 
 ## Running the Automated Tests & Quality Checks
 
-We take reliability seriously so communities can trust TruthBeacon in production.
+We take reliability seriously so communities can trust SlashBeacon in production.
 
 ```bash
 cd src-tauri
 
-# Run all 177 automated unit and integration tests
+# Run all 215 automated unit and integration tests
 cargo test --all-targets
 
 # Check code formatting
@@ -239,11 +239,13 @@ python3 ../scripts/verify_packaging_pipeline.py
 
 ## System Architecture
 
-TruthBeacon keeps a clear separation between a responsive, accessible presentation layer and a high-performance, memory-safe native core:
+## System Architecture
+
+SlashBeacon keeps a clear separation between a responsive, accessible presentation layer and a high-performance, memory-safe native core:
 
 ```
 ┌────────────────────────────────────────────────────────────────────────────────────────┐
-│                              TRUTHBEACON ARCHITECTURE                                  │
+│                              SLASHBEACON ARCHITECTURE                                  │
 ├──────────────────────────────────────────┬─────────────────────────────────────────────┤
 │ 🖥️ Presentation Layer (UI)               │ ⚙️ Native Core Daemon (Backend)             │
 ├──────────────────────────────────────────┼─────────────────────────────────────────────┤
@@ -255,15 +257,15 @@ TruthBeacon keeps a clear separation between a responsive, accessible presentati
 └──────────────────────────────────────────┴─────────────────────────────────────────────┘
 ```
 
-### Key Configuration Settings (`truthbeacon.config.json`)
+### Key Configuration Settings (`slashbeacon.config.json`)
 
 You can adjust sensitivity thresholds, rate limits, and safety settings directly in your configuration file:
 
 ```json
 {
   "application": {
-    "name": "TruthBeacon",
-    "version": "0.2.1",
+    "name": "SlashBeacon",
+    "version": "0.4.0",
     "vendor": "Orange Heart Industries",
     "description": "Community Impersonation Defense & Identity Protection Console"
   },
@@ -281,7 +283,7 @@ You can adjust sensitivity thresholds, rate limits, and safety settings directly
     "cooling_period_seconds": 300
   },
   "storage": {
-    "sqlite_filename": "truthbeacon.local.db",
+    "sqlite_filename": "slashbeacon.local.db",
     "wal_mode": true,
     "busy_timeout_ms": 5000
   },
@@ -296,11 +298,11 @@ You can adjust sensitivity thresholds, rate limits, and safety settings directly
 
 ## Cross-Platform Distribution & Packaging
 
-TruthBeacon delivers first-class, native desktop installers across all major operating systems via Tauri v2 release pipelines:
+SlashBeacon delivers first-class, native desktop installers across all major operating systems via Tauri v2 release pipelines:
 
 ```
 ┌────────────────────────────────────────────────────────────────────────────────────────┐
-│                          TRUTHBEACON RELEASE ARTIFACT MATRIX                           │
+│                          SLASHBEACON RELEASE ARTIFACT MATRIX                           │
 ├─────────────────────┬─────────────────────────────────┬────────────────────────────────┤
 │ Platform            │ Package Format                  │ Architectural Highlight        │
 ├─────────────────────┼─────────────────────────────────┼────────────────────────────────┤
@@ -342,10 +344,10 @@ TruthBeacon delivers first-class, native desktop installers across all major ope
 ## Project Structure
 
 ```
-truth-beacon/
+slashbeacon/
 ├── README.md                      # Project overview and getting started guide
-├── RELEASE_NOTES.md               # Version 0.2.1 release notes & distribution summary
-├── truthbeacon.config.json        # Custom detection thresholds and safety limits
+├── RELEASE_NOTES.md               # Version 0.4.0 release notes & distribution summary
+├── slashbeacon.config.json        # Custom detection thresholds and safety limits
 ├── .github/                       # GitHub Actions CI/CD workflows
 │   └── workflows/
 │       ├── ci.yml                 # Linting, formatting, security audit & cross-platform test matrix
@@ -362,9 +364,9 @@ truth-beacon/
 │   ├── 08-local-storage-architecture-and-migration-strategy.md # SQLite schema & migrations
 │   └── 09-cross-platform-packaging-and-release-staging.md # Build bundling & packaging specification
 ├── release/                       # Staged production release binaries & verification artifacts
-│   ├── TruthBeacon_0.2.1_universal.dmg     # Universal 2 drag-and-drop installer
-│   ├── TruthBeacon_0.2.1_macos_universal.zip # Standalone universal application bundle
-│   ├── truth-beacon-universal              # Standalone fat binary (x86_64 + arm64)
+│   ├── SlashBeacon_0.4.0_universal.dmg     # Universal 2 drag-and-drop installer
+│   ├── SlashBeacon_0.4.0_macos_universal.zip # Standalone universal application bundle
+│   ├── slashbeacon-universal               # Standalone fat binary (x86_64 + arm64)
 │   ├── RELEASE_MANIFEST.md                 # Production build metadata & dependency audit
 │   ├── RELEASE_NOTES.md                    # Platform release documentation
 │   └── SHA256SUMS.txt                      # Cryptographic release checksums
@@ -383,8 +385,8 @@ truth-beacon/
 │   ├── Cargo.toml                 # Rust dependencies and package metadata
 │   ├── tauri.conf.json            # Tauri v2 bundle, window & security configuration
 │   ├── desktop/                   # Linux desktop integration & metadata
-│   │   ├── truthbeacon.desktop    # Freedesktop specification-compliant desktop entry
-│   │   └── org.orangeheartindustries.truthbeacon.metainfo.xml # Freedesktop AppStream metadata
+│   │   ├── slashbeacon.desktop    # Freedesktop specification-compliant desktop entry
+│   │   └── com.orangeheartindustries.slashbeacon.metainfo.xml # Freedesktop AppStream metadata
 │   ├── icons/                     # Multi-resolution icons & branded installer artwork
 │   │   ├── dmg-background.png     # Custom Orange Heart DMG layout (660x400)
 │   │   ├── nsis-header.bmp        # NSIS installer header image (150x57)
@@ -417,14 +419,14 @@ truth-beacon/
 
 ## Community & Stewardship
 
-TruthBeacon is proudly created by **Bored Polymath Studios** with the belief that online communities deserve safe, healthy spaces to gather without fear of deceit or manipulation.
+SlashBeacon is proudly created by **Bored Polymath Studios** with the belief that online communities deserve safe, healthy spaces to gather without fear of deceit or manipulation.
 
 - 💛 **Community Edition:** Free for volunteer-run groups, open-source communities, indie creators, and gaming clubs.
 - 🕊️ **Charity & Faith Grant:** 100% free access to all advanced features for registered non-profits, shelters, food banks, and faith communities.
 
 We welcome issues, feedback, ideas, and pull requests! If you care about protecting people and building thoughtful software, we would love to have you build with us.
 
-- 🌐 **Project Home & Downloads:** [https://boredpolymath.github.io/truth-beacon/](https://boredpolymath.github.io/truth-beacon/)
-- 💻 **Source Repository:** [https://github.com/boredpolymath/truth-beacon](https://github.com/boredpolymath/truth-beacon)
-- 🐛 **Issue Tracker:** [https://github.com/boredpolymath/truth-beacon/issues](https://github.com/boredpolymath/truth-beacon/issues)
+- 🌐 **Project Home & Downloads:** [https://boredpolymath.github.io/slashbeacon/](https://boredpolymath.github.io/slashbeacon/)
+- 💻 **Source Repository:** [https://github.com/boredpolymath/slashbeacon](https://github.com/boredpolymath/slashbeacon)
+- 🐛 **Issue Tracker:** [https://github.com/boredpolymath/slashbeacon/issues](https://github.com/boredpolymath/slashbeacon/issues)
 

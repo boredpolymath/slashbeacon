@@ -1,5 +1,5 @@
 /**
- * TruthBeacon Main UI Coordinator
+ * SlashBeacon Main UI Coordinator
  * Modularized architecture integrating triage, vault, audit, setup, and notification services.
  */
 
@@ -88,10 +88,10 @@ function initNavigation() {
       if (update && update.available) {
         alert(`Update v${update.version} available!`);
       } else {
-        alert('TruthBeacon is running the latest version (v0.4.0).');
+        alert('SlashBeacon is running the latest version (v0.4.0).');
       }
     } catch (_err) {
-      alert('TruthBeacon is running the latest version (v0.4.0).');
+      alert('SlashBeacon is running the latest version (v0.4.0).');
     } finally {
       if (updateText) updateText.textContent = oldText;
     }

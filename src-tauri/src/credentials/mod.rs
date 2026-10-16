@@ -158,11 +158,11 @@ fn vault_dir() -> PathBuf {
             return dir;
         }
     }
-    if let Ok(custom) = std::env::var("TRUTHBEACON_VAULT_DIR") {
+    if let Ok(custom) = std::env::var("SLASHBEACON_VAULT_DIR").or_else(|_| std::env::var("TRUTHBEACON_VAULT_DIR")) {
         PathBuf::from(custom)
     } else {
         #[cfg(test)]
-        let base_dir = std::env::temp_dir().join("truthbeacon_test_env");
+        let base_dir = std::env::temp_dir().join("slashbeacon_test_env");
 
         #[cfg(not(test))]
         let base_dir = std::env::var("HOME")
@@ -170,7 +170,12 @@ fn vault_dir() -> PathBuf {
             .map(PathBuf::from)
             .unwrap_or_else(|_| PathBuf::from("."));
 
-        base_dir.join(".truthbeacon")
+        let sb_dir = base_dir.join(".slashbeacon");
+        if !sb_dir.exists() && base_dir.join(".truthbeacon").exists() {
+            base_dir.join(".truthbeacon")
+        } else {
+            sb_dir
+        }
     }
 }
 
@@ -500,8 +505,9 @@ fn derive_legacy_vault_key() -> [u8; 32] {
     key
 }
 
-/// Authenticated Associated Data (AAD) binding vault payloads to the TruthBeacon application domain.
-pub const VAULT_AAD_V1: &[u8] = b"TruthBeacon:EncryptedVault:v1";
+/// Authenticated Associated Data (AAD) binding vault payloads to the SlashBeacon application domain.
+pub const VAULT_AAD_V1: &[u8] = b"SlashBeacon:EncryptedVault:v1";
+pub const LEGACY_VAULT_AAD_V1: &[u8] = b"TruthBeacon:EncryptedVault:v1";
 
 /// Loads and decrypts the encrypted vault payload with strict authentication tag and AAD verification.
 /// If the vault file exists but has been tampered with or corrupted, an explicit error is returned.
@@ -534,21 +540,34 @@ pub(crate) fn load_vault_payload_checked() -> Result<EncryptedVaultPayload, Cred
         let plaintext = match opening_key.open_in_place(Aad::from(VAULT_AAD_V1), &mut attempt_v1) {
             Ok(pt) => pt.to_vec(),
             Err(_) => {
-                // Backward compatibility: try legacy empty AAD for v0 vaults on untampered buffer
-                let unbound_retry =
+                // Try legacy TruthBeacon AAD before falling back to empty AAD
+                let unbound_legacy =
                     UnboundKey::new(&AES_256_GCM, key_bytes.as_ref()).map_err(|_| {
                         CredentialError::VaultError("Cipher initialization failed".into())
                     })?;
-                let mut opening_key_retry =
-                    OpeningKey::new(unbound_retry, OneNonce(Some(nonce_bytes)));
-                opening_key_retry
-                    .open_in_place(Aad::empty(), &mut ciphertext_and_tag)
-                    .map_err(|_| {
-                        CredentialError::VaultCorruptedOrTampered(
-                            "Authentication tag mismatch: ciphertext or key has been tampered with or corrupted".into(),
-                        )
-                    })?
-                    .to_vec()
+                let mut opening_key_legacy =
+                    OpeningKey::new(unbound_legacy, OneNonce(Some(nonce_bytes)));
+                let mut attempt_legacy = ciphertext_and_tag.clone();
+                match opening_key_legacy.open_in_place(Aad::from(LEGACY_VAULT_AAD_V1), &mut attempt_legacy) {
+                    Ok(pt) => pt.to_vec(),
+                    Err(_) => {
+                        // Backward compatibility: try legacy empty AAD for v0 vaults on untampered buffer
+                        let unbound_retry =
+                            UnboundKey::new(&AES_256_GCM, key_bytes.as_ref()).map_err(|_| {
+                                CredentialError::VaultError("Cipher initialization failed".into())
+                            })?;
+                        let mut opening_key_retry =
+                            OpeningKey::new(unbound_retry, OneNonce(Some(nonce_bytes)));
+                        opening_key_retry
+                            .open_in_place(Aad::empty(), &mut ciphertext_and_tag)
+                            .map_err(|_| {
+                                CredentialError::VaultCorruptedOrTampered(
+                                    "Authentication tag mismatch: ciphertext or key has been tampered with or corrupted".into(),
+                                )
+                            })?
+                            .to_vec()
+                    }
+                }
             }
         };
 

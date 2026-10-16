@@ -3,11 +3,11 @@
   <id>com.orangeheartindustries.truthbeacon</id>
   <metadata_license>CC0-1.0</metadata_license>
   <project_license>MIT OR Apache-2.0</project_license>
-  <name>TruthBeacon</name>
+  <name>SlashBeacon</name>
   <summary>Desktop Identity Ground-Truth &amp; Impersonation Prevention Console</summary>
   <description>
     <p>
-      TruthBeacon is an operator-focused desktop security console designed for Discord community stewardship.
+      SlashBeacon is an operator-focused desktop security console designed for Discord community stewardship.
       It monitors server member events in real-time, detecting homoglyphic spoofing, authoritative affix impersonation,
       and cloned avatars against verified identity benchmarks before malicious actors can defraud community members.
     </p>
@@ -19,9 +19,9 @@
       <li>Zero-telemetry architecture with local data sovereignty and encrypted OS Keychain credential storage.</li>
     </ul>
   </description>
-  <launchable type="desktop-id">truthbeacon.desktop</launchable>
-  <url type="homepage">https://github.com/boredpolymath/truth-beacon</url>
-  <url type="bugtracker">https://github.com/boredpolymath/truth-beacon/issues</url>
+  <launchable type="desktop-id">slashbeacon.desktop</launchable>
+  <url type="homepage">https://github.com/boredpolymath/slashbeacon</url>
+  <url type="bugtracker">https://github.com/boredpolymath/slashbeacon/issues</url>
   <developer_name>Orange Heart Industries</developer_name>
   <developer id="com.orangeheartindustries">
     <name>Orange Heart Industries</name>
@@ -32,7 +32,7 @@
     <category>Network</category>
   </categories>
   <provides>
-    <binary>truth-beacon</binary>
+    <binary>slashbeacon</binary>
   </provides>
   <releases>
     <release version="0.1.0" date="2026-10-04">

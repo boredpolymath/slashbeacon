@@ -21,10 +21,14 @@ echo "==> [1/5] Checking Rust targets..."
 rustup target add x86_64-unknown-linux-gnu 2>/dev/null || true
 
 # 2. Validate Desktop Entry Compliance (Freedesktop Standard)
-echo "==> [2/5] Validating desktop entry compliance (truthbeacon.desktop)..."
-DESKTOP_FILE="${SRC_TAURI_DIR}/desktop/truthbeacon.desktop"
+echo "==> [2/5] Validating desktop entry compliance (slashbeacon.desktop)..."
+DESKTOP_FILE="${SRC_TAURI_DIR}/desktop/slashbeacon.desktop"
 if [ ! -f "${DESKTOP_FILE}" ]; then
-  echo "Error: ${DESKTOP_FILE} not found!"
+  DESKTOP_FILE="${SRC_TAURI_DIR}/desktop/truthbeacon.desktop"
+fi
+
+if [ ! -f "${DESKTOP_FILE}" ]; then
+  echo "Error: Desktop file not found!"
   exit 1
 fi
 
@@ -34,10 +38,10 @@ if command -v desktop-file-validate >/dev/null 2>&1; then
 else
   echo "desktop-file-validate not available on host; verifying key required fields manually..."
   grep -q "^Type=Application" "${DESKTOP_FILE}"
-  grep -q "^Exec=truth-beacon" "${DESKTOP_FILE}"
-  grep -q "^Icon=truth-beacon" "${DESKTOP_FILE}"
+  grep -E -q "^Exec=(slashbeacon|truth-beacon)" "${DESKTOP_FILE}"
+  grep -E -q "^Icon=(slashbeacon|truth-beacon)" "${DESKTOP_FILE}"
   grep -q "^Categories=" "${DESKTOP_FILE}"
-  grep -q "^StartupWMClass=truth-beacon" "${DESKTOP_FILE}"
+  grep -E -q "^StartupWMClass=(slashbeacon|truth-beacon)" "${DESKTOP_FILE}"
   echo "Required Freedesktop keys present in desktop entry."
 fi
 

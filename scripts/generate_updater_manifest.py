@@ -22,8 +22,8 @@ KEY_PATH = os.path.join(KEYS_DIR, "truthbeacon_updater.key")
 
 with open(os.path.join(SRC_TAURI_DIR, "tauri.conf.json"), "r") as f:
     conf = json.load(f)
-VERSION = conf.get("version", "0.2.2")
-BASE_URL = f"https://github.com/boredpolymath/truth-beacon/releases/download/v{VERSION}"
+VERSION = conf.get("version", "0.4.0")
+BASE_URL = f"https://github.com/boredpolymath/slashbeacon/releases/download/v{VERSION}"
 
 def get_signature(file_path):
     sig_path = f"{file_path}.sig"
@@ -49,13 +49,15 @@ def build_manifest():
     print(f"==> Building Tauri 2 Auto-Updater Manifest (latest.json) for v{VERSION}...")
     
     notes = (
-        f"TruthBeacon v{VERSION}: Major security, resilience & release hardening including forensic SQLite quarantine, "
+        f"SlashBeacon v{VERSION}: Major security, resilience & release hardening including forensic SQLite quarantine, "
         "domain-bound AES-256-GCM vault, multi-keyframe pHash inspection, UTR #39 homoglyph detection, "
         "multi-guild gateway resumption, and sandboxed IPC."
     )
     
     strict = "--strict" in sys.argv or os.environ.get("STRICT_MANIFEST") == "1"
-    mac_tar = os.path.join(RELEASE_DIR, f"TruthBeacon_{VERSION}_universal.app.tar.gz")
+    mac_tar = os.path.join(RELEASE_DIR, f"SlashBeacon_{VERSION}_universal.app.tar.gz")
+    if not os.path.exists(mac_tar) and os.path.exists(os.path.join(RELEASE_DIR, f"TruthBeacon_{VERSION}_universal.app.tar.gz")):
+        mac_tar = os.path.join(RELEASE_DIR, f"TruthBeacon_{VERSION}_universal.app.tar.gz")
     mac_sig = get_signature(mac_tar)
     if not mac_sig:
         if strict:
@@ -63,14 +65,18 @@ def build_manifest():
         # Fallback dummy signature placeholder if file not present during local validation dry runs
         mac_sig = "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkK"
     
-    win_zip = os.path.join(RELEASE_DIR, f"TruthBeacon_{VERSION}_x64-setup.nsis.zip")
+    win_zip = os.path.join(RELEASE_DIR, f"SlashBeacon_{VERSION}_x64-setup.nsis.zip")
+    if not os.path.exists(win_zip) and os.path.exists(os.path.join(RELEASE_DIR, f"TruthBeacon_{VERSION}_x64-setup.nsis.zip")):
+        win_zip = os.path.join(RELEASE_DIR, f"TruthBeacon_{VERSION}_x64-setup.nsis.zip")
     win_sig = get_signature(win_zip)
     if not win_sig:
         if strict:
             sys.exit(f"ERROR: Missing required updater signature for {win_zip}")
         win_sig = mac_sig
     
-    linux_tar = os.path.join(RELEASE_DIR, f"TruthBeacon_{VERSION}_amd64.AppImage.tar.gz")
+    linux_tar = os.path.join(RELEASE_DIR, f"SlashBeacon_{VERSION}_amd64.AppImage.tar.gz")
+    if not os.path.exists(linux_tar) and os.path.exists(os.path.join(RELEASE_DIR, f"TruthBeacon_{VERSION}_amd64.AppImage.tar.gz")):
+        linux_tar = os.path.join(RELEASE_DIR, f"TruthBeacon_{VERSION}_amd64.AppImage.tar.gz")
     linux_sig = get_signature(linux_tar)
     if not linux_sig:
         if strict:
@@ -84,19 +90,19 @@ def build_manifest():
         "platforms": {
             "darwin-aarch64": {
                 "signature": mac_sig,
-                "url": f"{BASE_URL}/TruthBeacon_{VERSION}_universal.app.tar.gz"
+                "url": f"{BASE_URL}/SlashBeacon_{VERSION}_universal.app.tar.gz"
             },
             "darwin-x86_64": {
                 "signature": mac_sig,
-                "url": f"{BASE_URL}/TruthBeacon_{VERSION}_universal.app.tar.gz"
+                "url": f"{BASE_URL}/SlashBeacon_{VERSION}_universal.app.tar.gz"
             },
             "windows-x86_64": {
                 "signature": win_sig,
-                "url": f"{BASE_URL}/TruthBeacon_{VERSION}_x64-setup.nsis.zip"
+                "url": f"{BASE_URL}/SlashBeacon_{VERSION}_x64-setup.nsis.zip"
             },
             "linux-x86_64": {
                 "signature": linux_sig,
-                "url": f"{BASE_URL}/TruthBeacon_{VERSION}_amd64.AppImage.tar.gz"
+                "url": f"{BASE_URL}/SlashBeacon_{VERSION}_amd64.AppImage.tar.gz"
             }
         }
     }

@@ -25,16 +25,19 @@ SRC_TAURI_DIR = os.path.join(ROOT_DIR, "src-tauri")
 
 with open(os.path.join(SRC_TAURI_DIR, "tauri.conf.json"), "r") as f:
     tauri_conf = json.load(f)
-VERSION = tauri_conf.get("version", "0.1.1")
+VERSION = tauri_conf.get("version", "0.4.0")
+PRODUCT_NAME = tauri_conf.get("productName", "SlashBeacon")
 
-APP_BUNDLE = os.path.join(SRC_TAURI_DIR, "target/universal-apple-darwin/release/bundle/macos/TruthBeacon.app")
+app_candidate = os.path.join(SRC_TAURI_DIR, f"target/universal-apple-darwin/release/bundle/macos/{PRODUCT_NAME}.app")
+legacy_candidate = os.path.join(SRC_TAURI_DIR, "target/universal-apple-darwin/release/bundle/macos/TruthBeacon.app")
+APP_BUNDLE = app_candidate if os.path.exists(app_candidate) else legacy_candidate
 BG_IMAGE = os.path.join(SRC_TAURI_DIR, "icons/dmg-background.png")
 ICON_ICNS = os.path.join(SRC_TAURI_DIR, "icons/icon.icns")
 
 DMG_TARGET_DIR = os.path.join(SRC_TAURI_DIR, "target/universal-apple-darwin/release/bundle/dmg")
-DMG_TARGET_FILE = os.path.join(DMG_TARGET_DIR, f"TruthBeacon_{VERSION}_universal.dmg")
+DMG_TARGET_FILE = os.path.join(DMG_TARGET_DIR, f"{PRODUCT_NAME}_{VERSION}_universal.dmg")
 RELEASE_DIR = os.path.join(ROOT_DIR, "release")
-RELEASE_DMG_FILE = os.path.join(RELEASE_DIR, f"TruthBeacon_{VERSION}_universal.dmg")
+RELEASE_DMG_FILE = os.path.join(RELEASE_DIR, f"{PRODUCT_NAME}_{VERSION}_universal.dmg")
 
 def build_dmg():
     if not os.path.exists(APP_BUNDLE):
@@ -70,9 +73,9 @@ def build_dmg():
         'text_size': 14,
         'files': [APP_BUNDLE],
         'symlinks': {'Applications': '/Applications'},
-        'hide_extensions': ['TruthBeacon.app'],
+        'hide_extensions': [f"{PRODUCT_NAME}.app", "TruthBeacon.app"],
         'icon_locations': {
-            'TruthBeacon.app': (180, 200),
+            os.path.basename(APP_BUNDLE): (180, 200),
             'Applications': (480, 200)
         }
     }
@@ -82,7 +85,7 @@ def build_dmg():
     print(f"  App Icon Position: (180, 200)")
     print(f"  Applications Drop Position: (480, 200)")
 
-    dmgbuild.build_dmg(DMG_TARGET_FILE, "TruthBeacon", settings=settings)
+    dmgbuild.build_dmg(DMG_TARGET_FILE, PRODUCT_NAME, settings=settings)
 
     print(f"Copying DMG to release staging directory: {RELEASE_DMG_FILE}")
     shutil.copyfile(DMG_TARGET_FILE, RELEASE_DMG_FILE)

@@ -306,17 +306,17 @@ impl StorageManager {
         })
     }
 
-    /// Resolves the default local storage path in the user's home directory (`~/.truthbeacon/truthbeacon.local.db`).
+    /// Resolves the default local storage path in the user's home directory (`~/.slashbeacon/slashbeacon.local.db`).
     /// In test builds, isolates to a temporary directory to prevent polluting developer environments.
     pub fn default_db_path() -> PathBuf {
-        if let Ok(override_path) = std::env::var("TRUTHBEACON_DB_PATH") {
+        if let Ok(override_path) = std::env::var("SLASHBEACON_DB_PATH").or_else(|_| std::env::var("TRUTHBEACON_DB_PATH")) {
             if !override_path.trim().is_empty() {
                 return PathBuf::from(override_path);
             }
         }
 
         #[cfg(test)]
-        let base_dir = std::env::temp_dir().join("truthbeacon_test_env");
+        let base_dir = std::env::temp_dir().join("slashbeacon_test_env");
 
         #[cfg(not(test))]
         let base_dir = std::env::var("HOME")
@@ -324,9 +324,9 @@ impl StorageManager {
             .map(PathBuf::from)
             .unwrap_or_else(|_| PathBuf::from("."));
 
-        let tb_dir = base_dir.join(".truthbeacon");
-        let _ = ensure_secure_dir(&tb_dir);
-        tb_dir.join("truthbeacon.local.db")
+        let sb_dir = base_dir.join(".slashbeacon");
+        let _ = ensure_secure_dir(&sb_dir);
+        sb_dir.join("slashbeacon.local.db")
     }
 
     /// Resolves and initializes default local SQLite storage manager with retry backoff for test concurrency.
@@ -1036,8 +1036,8 @@ mod tests {
     #[test]
     fn test_default_db_path_resolution() {
         let path = StorageManager::default_db_path();
-        assert!(path.ends_with("truthbeacon.local.db"));
-        assert!(path.to_string_lossy().contains(".truthbeacon"));
+        assert!(path.ends_with("slashbeacon.local.db"));
+        assert!(path.to_string_lossy().contains(".slashbeacon"));
     }
 
     #[test]

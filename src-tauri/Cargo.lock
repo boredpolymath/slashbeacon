@@ -4802,6 +4802,42 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "0c790de23124f9ab44544d7ac05d60440adc586479ce501c1d6d7da3cd8c9cf5"
 
 [[package]]
+name = "slashbeacon"
+version = "0.4.0"
+dependencies = [
+ "argon2",
+ "base64 0.23.1",
+ "chrono",
+ "core-foundation 0.10.1",
+ "deunicode",
+ "env_logger",
+ "futures-util",
+ "getrandom 0.4.3",
+ "image 0.25.10",
+ "img_hash",
+ "keyring",
+ "libc",
+ "log",
+ "rayon",
+ "reqwest",
+ "ring",
+ "rusqlite",
+ "serde",
+ "serde_json",
+ "strsim",
+ "tauri",
+ "tauri-build",
+ "tauri-plugin-shell",
+ "tauri-plugin-updater",
+ "thiserror 2.0.21",
+ "tokio",
+ "tokio-tungstenite",
+ "unicode-normalization",
+ "unicode-security",
+ "zeroize",
+]
+
+[[package]]
 name = "smallvec"
 version = "1.16.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -5773,42 +5809,6 @@ dependencies = [
  "serde",
  "thiserror 2.0.21",
  "windows-sys 0.61.2",
-]
-
-[[package]]
-name = "truth-beacon"
-version = "0.4.0"
-dependencies = [
- "argon2",
- "base64 0.23.1",
- "chrono",
- "core-foundation 0.10.1",
- "deunicode",
- "env_logger",
- "futures-util",
- "getrandom 0.4.3",
- "image 0.25.10",
- "img_hash",
- "keyring",
- "libc",
- "log",
- "rayon",
- "reqwest",
- "ring",
- "rusqlite",
- "serde",
- "serde_json",
- "strsim",
- "tauri",
- "tauri-build",
- "tauri-plugin-shell",
- "tauri-plugin-updater",
- "thiserror 2.0.21",
- "tokio",
- "tokio-tungstenite",
- "unicode-normalization",
- "unicode-security",
- "zeroize",
 ]
 
 [[package]]

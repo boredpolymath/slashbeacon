@@ -483,7 +483,7 @@ pub async fn resolve_incident(
     if status == IncidentStatus::Banned {
         let ban_reason = resolution_notes
             .as_deref()
-            .unwrap_or("Banned and purged via TruthBeacon");
+            .unwrap_or("Banned and purged via SlashBeacon");
 
         crate::gateway::moderation::execute_discord_ban(
             &guild_id,
@@ -902,7 +902,7 @@ pub fn get_discord_config() -> Result<DiscordConfigSummary, CommandError> {
         } else {
             "Verified Community Sanctuary".to_string()
         };
-        (Some("TruthBeacon Guard".to_string()), Some(gname), true)
+        (Some("SlashBeacon Guard".to_string()), Some(gname), true)
     } else {
         (None, None, false)
     };
@@ -1002,7 +1002,7 @@ pub async fn save_discord_config(
             };
             crate::credentials::HandshakeSummary {
                 bot_id: "109827364512938475".to_string(),
-                bot_username: "TruthBeacon Guard".to_string(),
+                bot_username: "SlashBeacon Guard".to_string(),
                 bot_discriminator: "0".to_string(),
                 bot_avatar: None,
                 is_official_bot: true,
@@ -1021,7 +1021,7 @@ pub async fn save_discord_config(
                 ),
                 guild_found,
                 moderation_permissions_ok: perms_ok,
-                bot_name: Some("TruthBeacon Guard".to_string()),
+                bot_name: Some("SlashBeacon Guard".to_string()),
                 guild_name: Some(format!("Server ({})", trimmed_guild)),
             }
         }
@@ -1753,11 +1753,11 @@ mod tests {
             .unwrap_or(false);
         assert!(freeze, "freezePrototype must be enabled for IPC protection");
 
-        // 3. Audit backend data directories are strictly scoped to the app config directory (~/.truthbeacon)
+        // 3. Audit backend data directories are strictly scoped to the app config directory (~/.slashbeacon)
         let db_path = crate::storage::StorageManager::default_db_path();
         let db_str = db_path.to_string_lossy();
         assert!(
-            db_str.contains(".truthbeacon"),
+            db_str.contains(".slashbeacon"),
             "Database path must be scoped inside app config directory: {}",
             db_str
         );
@@ -1946,7 +1946,7 @@ mod tests {
         let status = get_system_status().expect("get_system_status must succeed");
         assert_eq!(status.storage_status, ComponentHealth::Healthy);
         assert!(!status.db_path.is_empty());
-        assert!(status.db_path.contains(".truthbeacon"));
+        assert!(status.db_path.contains(".slashbeacon"));
 
         // Verify counts are derived from SQLite and account for the created benchmark
         let db_benchmarks = storage.count_benchmarks().unwrap();

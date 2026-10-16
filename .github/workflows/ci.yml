@@ -67,10 +67,11 @@ jobs:
       - name: Verify Version Consistency
         run: |
           python3 -c "
-          import json
+          import os
+          cfg_path = 'slashbeacon.config.json' if os.path.exists('slashbeacon.config.json') else 'truthbeacon.config.json'
           with open('src-tauri/tauri.conf.json') as f:
               tauri_ver = json.load(f)['version']
-          with open('truthbeacon.config.json') as f:
+          with open(cfg_path) as f:
               cfg_ver = json.load(f)['application']['version']
           assert tauri_ver == cfg_ver, f'Mismatch: tauri {tauri_ver} vs config {cfg_ver}'
           print(f'✓ Version consistency verified across manifests: v{tauri_ver}')

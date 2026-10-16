@@ -142,8 +142,8 @@ impl GatewayPayload {
     pub fn identify(token: &str, intents: u64) -> Self {
         let properties = serde_json::json!({
             "os": std::env::consts::OS,
-            "browser": "truth-beacon",
-            "device": "truth-beacon"
+            "browser": "slashbeacon",
+            "device": "slashbeacon"
         });
 
         Self {
@@ -258,7 +258,7 @@ mod tests {
         let d = payload.d.unwrap();
         assert_eq!(d["token"], "Bot mock_secret_token");
         assert_eq!(d["intents"], 513);
-        assert_eq!(d["properties"]["browser"], "truth-beacon");
+        assert_eq!(d["properties"]["browser"], "slashbeacon");
     }
 
     #[test]

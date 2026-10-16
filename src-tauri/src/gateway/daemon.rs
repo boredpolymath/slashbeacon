@@ -102,7 +102,7 @@ impl DiscordGatewayDaemon {
         self.is_running.store(true, Ordering::SeqCst);
 
         // 1. Hook native OS power assertion
-        self.acquire_power_assertion("TruthBeacon Background Gateway Daemon")
+        self.acquire_power_assertion("SlashBeacon Background Gateway Daemon")
             .await;
 
         log::info!("Starting Discord Gateway resilient background daemon loop");
@@ -419,7 +419,7 @@ mod tests {
         // 1. Cold storage initialization
         let temp_dir = std::env::temp_dir();
         let db_path = temp_dir.join(format!(
-            "truthbeacon_cold_bench_{}.db",
+            "slashbeacon_cold_bench_{}.db",
             chrono::Utc::now().timestamp_nanos_opt().unwrap_or(0)
         ));
         let storage = Arc::new(crate::storage::StorageManager::init(&db_path).unwrap());

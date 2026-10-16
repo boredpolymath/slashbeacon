@@ -1,6 +1,6 @@
-# Contributing to TruthBeacon
+# Contributing to SlashBeacon
 
-Thank you for your interest in contributing to **TruthBeacon**! We welcome contributions that help protect community leaders and members from identity impersonation and deception.
+Thank you for your interest in contributing to **SlashBeacon**! We welcome contributions that help protect community leaders and members from identity impersonation and deception.
 
 Please take a moment to review this document before submitting your contribution.
 
@@ -16,7 +16,7 @@ By participating in this project, you agree to abide by the [Code of Conduct](CO
 
 **Do not file public GitHub issues for security vulnerabilities.**
 
-If you discover a potential security bug or vulnerability, please refer to our [Security Policy](.github/SECURITY.md) and report it privately through [GitHub Private Vulnerability Reporting](https://github.com/boredpolymath/truth-beacon/security/advisories/new).
+If you discover a potential security bug or vulnerability, please refer to our [Security Policy](.github/SECURITY.md) and report it privately through [GitHub Private Vulnerability Reporting](https://github.com/boredpolymath/slashbeacon/security/advisories/new).
 
 ---
 
@@ -25,7 +25,7 @@ If you discover a potential security bug or vulnerability, please refer to our [
 ### 1. Reporting Bugs
 - Search existing issues before creating a new one to avoid duplicates.
 - Use the **Bug Report** template provided in `.github/ISSUE_TEMPLATE/bug_report.yml`.
-- Include your operating system, TruthBeacon version, steps to reproduce, and any relevant sanitized log excerpts.
+- Include your operating system, SlashBeacon version, steps to reproduce, and any relevant sanitized log excerpts.
 
 ### 2. Suggesting Enhancements
 - Use the **Feature Request** template in `.github/ISSUE_TEMPLATE/feature_request.yml`.
@@ -50,7 +50,7 @@ If you discover a potential security bug or vulnerability, please refer to our [
 
 ### Prerequisites
 - **Rust**: Latest stable toolchain (via `rustup`).
-- **Node.js** (Optional/Standard runtime): Node.js 18+ (if building UI bundles, though TruthBeacon maintains a zero-dependency, vanilla UI).
+- **Node.js** (Optional/Standard runtime): Node.js 18+ (if building UI bundles, though SlashBeacon maintains a zero-dependency, vanilla UI).
 - **System Dependencies** (Linux only):
   ```bash
   sudo apt-get install -y libwebkit2gtk-4.1-dev libappindicator3-dev libsecret-1-dev
@@ -100,7 +100,7 @@ python3 scripts/verify_packaging_pipeline.py
 
 ## Coding Guidelines
 
-- **Zero Cloud Telemetry**: TruthBeacon strictly operates 100% locally. Never introduce outbound telemetry, network tracking, or remote metric beacons.
+- **Zero Cloud Telemetry**: SlashBeacon strictly operates 100% locally. Never introduce outbound telemetry, network tracking, or remote metric beacons.
 - **Credential Storage**: Sensitive secrets (like Discord bot tokens) must strictly be stored in native OS keychains via the `keyring` crate. Never write secrets to plaintext disk files or databases.
 - **Database Migrations**: Changes to the SQLite schema must be backward-compatible and use WAL mode.
 
@@ -108,4 +108,4 @@ python3 scripts/verify_packaging_pipeline.py
 
 ## License
 
-By contributing to TruthBeacon, you agree that your contributions will be licensed under the dual **MIT** and **Apache-2.0** licenses as described in the [LICENSE](LICENSE) file.
+By contributing to SlashBeacon, you agree that your contributions will be licensed under the dual **MIT** and **Apache-2.0** licenses as described in the [LICENSE](LICENSE) file.

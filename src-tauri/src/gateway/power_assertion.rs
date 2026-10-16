@@ -150,7 +150,7 @@ mod linux_ffi {
             .write(true)
             .create(true)
             .truncate(false)
-            .open("/tmp/truthbeacon_power_inhibit.lock")
+            .open("/tmp/slashbeacon_power_inhibit.lock")
             .ok();
 
         Ok(fd)
@@ -158,7 +158,7 @@ mod linux_ffi {
 
     pub fn release_linux_assertion(_fd: Option<std::fs::File>) -> Result<(), PowerAssertionError> {
         log::info!("Released Linux power inhibitor lock");
-        let _ = std::fs::remove_file("/tmp/truthbeacon_power_inhibit.lock");
+        let _ = std::fs::remove_file("/tmp/slashbeacon_power_inhibit.lock");
         Ok(())
     }
 }
@@ -272,11 +272,11 @@ mod tests {
 
     #[test]
     fn test_power_assertion_lifecycle() {
-        let mut assertion = PowerAssertion::acquire("TruthBeacon Test Background Monitor")
+        let mut assertion = PowerAssertion::acquire("SlashBeacon Test Background Monitor")
             .expect("Should acquire power assertion");
 
         assert!(assertion.is_active());
-        assert_eq!(assertion.reason(), "TruthBeacon Test Background Monitor");
+        assert_eq!(assertion.reason(), "SlashBeacon Test Background Monitor");
 
         #[cfg(target_os = "macos")]
         assert!(assertion.macos_assertion_id.is_some());
@@ -292,7 +292,7 @@ mod tests {
     fn test_power_assertion_drop_cleanup() {
         {
             let assertion =
-                PowerAssertion::acquire("TruthBeacon RAII Drop Test").expect("Should acquire");
+                PowerAssertion::acquire("SlashBeacon RAII Drop Test").expect("Should acquire");
             assert!(assertion.is_active());
         }
         // Dropped safely without panics or leaks

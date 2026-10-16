@@ -26,7 +26,7 @@ function loadMockDiscordConfig() {
     avatar_hamming_threshold: 10,
     circuit_limit_per_minute: 5,
     privileged_intent_declared: true,
-    bot_name: "TruthBeacon Guard",
+    bot_name: "SlashBeacon Guard",
     guild_name: "",
     connected: false,
     token_masked: "",
@@ -56,7 +56,7 @@ function _getMockSystemStatus() {
     daemon_healthy: true,
     gateway_connected: !!mockDiscordConfig.connected,
     circuit_breaker_tripped: mockCircuitBreakerTripped,
-    db_path: "/Users/local/.truthbeacon/truthbeacon.local.db",
+    db_path: "/Users/local/.slashbeacon/slashbeacon.local.db",
     pending_incidents_count: mockIncidents.filter(i => i.status === 'pending').length,
     benchmark_count: mockBenchmarks.length
   };
@@ -68,7 +68,7 @@ function _getMockHealthDiagnostics() {
     resident_memory_mb: 17.6,
     memory_budget_bytes: 31457280,
     memory_budget_adhered: true,
-    database_path: "/Users/local/.truthbeacon/truthbeacon.local.db",
+    database_path: "/Users/local/.slashbeacon/slashbeacon.local.db",
     database_healthy: true,
     pending_incidents_count: mockIncidents.filter(i => i.status === 'pending').length,
     benchmark_count: mockBenchmarks.length,
@@ -267,7 +267,7 @@ const mockIncidentHandlers = {
   list_incidents: () => [...mockIncidents],
   resolve_incident: (args) => _resolveIncidentRecord(args),
   dispatch_desktop_notification: (args) => {
-    console.info("[TruthBeacon IPC] Dispatched OS notification:", args.payload);
+    console.info("[SlashBeacon IPC] Dispatched OS notification:", args.payload);
     return true;
   },
   execute_notification_action: (args) => _executeNotificationAction(args)
@@ -287,7 +287,7 @@ function _getDiscordConfigResult() {
     new_account_age_hours_threshold: mockDiscordConfig.new_account_age_hours_threshold ?? 72,
     avatar_hamming_threshold: mockDiscordConfig.avatar_hamming_threshold ?? 10,
     privileged_intent_declared: true,
-    bot_name: mockDiscordConfig.bot_name || "TruthBeacon Guard",
+    bot_name: mockDiscordConfig.bot_name || "SlashBeacon Guard",
     bot_id: mockDiscordConfig.has_token ? (mockDiscordConfig.bot_id || DEMO_BOT_ID) : null,
     guild_name: mockDiscordConfig.guild_name || (mockDiscordConfig.guild_id ? `Server (${mockDiscordConfig.guild_id})` : ""),
     connected: !!mockDiscordConfig.connected,
@@ -339,8 +339,8 @@ function _verifyBotHandshake(args) {
   const guildName = targetGid ? `Server (${targetGid})` : "Primary Community Server";
   return {
     bot_id: DEMO_BOT_ID,
-    bot_name: "TruthBeacon Guard",
-    bot_username: "TruthBeacon Guard",
+    bot_name: "SlashBeacon Guard",
+    bot_username: "SlashBeacon Guard",
     bot_discriminator: "0",
     bot_avatar: null,
     is_official_bot: true,
@@ -395,7 +395,7 @@ function _saveDiscordConfig(args) {
     token: activeToken,
     token_masked: '••••••••••••••••••••••••••••••••',
     guild_name: guildName,
-    bot_name: "TruthBeacon Guard",
+    bot_name: "SlashBeacon Guard",
     connected: true,
     string_similarity_threshold: thresholds?.similarity ? (thresholds.similarity / 100) : mockDiscordConfig.string_similarity_threshold,
     new_account_age_hours_threshold: thresholds?.account_age_hours ?? mockDiscordConfig.new_account_age_hours_threshold,
@@ -405,8 +405,8 @@ function _saveDiscordConfig(args) {
 
   return {
     bot_id: DEMO_BOT_ID,
-    bot_name: "TruthBeacon Guard",
-    bot_username: "TruthBeacon Guard",
+    bot_name: "SlashBeacon Guard",
+    bot_username: "SlashBeacon Guard",
     bot_discriminator: "0",
     bot_avatar: null,
     is_official_bot: true,
@@ -476,7 +476,7 @@ export async function invokeCommand(cmd, args = {}) {
       }
       return await invoker(cmd, tauriArgs);
     } catch (err) {
-      console.warn(`[TruthBeacon IPC] Failed invoking ${cmd}:`, err);
+      console.warn(`[SlashBeacon IPC] Failed invoking ${cmd}:`, err);
       throw err;
     }
   }
@@ -491,6 +491,6 @@ export async function invokeCommand(cmd, args = {}) {
     (await _handleMockSystem(cmd, args));
 
   if (handled !== undefined) return handled;
-  console.warn(`[TruthBeacon Mock IPC] Unhandled command: ${cmd}`);
+  console.warn(`[SlashBeacon Mock IPC] Unhandled command: ${cmd}`);
   return null;
 }

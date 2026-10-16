@@ -212,7 +212,7 @@ pub fn generate_health_diagnostics() -> HealthDiagnosticReport {
 /// 1. Stops all active Discord Gateway daemons and releases OS power assertions.
 /// 2. Flushes and truncates SQLite WAL to ensure zero data loss.
 pub fn graceful_shutdown() {
-    log::info!("Initiating TruthBeacon clean graceful application shutdown...");
+    log::info!("Initiating SlashBeacon clean graceful application shutdown...");
 
     // 1. Terminate all active Discord Gateway connections
     if let Ok(handle) = tokio::runtime::Handle::try_current() {
@@ -242,7 +242,7 @@ pub fn graceful_shutdown() {
         }
     }
 
-    log::info!("TruthBeacon clean application shutdown finished successfully.");
+    log::info!("SlashBeacon clean application shutdown finished successfully.");
 }
 
 #[cfg(test)]
