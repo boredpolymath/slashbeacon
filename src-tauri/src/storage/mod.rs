@@ -309,7 +309,9 @@ impl StorageManager {
     /// Resolves the default local storage path in the user's home directory (`~/.slashbeacon/slashbeacon.local.db`).
     /// In test builds, isolates to a temporary directory to prevent polluting developer environments.
     pub fn default_db_path() -> PathBuf {
-        if let Ok(override_path) = std::env::var("SLASHBEACON_DB_PATH").or_else(|_| std::env::var("TRUTHBEACON_DB_PATH")) {
+        if let Ok(override_path) =
+            std::env::var("SLASHBEACON_DB_PATH").or_else(|_| std::env::var("TRUTHBEACON_DB_PATH"))
+        {
             if !override_path.trim().is_empty() {
                 return PathBuf::from(override_path);
             }

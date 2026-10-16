@@ -158,7 +158,9 @@ fn vault_dir() -> PathBuf {
             return dir;
         }
     }
-    if let Ok(custom) = std::env::var("SLASHBEACON_VAULT_DIR").or_else(|_| std::env::var("TRUTHBEACON_VAULT_DIR")) {
+    if let Ok(custom) =
+        std::env::var("SLASHBEACON_VAULT_DIR").or_else(|_| std::env::var("TRUTHBEACON_VAULT_DIR"))
+    {
         PathBuf::from(custom)
     } else {
         #[cfg(test)]
@@ -548,12 +550,14 @@ pub(crate) fn load_vault_payload_checked() -> Result<EncryptedVaultPayload, Cred
                 let mut opening_key_legacy =
                     OpeningKey::new(unbound_legacy, OneNonce(Some(nonce_bytes)));
                 let mut attempt_legacy = ciphertext_and_tag.clone();
-                match opening_key_legacy.open_in_place(Aad::from(LEGACY_VAULT_AAD_V1), &mut attempt_legacy) {
+                match opening_key_legacy
+                    .open_in_place(Aad::from(LEGACY_VAULT_AAD_V1), &mut attempt_legacy)
+                {
                     Ok(pt) => pt.to_vec(),
                     Err(_) => {
                         // Backward compatibility: try legacy empty AAD for v0 vaults on untampered buffer
-                        let unbound_retry =
-                            UnboundKey::new(&AES_256_GCM, key_bytes.as_ref()).map_err(|_| {
+                        let unbound_retry = UnboundKey::new(&AES_256_GCM, key_bytes.as_ref())
+                            .map_err(|_| {
                                 CredentialError::VaultError("Cipher initialization failed".into())
                             })?;
                         let mut opening_key_retry =

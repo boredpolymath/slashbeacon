@@ -67,7 +67,7 @@ jobs:
       - name: Verify Version Consistency
         run: |
           python3 -c "
-          import os
+          import json, os
           cfg_path = 'slashbeacon.config.json' if os.path.exists('slashbeacon.config.json') else 'truthbeacon.config.json'
           with open('src-tauri/tauri.conf.json') as f:
               tauri_ver = json.load(f)['version']
