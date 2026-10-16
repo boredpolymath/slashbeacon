@@ -140,7 +140,10 @@ impl DiscordModerationClient {
             .put(&url)
             .header(AUTHORIZATION, format!("Bot {}", clean_token))
             .header(CONTENT_TYPE, "application/json")
-            .header(USER_AGENT, "SlashBeacon/0.4.0")
+            .header(
+                USER_AGENT,
+                concat!("SlashBeacon/", env!("CARGO_PKG_VERSION")),
+            )
             .json(&body);
 
         if let Some(r) = reason {

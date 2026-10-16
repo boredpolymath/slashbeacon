@@ -35,6 +35,11 @@
     <binary>slashbeacon</binary>
   </provides>
   <releases>
+    <release version="0.4.5" date="2026-10-16">
+      <description>
+        <p>Production release of SlashBeacon featuring complete rebrand, UI stability improvements, and updated dependencies.</p>
+      </description>
+    </release>
     <release version="0.4.0" date="2026-10-16">
       <description>
         <p>Production release of SlashBeacon with real-time Discord Gateway v10 monitoring and multi-tiered threat adjudication.</p>

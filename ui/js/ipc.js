@@ -127,7 +127,7 @@ const mockSystemHandlers = {
   },
   check_for_updates: () => ({
     should_update: false,
-    current_version: "0.4.0",
+    current_version: "0.4.5",
     latest_version: null,
     release_notes: null,
     release_date: null

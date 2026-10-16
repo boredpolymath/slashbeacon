@@ -212,7 +212,10 @@ impl IngestionClient {
             .client
             .get(&url)
             .header("Authorization", format!("Bot {}", clean_token))
-            .header("User-Agent", "SlashBeacon/0.4.0")
+            .header(
+                "User-Agent",
+                concat!("SlashBeacon/", env!("CARGO_PKG_VERSION")),
+            )
             .send()
             .await?;
 
@@ -252,7 +255,10 @@ impl IngestionClient {
             .client
             .get(&url)
             .header("Authorization", format!("Bot {}", clean_token))
-            .header("User-Agent", "SlashBeacon/0.4.0")
+            .header(
+                "User-Agent",
+                concat!("SlashBeacon/", env!("CARGO_PKG_VERSION")),
+            )
             .send()
             .await?;
 
@@ -293,7 +299,10 @@ impl IngestionClient {
             .client
             .get(&url)
             .header("Authorization", format!("Bot {}", clean_token))
-            .header("User-Agent", "SlashBeacon/0.4.0")
+            .header(
+                "User-Agent",
+                concat!("SlashBeacon/", env!("CARGO_PKG_VERSION")),
+            )
             .send()
             .await?;
 

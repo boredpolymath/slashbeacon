@@ -81,17 +81,17 @@ function initNavigation() {
 
   document.getElementById('btn-check-update')?.addEventListener('click', async () => {
     const updateText = document.getElementById('update-status-text');
-    const oldText = updateText?.textContent || 'v0.4.0';
+    const oldText = updateText?.textContent || 'v0.4.5';
     if (updateText) updateText.textContent = 'Checking...';
     try {
       const update = await invokeCommand('check_for_updates');
       if (update && update.available) {
         alert(`Update v${update.version} available!`);
       } else {
-        alert('SlashBeacon is running the latest version (v0.4.0).');
+        alert('SlashBeacon is running the latest version (v0.4.5).');
       }
     } catch (_err) {
-      alert('SlashBeacon is running the latest version (v0.4.0).');
+      alert('SlashBeacon is running the latest version (v0.4.5).');
     } finally {
       if (updateText) updateText.textContent = oldText;
     }

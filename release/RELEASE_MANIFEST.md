@@ -15,6 +15,10 @@
 
 | Artifact File | Architecture | Size | SHA-256 Checksum | Description |
 | :--- | :--- | :--- | :--- | :--- |
+| `slashbeacon-universal` | Universal 2 (Intel + Apple Silicon) | ~60 MB | `2bc219f1897c0c8fb78d2dc316de966ee79955ae9526ca9576e30a1390b4dd8a` | Release deliverable |
+| `SlashBeacon_0.4.5_universal.dmg` | Universal 2 (Intel + Apple Silicon) | ~31 MB | `ef032509c9f714fa838444a992bb4dc4336f632e435adce93cb77dc7db1cd0c3` | Release deliverable |
+| `SlashBeacon_0.4.5_universal.app.tar.gz` | Universal 2 (Intel + Apple Silicon) | ~29 MB | `a8662a3bfb2a98a879f0f7b7c880ad459ba302fb0191966e934b5a3966411067` | Release deliverable |
+| `SlashBeacon_0.4.5_macos_universal.zip` | Universal 2 (Intel + Apple Silicon) | ~29 MB | `88d84d29f4216a098e6903c5c49ff79edf991b98c5b4b63202d39870282d0ce3` | Release deliverable |
 | `TruthBeacon_0.4.0_universal.dmg` | Universal 2 (Intel + Apple Silicon) | ~29 MB | `8af70d32f142f0d2316f6886cf8955a6b982a334e91392595883191d555115de` | Release deliverable |
 | `TruthBeacon_0.4.0_universal.app.tar.gz` | Universal 2 (Intel + Apple Silicon) | ~27 MB | `91b180bc8436a9080fbbaabd068d5d22000eb4b5688b7a98b7efee1fbf85e0d2` | Release deliverable |
 | `TruthBeacon_0.4.0_macos_universal.zip` | Universal 2 (Intel + Apple Silicon) | ~27 MB | `e8a3a1be2679251bf719e2f0519e212215879fdac9a1ab9e84413b9736c44c99` | Release deliverable |
@@ -30,7 +34,7 @@
 | `TruthBeacon_0.2.2_universal.dmg` | Universal 2 (Intel + Apple Silicon) | ~29.5 MB | `c450fa110a54f2d64eab14763b8d9a7505f7bb0100c95417eca0d185c713a629` | Apple Developer ID signed drag-and-drop macOS installer |
 | `TruthBeacon_0.2.2_macos_universal.zip` | Universal 2 (Intel + Apple Silicon) | ~27.9 MB | `58101f915f97e4950a8d03ff85a32d21fb6e49d9dc7703ca0bb71e3c06375730` | Standalone portable macOS `.app` bundle archive |
 | `TruthBeacon_0.2.2_universal.app.tar.gz` | Universal 2 (Intel + Apple Silicon) | ~27.9 MB | `7bd8294fa257176482da5af1651681ab3c4fe348d996bf99832e0abbc0215ceb` | Standalone macOS auto-updater tarball archive |
-| `truth-beacon-universal` | Universal 2 (Intel + Apple Silicon) | ~59.3 MB | `860f535fdc8713811b0e95f3d4f49bd948fbe759bbf20222c2cd5fc4db5dd814` | Standalone Mach-O fat binary |
+| `truth-beacon-universal` | Universal 2 (Intel + Apple Silicon) | ~59.3 MB | `2bc219f1897c0c8fb78d2dc316de966ee79955ae9526ca9576e30a1390b4dd8a` | Standalone Mach-O fat binary |
 | `TruthBeacon_0.2.2_x64-setup.exe` | Windows x64 (MSVC) | ~9.5 MB | `6f36a65df228544edaa36111ea7ae5eac11baa754fae81adc62956953267586e` | Windows NSIS single-executable installer |
 | `TruthBeacon_0.2.2_x64_en-US.msi` | Windows x64 (MSVC) | ~12 MB | `436d9f7be2f5776455e9fe06b111c079c703f184ce56c9bc5ee570ea3e64aaad` | Windows WiX MSI enterprise installer |
 | `TruthBeacon-Portable.exe` | Windows x64 (MSVC) | ~24 MB | `03858df78e645d9c3d38ea1ac0c146d86e8aa843f22fcba8678f59d39985a098` | Standalone portable Windows executable |

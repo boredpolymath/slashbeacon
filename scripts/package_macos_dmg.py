@@ -25,7 +25,7 @@ SRC_TAURI_DIR = os.path.join(ROOT_DIR, "src-tauri")
 
 with open(os.path.join(SRC_TAURI_DIR, "tauri.conf.json"), "r") as f:
     tauri_conf = json.load(f)
-VERSION = tauri_conf.get("version", "0.4.0")
+VERSION = tauri_conf.get("version", "0.4.5")
 PRODUCT_NAME = tauri_conf.get("productName", "SlashBeacon")
 
 app_candidate = os.path.join(SRC_TAURI_DIR, f"target/universal-apple-darwin/release/bundle/macos/{PRODUCT_NAME}.app")
