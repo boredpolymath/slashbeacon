@@ -3,11 +3,6 @@
  * Designed according to Orange Heart Industries Human-Centered Stewardship ethos.
  */
 
-export const INITIAL_BENCHMARKS = [];
-
-export const INITIAL_INCIDENTS = [];
-
-export const INITIAL_AUDIT_LOGS = [];
 
 /**
  * Demo Fixtures for Development Testing & Red Team Drills
@@ -193,3 +188,7 @@ export const DEMO_AUDIT_LOGS = [
     metadata: { tag: "Approved Alternate", benchmark: "AlexRivera" }
   }
 ];
+
+export const INITIAL_BENCHMARKS = [...DEMO_BENCHMARKS];
+export const INITIAL_INCIDENTS = [...DEMO_INCIDENTS];
+export const INITIAL_AUDIT_LOGS = [...DEMO_AUDIT_LOGS];

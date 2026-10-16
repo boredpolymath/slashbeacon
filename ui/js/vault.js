@@ -100,7 +100,7 @@ function _renderEmptyVault(vaultContainer) {
 }
 
 export function renderVaultGrid() {
-  const vaultContainer = document.getElementById('vault-grid-container');
+  const vaultContainer = document.getElementById('vault-cards-container') || document.getElementById('vault-grid-container');
   const counterVault = document.getElementById('counter-vault');
   if (!vaultContainer) return;
 

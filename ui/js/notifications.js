@@ -200,6 +200,18 @@ export function initNotificationListeners() {
     }
   });
 
+  document.getElementById('btn-test-toast')?.addEventListener('click', () => {
+    showDesktopNotificationToast({
+      incident_id: 'test_toast_' + Date.now(),
+      risk_tier: 'critical',
+      suspect_username: 'TestImposter',
+      suspect_user_id: '128492019482710492',
+      matched_benchmark_name: 'AlexRivera',
+      similarity_score: 0.98,
+      reason: 'Manual notification test'
+    }, true);
+  });
+
   if (typeof window !== 'undefined' && window.__TAURI__?.event?.listen) {
     window.__TAURI__.event.listen('truthbeacon://inspect-incident', event => {
       if (event.payload?.incident_id) {

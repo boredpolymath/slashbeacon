@@ -27,6 +27,7 @@ export function formatTime(timestamp) {
 
 export function openModal(modal) {
   if (!modal) return;
+  modal.classList.add('open');
   modal.classList.add('active');
   const firstInput = modal.querySelector('input:not([type="hidden"]), select, textarea, button.btn-primary');
   if (firstInput) {
@@ -36,9 +37,13 @@ export function openModal(modal) {
 
 export function closeModal(modal) {
   if (!modal) return;
+  modal.classList.remove('open');
   modal.classList.remove('active');
 }
 
 export function closeAllModals() {
-  document.querySelectorAll('.modal-backdrop.active').forEach(m => m.classList.remove('active'));
+  document.querySelectorAll('.modal-overlay.open, .modal-overlay.active, .modal-backdrop.open, .modal-backdrop.active').forEach(m => {
+    m.classList.remove('open');
+    m.classList.remove('active');
+  });
 }

@@ -3,6 +3,14 @@ import { invokeCommand } from './ipc.js';
 
 let isDiscoveringGuilds = false;
 
+export function _getTokenInput() {
+  return document.getElementById('discord-token-input') || document.getElementById('discord-token');
+}
+
+export function _getGuildIdInput() {
+  return document.getElementById('discord-guild-id-input') || document.getElementById('discord-guild-id');
+}
+
 export function updateSimilarityBadge(val) {
   const badgeSimilarity = document.getElementById('badge-similarity');
   if (!badgeSimilarity) return;
@@ -99,8 +107,8 @@ export function updateBotInviteCard(token) {
 
 export async function discoverServers(tokenOverride) {
   if (isDiscoveringGuilds) return;
-  const discordTokenInput = document.getElementById('discord-token');
-  const discordGuildIdInput = document.getElementById('discord-guild-id');
+  const discordTokenInput = _getTokenInput();
+  const discordGuildIdInput = _getGuildIdInput();
   const discordGuildSelect = document.getElementById('discord-guild-select');
   const discoveredGuildsWrap = document.getElementById('discovered-guilds-wrap');
   const guildDiscoveryStatus = document.getElementById('guild-discovery-status');
@@ -267,8 +275,8 @@ export function _syncAppStateWithConfig(config) {
 }
 
 export function _populateDiscordInputs(config) {
-  const discordGuildIdInput = document.getElementById('discord-guild-id');
-  const discordTokenInput = document.getElementById('discord-token');
+  const discordGuildIdInput = _getGuildIdInput();
+  const discordTokenInput = _getTokenInput();
 
   if (discordGuildIdInput && !discordGuildIdInput.matches(':focus')) {
     discordGuildIdInput.value = config.guild_id || sessionStorage.getItem('truthbeacon_setup_guild_id') || '';
@@ -376,12 +384,13 @@ export function _initThresholdListeners() {
 
 export function _initTokenListeners() {
   const btnToggleTokenVis = document.getElementById('btn-toggle-token-vis');
-  const discordTokenInput = document.getElementById('discord-token');
+  const discordTokenInput = _getTokenInput();
 
   btnToggleTokenVis?.addEventListener('click', () => {
-    if (!discordTokenInput) return;
-    const isPass = discordTokenInput.type === 'password';
-    discordTokenInput.type = isPass ? 'text' : 'password';
+    const input = _getTokenInput();
+    if (!input) return;
+    const isPass = input.type === 'password';
+    input.type = isPass ? 'text' : 'password';
     btnToggleTokenVis.textContent = isPass ? 'Hide' : 'Show';
   });
 
@@ -398,14 +407,15 @@ export function _initTokenListeners() {
 }
 
 export function _initGuildSelectionListeners() {
-  const discordGuildIdInput = document.getElementById('discord-guild-id');
+  const discordGuildIdInput = _getGuildIdInput();
   const discordGuildSelect = document.getElementById('discord-guild-select');
   const btnRefreshGuilds = document.getElementById('btn-refresh-guilds');
 
   discordGuildSelect?.addEventListener('change', async e => {
     const val = e.target.value;
-    if (val && discordGuildIdInput) {
-      discordGuildIdInput.value = val;
+    const input = _getGuildIdInput();
+    if (val && input) {
+      input.value = val;
       sessionStorage.setItem('truthbeacon_setup_guild_id', val);
     }
   });
@@ -418,8 +428,10 @@ export function _initGuildSelectionListeners() {
 }
 
 export async function _handleTestHandshake(tokenInput, guildIdInput) {
-  let token = tokenInput ? tokenInput.value.trim() : '';
-  const guildId = guildIdInput ? guildIdInput.value.trim() : '';
+  const resolvedTokenInput = tokenInput || _getTokenInput();
+  const resolvedGuildIdInput = guildIdInput || _getGuildIdInput();
+  let token = resolvedTokenInput ? resolvedTokenInput.value.trim() : '';
+  const guildId = resolvedGuildIdInput ? resolvedGuildIdInput.value.trim() : '';
   if (!guildId) {
     alert('Please enter a Target Discord Server ID.');
     return;
@@ -437,8 +449,10 @@ export async function _handleTestHandshake(tokenInput, guildIdInput) {
 }
 
 export async function _handleSaveDiscord(tokenInput, guildIdInput) {
-  let token = tokenInput ? tokenInput.value.trim() : '';
-  const guildId = guildIdInput ? guildIdInput.value.trim() : '';
+  const resolvedTokenInput = tokenInput || _getTokenInput();
+  const resolvedGuildIdInput = guildIdInput || _getGuildIdInput();
+  let token = resolvedTokenInput ? resolvedTokenInput.value.trim() : '';
+  const guildId = resolvedGuildIdInput ? resolvedGuildIdInput.value.trim() : '';
   if (!guildId) {
     alert('Please enter a Target Discord Server ID.');
     return;
@@ -459,7 +473,8 @@ export async function _handleSaveDiscord(tokenInput, guildIdInput) {
 export async function _handleDisconnectDiscord(guildIdInput) {
   if (!confirm('Are you sure you want to disconnect Discord?')) return;
   try {
-    const guildId = guildIdInput ? guildIdInput.value.trim() : '';
+    const resolvedGuildIdInput = guildIdInput || _getGuildIdInput();
+    const guildId = resolvedGuildIdInput ? resolvedGuildIdInput.value.trim() : '';
     await invokeCommand('disconnect_discord', { guild_id: guildId, guildId });
     await loadDiscordConfig();
   } catch (err) {
@@ -468,15 +483,19 @@ export async function _handleDisconnectDiscord(guildIdInput) {
 }
 
 export function _initDiscordActionListeners() {
-  const discordTokenInput = document.getElementById('discord-token');
-  const discordGuildIdInput = document.getElementById('discord-guild-id');
   const btnTestHandshake = document.getElementById('btn-test-handshake');
   const btnSaveDiscord = document.getElementById('btn-save-discord');
   const btnDisconnectDiscord = document.getElementById('btn-disconnect-discord');
 
-  btnTestHandshake?.addEventListener('click', () => _handleTestHandshake(discordTokenInput, discordGuildIdInput));
-  btnSaveDiscord?.addEventListener('click', () => _handleSaveDiscord(discordTokenInput, discordGuildIdInput));
-  btnDisconnectDiscord?.addEventListener('click', () => _handleDisconnectDiscord(discordGuildIdInput));
+  btnTestHandshake?.addEventListener('click', () => {
+    _handleTestHandshake(_getTokenInput(), _getGuildIdInput());
+  });
+  btnSaveDiscord?.addEventListener('click', () => {
+    _handleSaveDiscord(_getTokenInput(), _getGuildIdInput());
+  });
+  btnDisconnectDiscord?.addEventListener('click', () => {
+    _handleDisconnectDiscord(_getGuildIdInput());
+  });
 }
 
 export function initDiscordSetupListeners() {

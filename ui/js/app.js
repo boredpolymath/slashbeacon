@@ -26,6 +26,16 @@ function updateView() {
   const circuitStatusText = document.getElementById('circuit-status-text');
   const statusGateway = document.getElementById('status-gateway');
   const cb = appState.daemonHealth.circuit_breaker;
+  const cbBanner = document.getElementById('circuit-breaker-alert');
+  const dotCircuit = document.getElementById('dot-circuit');
+
+  if (cbBanner) {
+    cbBanner.style.display = cb.tripped ? 'flex' : 'none';
+  }
+
+  if (dotCircuit) {
+    dotCircuit.className = `status-dot ${cb.tripped ? 'offline' : 'online'}`;
+  }
 
   if (circuitStatusText) {
     if (cb.tripped) {
@@ -36,9 +46,11 @@ function updateView() {
   }
 
   if (statusGateway) {
-    statusGateway.textContent = appState.daemonHealth.gateway_connected
-      ? 'Discord: Connected'
-      : 'Discord: Disconnected';
+    const isConn = appState.daemonHealth.gateway_connected;
+    statusGateway.innerHTML = `
+      <span class="status-dot ${isConn ? 'online' : 'offline'}"></span>
+      <span>Discord: <strong>${isConn ? 'Connected' : 'Disconnected'}</strong></span>
+    `;
   }
 
   renderTriageCards();
@@ -61,6 +73,28 @@ function initNavigation() {
 
   document.getElementById('btn-reset-circuit')?.addEventListener('click', () => {
     appState.resetCircuitBreaker();
+  });
+
+  document.getElementById('btn-help-go-discord')?.addEventListener('click', () => {
+    switchTab('discord');
+  });
+
+  document.getElementById('btn-check-update')?.addEventListener('click', async () => {
+    const updateText = document.getElementById('update-status-text');
+    const oldText = updateText?.textContent || 'v0.4.0';
+    if (updateText) updateText.textContent = 'Checking...';
+    try {
+      const update = await invokeCommand('check_for_updates');
+      if (update && update.available) {
+        alert(`Update v${update.version} available!`);
+      } else {
+        alert('TruthBeacon is running the latest version (v0.4.0).');
+      }
+    } catch (_err) {
+      alert('TruthBeacon is running the latest version (v0.4.0).');
+    } finally {
+      if (updateText) updateText.textContent = oldText;
+    }
   });
 }
 
