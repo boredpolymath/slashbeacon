@@ -21,8 +21,17 @@ const ALLOWED_ATTRS = new Set([
 ]);
 
 function cleanNode(node) {
+  if (!node) return;
   if (node.nodeType === Node.ELEMENT_NODE) {
     const tagName = node.tagName.toLowerCase();
+    if (tagName === 'body' || tagName === 'html') {
+      const children = Array.from(node.childNodes);
+      for (const child of children) {
+        cleanNode(child);
+      }
+      return;
+    }
+
     if (!ALLOWED_TAGS.has(tagName)) {
       node.remove();
       return;
@@ -63,6 +72,7 @@ export const DOMPurify = {
 
     const parser = new DOMParser();
     const doc = parser.parseFromString(dirty, 'text/html');
+    if (!doc || !doc.body) return '';
     cleanNode(doc.body);
     return doc.body.innerHTML;
   }

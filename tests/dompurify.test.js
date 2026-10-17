@@ -57,4 +57,11 @@ describe('ui/js/dompurify', () => {
     assert(DOMPurify.sanitize(undefined) === '', 'undefined returns empty string');
     assert(DOMPurify.sanitize(42) === '42', 'Numbers converted safely');
   });
+
+  test('correctly handles multi-element HTML fragments without stripping document body', () => {
+    const fragment = '<article class="card"><h3>Title 1</h3></article><article class="card"><h3>Title 2</h3></article>';
+    const clean = DOMPurify.sanitize(fragment);
+    assert(clean.includes('Title 1') && clean.includes('Title 2'), 'Must preserve all article fragments in HTML');
+    assert(clean.includes('class="card"'), 'Must preserve valid attributes on multiple fragments');
+  });
 });

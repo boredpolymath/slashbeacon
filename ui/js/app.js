@@ -23,39 +23,43 @@ export function switchTab(targetTab) {
 }
 
 function updateView() {
-  const circuitStatusText = document.getElementById('circuit-status-text');
-  const statusGateway = document.getElementById('status-gateway');
-  const cb = appState.daemonHealth.circuit_breaker;
-  const cbBanner = document.getElementById('circuit-breaker-alert');
-  const dotCircuit = document.getElementById('dot-circuit');
+  try {
+    const circuitStatusText = document.getElementById('circuit-status-text');
+    const statusGateway = document.getElementById('status-gateway');
+    const cb = appState.daemonHealth.circuit_breaker;
+    const cbBanner = document.getElementById('circuit-breaker-alert');
+    const dotCircuit = document.getElementById('dot-circuit');
 
-  if (cbBanner) {
-    cbBanner.style.display = cb.tripped ? 'flex' : 'none';
-  }
-
-  if (dotCircuit) {
-    dotCircuit.className = `status-dot ${cb.tripped ? 'offline' : 'online'}`;
-  }
-
-  if (circuitStatusText) {
-    if (cb.tripped) {
-      circuitStatusText.textContent = `Protection: Safety Pause (${cb.remaining_cooldown}s)`;
-    } else {
-      circuitStatusText.textContent = 'Protection: Active';
+    if (cbBanner) {
+      cbBanner.style.display = cb.tripped ? 'flex' : 'none';
     }
-  }
 
-  if (statusGateway) {
-    const isConn = appState.daemonHealth.gateway_connected;
-    statusGateway.innerHTML = `
-      <span class="status-dot ${isConn ? 'online' : 'offline'}"></span>
-      <span>Discord: <strong>${isConn ? 'Connected' : 'Disconnected'}</strong></span>
-    `;
-  }
+    if (dotCircuit) {
+      dotCircuit.className = `status-dot ${cb.tripped ? 'offline' : 'online'}`;
+    }
 
-  renderTriageCards();
-  renderVaultGrid();
-  renderAuditTable();
+    if (circuitStatusText) {
+      if (cb.tripped) {
+        circuitStatusText.textContent = `Protection: Safety Pause (${cb.remaining_cooldown}s)`;
+      } else {
+        circuitStatusText.textContent = 'Protection: Active';
+      }
+    }
+
+    if (statusGateway) {
+      const isConn = appState.daemonHealth.gateway_connected;
+      statusGateway.innerHTML = `
+        <span class="status-dot ${isConn ? 'online' : 'offline'}"></span>
+        <span>Discord: <strong>${isConn ? 'Connected' : 'Disconnected'}</strong></span>
+      `;
+    }
+
+    renderTriageCards();
+    renderVaultGrid();
+    renderAuditTable();
+  } catch (err) {
+    console.error('[SlashBeacon UI] Error during view update:', err);
+  }
 }
 
 function initNavigation() {
