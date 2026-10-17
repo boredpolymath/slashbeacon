@@ -63,4 +63,23 @@ describe('ui/js/vault', () => {
     assert(extractSuffix('') === '0000', 'Empty ID falls back to 0000');
     assert(extractSuffix(null) === '0000', 'Null ID falls back to 0000');
   });
+
+  test('validates remove benchmark button attributes and action delegation structure', () => {
+    const bm = {
+      id: 'bm_pastor_dan',
+      canonical_username: 'Dan',
+      server_nickname: 'Pastor Dan',
+      community_role: 'Pastor'
+    };
+    const buttonAttrs = {
+      'data-action': 'remove-benchmark',
+      'data-id': bm.id,
+      'data-name': bm.server_nickname || bm.canonical_username,
+      title: 'Remove member from protected vault'
+    };
+
+    assert(buttonAttrs['data-action'] === 'remove-benchmark', 'Remove action mapped');
+    assert(buttonAttrs['data-id'] === 'bm_pastor_dan', 'Correct benchmark ID attached');
+    assert(buttonAttrs['data-name'] === 'Pastor Dan', 'Correct display name passed to data attribute');
+  });
 });

@@ -1,3 +1,132 @@
+# SlashBeacon v0.5.0 — Post-Mortem Release: Granular Member Management, Disconnect Safety & Operational Hardening
+**Bored Polymath Studios — Community Identity Ground-Truth & Stewardship**
+
+---
+
+### Overview
+SlashBeacon v0.5.0 (Post-Mortem Release) delivers key operational and lifecycle features learned from real-world testing. Leading this milestone is granular, one-by-one member removal directly from the Protected Members vault with an inline safety confirmation flow, ensuring clean server departures without risk of accidental dismissals. Furthermore, v0.5.0 resolves IPC disconnect modal handling when unlinking Discord servers, sanitizes and isolates dev-mode mock data fixtures from release bundles, and upgrades the complete public screenshot carousel and visual identity to reflect the live, hardened state of SlashBeacon.
+
+---
+
+### What's New & Hardened in v0.5.0
+
+#### 1. Granular Protected Member Removal
+- **Individual Member Deletion**: Added an intuitive, accessible **Remove** button to each protected member profile card in the Protected Members vault (`#pane-vault`).
+- **Inline Safety Confirmation**: Two-stage interactive confirmation (`"Remove"` -> `"Confirm?"`) with automatic 3.5-second reset and outside-click/Escape cancellation, preventing accidental removal while bypassing modal freezes on macOS WKWebView.
+- **Immediate State & Ledger Synchronization**: Invokes the native Tauri `delete_benchmark` command, purges the record from SQLite, automatically updates the live counter badge (`counter-vault`), renders the clean empty state if the vault is emptied, and logs an immutable `delete_benchmark` audit trail record.
+
+#### 2. Disconnect & Gateway Resilience
+- **Safe Server Disconnection**: Fixed Discord disconnection flow by handling gateway state transitions gracefully without modal freezes or uncaught exceptions.
+- **Production Asset Isolation**: Ensured sample / mock fixture data is strictly confined to local development testing, guaranteeing release builds launch with clean-slate zero-data defaults.
+
+#### 3. Visual Identity & Showcase Asset Refresh
+- **Updated Hero Banner (`logo.png`)**: Modernized root and documentation hero banner featuring the radiant SlashBeacon crystalline emblem and official branding.
+- **Live Interface Screenshots & Animated Carousel**: Re-rendered all 5 showcase screenshots (`screenshot_protected.png`, `screenshot_alerts.png`, `screenshot_activity_log.png`, `screenshot_discord_setup.png`, `screenshot_setup_guide.png`) and the animated `app_carousel.webp` in native macOS dark-mode window chrome reflecting current v0.5.0 UI controls.
+
+#### 4. Cryptographic Provenance & Test Gates
+- **215/215 Passing Tests**: Full test suite pass across Rust backend modules, IPC handlers, and frontend components.
+- **Manifests & Signatures**: Synchronized checksums and OpenPGP/minisign signatures across `release/latest.json`, `release/SHA256SUMS.txt`, and `release/RELEASE_MANIFEST.md`.
+
+---
+
+# SlashBeacon v0.4.5 — Complete Rebrand, Visual Identity Overhaul & Production Release
+**Bored Polymath Studios — Identity Ground-Truth & Community Stewardship**
+
+---
+
+### Overview
+SlashBeacon v0.4.5 marks a milestone release, delivering the complete brand transition from TruthBeacon to **SlashBeacon**. This release debuts a comprehensive visual identity overhaul—including tailored vector emblem and wordmark artwork, high-resolution multi-format application icons, and updated drag-and-drop installer presentation graphics. Beneath the surface, v0.4.5 hardens DOM element queries with fallback fixtures for rock-solid UI stability, elevates core system dependencies (including Tokio 1.53.2, Tauri 2.12.2, Rustls 0.23.46, and getrandom 0.4.3), incorporates native Trivy vulnerability auditing and OpenVEX exemption schemas, and certifies 100% test coverage across all 215 backend test suites and frontend testing modules.
+
+---
+
+### What's New & Hardened in v0.4.5
+
+#### 1. Complete SlashBeacon Rebrand & Visual Identity
+- **Unified Brand Identity**: Seamlessly rebranded from TruthBeacon to **SlashBeacon** across all application manifests, user-agent headers, desktop launcher configurations, and documentation portals.
+- **Custom Vector Branding Assets**: Designed and deployed custom vector emblem and wordmark assets (`slashbeacon_emblem.png`, `slashbeacon_wordmark.png`), featuring clean typography and cyber-security aesthetic styling.
+- **Multi-Resolution Installer Graphics**: Re-rendered multi-resolution icon assets (`32x32.png`, `128x128.png`, `128x128@2x.png`, `icon.icns`, `icon.ico`), macOS DMG background artwork, and Windows WiX/NSIS installer presentation assets.
+- **Backwards-Compatible Storage & Vault Migration**: Implemented dual-path environment variable and configuration compatibility (`SLASHBEACON_VAULT_DIR` / `TRUTHBEACON_VAULT_DIR`, `SLASHBEACON_DB_PATH` / `TRUTHBEACON_DB_PATH`) ensuring seamless local data migration with zero data loss for existing operators.
+
+#### 2. Enhanced UI Stability & Resilient DOM Binding
+- **Defensive Element Selection**: Hardened DOM element lookups across UI controllers (`app.js`, `discord_setup.js`, `ipc.js`, `notifications.js`) with null-safe querying and structured warning fallbacks.
+- **Robust Mock Fixtures**: Refined offline demo data and triage feeds to provide consistent and repeatable operator preview experiences in non-connected sandbox environments.
+
+#### 3. Core Dependency Upgrades & Security Hardening
+- **Modernized Runtime & Framework**: Upgraded key backend dependencies: `tauri` to 2.12.2, `tauri-build` to 2.7.2, `tokio` to 1.53.2, `zeroize` to 1.9.1, `rustls` to 0.23.46, `libc` to 0.2.190, `serde_json` to 1.0.154, and `tauri-plugin-updater` to 2.13.3.
+- **Entropy & Cryptographic Migration**: Migrated random generation across cryptographic routines to `getrandom::fill` supporting `getrandom` 0.4.
+- **Security Scanner & OpenVEX Integration**: Added Trivy container/filesystem scanner configurations and comprehensive OpenVEX vulnerability exemption reports (`openvex.json`), verifying zero copyleft dependencies across 669 audited crates.
+
+#### 4. Quality Gates & Test Suite Compliance
+- **215/215 Passing Tests**: Full pass rate across all Rust backend unit and integration tests with zero compiler warnings under `clippy -D warnings` and clean `rustfmt` formatting.
+- **Full Packaging Verification**: 100% pass across packaging pipeline checks and code signing specifications.
+
+---
+
+# TruthBeacon v0.4.0 — The Final Release: Comprehensive Test Suites, Perceptual Defense & Production Hardening
+**Bored Polymath Studios — Identity Ground-Truth & Community Stewardship**
+
+---
+
+### Overview
+TruthBeacon v0.4.0 represents the final polished milestone of TruthBeacon. This release integrates patched RustFFT for robust perceptual image hashing, establishes comprehensive unit test coverage across both frontend and backend modules, redesigns the official distribution portal for clarity and speed, hardens gateway concurrency against mutex poisoning, and certifies complete cryptographic provenance across all cross-platform deliverables.
+
+---
+
+### What's New & Hardened in v0.4.0
+
+#### 1. Perceptual Avatar Defense & RustFFT Integration
+- **Deterministic Discrete Fourier/Cosine Transforms**: Integrated an in-tree patch for `rustfft` supporting robust 64-bit perceptual hashing (pHash) against adversarial avatar manipulations, rotations, and color shifts.
+- **Supply-Chain Verification**: Updated `deny.toml` and audit configurations to ensure complete supply-chain hermeticity and zero copyleft dependencies.
+
+#### 2. Comprehensive Test Suites & Quality Assurance
+- **Frontend ES Module Unit Tests**: Added complete automated unit test suites (`tests/` and `ui/tests/`) covering `app.js`, `audit.js`, `discord_setup.js`, `dompurify.js`, `ipc.js`, `modals.js`, `notifications.js`, `state.js`, `triage.js`, `utils.js`, and `vault.js`.
+- **Backend Test Suite Integrity**: Certified 215/215 passing Rust unit and integration tests with zero failures and zero compiler warnings under `clippy -D warnings`.
+- **Adversarial Red Team Certification**: 100% mitigation rate maintained across script-mixed homoglyphs, zero-width spaces, and DCT perceptual avatar clones.
+
+#### 3. Modernized Website & Download Portal
+- **Focused Deliverable Matrix**: Streamlined official downloads to macOS Universal 2 (.dmg), Windows 64-bit (.exe), and Linux Universal (.AppImage).
+- **Interactive Verification**: Single-click SHA-256 verification commands tailored for macOS zsh, Linux bash, and Windows PowerShell, alongside detached GPG signatures.
+- **Enhanced SEO & Structured Data**: Complete `schema.org/SoftwareApplication` integration with secure HTTP headers.
+
+#### 4. Concurrency & Security Resilience
+- **Mutex Poisoning Prevention**: Hardened token guard handling to prevent poison cascading during token authentication failures.
+- **URL Scheme Validation**: Enhanced URI sanitization in `dompurify.js` to ensure robust protocol validation against malformed schemes.
+
+---
+
+# TruthBeacon v0.3.2 — Authoritative Discord Moderation, Architecture Modularization & CI Pipeline Hardening
+**Bored Polymath Studios — Identity Ground-Truth & Community Stewardship**
+
+---
+
+### Overview
+TruthBeacon v0.3.2 introduces authoritative Discord REST API moderation execution for imposter "Ban & Purge" actions, preventing local status changes from masquerading as completed enforcement. This release also resolves CI supply chain and compiler linting gates (`cargo fmt` and `cargo clippy`), fully decomposes legacy monolithic JavaScript files into focused ES modules with `DOMPurify` input sanitization, and updates distribution manifests with comprehensive security headers and crawler guidance.
+
+---
+
+### What's New & Hardened in v0.3.2
+
+#### 1. Authoritative Discord REST Moderation
+- **Real Remote Ban & Prune**: Integrated real HTTP calls to Discord API endpoint `/guilds/{guild_id}/bans/{user_id}` with Bearer/Bot token authentication, enforcing `delete_message_seconds` pruning and audit log reasoning.
+- **Masquerading Status Prevention**: Local SQLite status and audit log records are only committed after authoritative HTTP 200/204 confirmation from Discord's gateway. If Discord rejects with 401 Unauthorized, 403 Forbidden, or 429 Rate Limited, the local pending state is preserved and actionable error details are returned to the operator.
+- **Dedicated Test Mocking**: Provided hermetic dependency-injected mock ban handlers for deterministic test verification across 215 Rust test suites.
+
+#### 2. CI Pipeline & Compiler Gate Remediation
+- **Rustfmt Compliance**: Resolved code formatting diffs across `src-tauri/src/commands/mod.rs` and `src-tauri/src/gateway/moderation.rs`, guaranteeing `cargo fmt -- --check` passes cleanly on all branches.
+- **Clippy Lock Gate**: Resolved `clippy::await_holding_lock` warnings across asynchronous command test suites, ensuring clean compilation under `-D warnings`.
+
+#### 3. Frontend Architecture Modularization & DOMPurify Sanitization
+- **God File Decomposition**: Refactored `ui/js/app.js` from 1,729 lines down to 180 lines by establishing modular domain components: `triage.js`, `vault.js`, `audit.js`, `discord_setup.js`, `modals.js`, `notifications.js`, and `utils.js`.
+- **Function Complexity Limits**: Decomposed complex functions across `ui/js/ipc.js` (down from 396 lines to 29 lines), `ui/js/state.js` (down from 87 lines to 42 lines), and `scripts/generate_installer_assets.py` (down from 83 lines to 25 lines).
+- **DOMPurify XSS Defense**: Vendor-neutral DOMPurify module integrated across all card and table dynamic template builders.
+
+#### 4. Web Security & Crawler Documentation
+- Added `website/robots.txt` and `website/llms.txt` with sitemap integration and AI assistant guidance.
+- Added strict HTTP response headers (`Content-Security-Policy`, `X-Frame-Options`, `X-Content-Type-Options`, `Referrer-Policy`, `Permissions-Policy`, and `HSTS`) in `website/_headers`.
+- Implemented `schema.org` / `SoftwareApplication` JSON-LD structured data and canonical links in `website/index.html`.
+
+---
+
 # TruthBeacon v0.3.1 — VibeDoctor Automated Audit Hardening, XSS Sanitization & Production Release
 **Bored Polymath Studios — Identity Ground-Truth & Community Stewardship**
 

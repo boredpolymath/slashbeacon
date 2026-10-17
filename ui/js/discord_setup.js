@@ -79,6 +79,12 @@ export function renderBotInviteCard(clientId) {
   }
   if (btnQuickInviteBot) {
     btnQuickInviteBot.href = inviteUrl;
+    btnQuickInviteBot.onclick = (e) => {
+      if (window.__TAURI__?.shell?.open) {
+        e.preventDefault();
+        window.__TAURI__.shell.open(inviteUrl);
+      }
+    };
   }
   if (btnCopyInviteLink) {
     btnCopyInviteLink.onclick = async () => {
@@ -90,7 +96,11 @@ export function renderBotInviteCard(clientId) {
         }, 2000);
       } catch (err) {
         console.warn('Clipboard write fallback active:', err);
-        prompt('Copy Discord Bot Invite Link:', inviteUrl);
+        const statusEl = document.getElementById('guild-discovery-status');
+        if (statusEl) {
+          statusEl.textContent = `Bot Invite URL: ${inviteUrl}`;
+          statusEl.style.color = 'var(--color-text-secondary)';
+        }
       }
     };
   }
@@ -379,7 +389,35 @@ export function _initThresholdListeners() {
   selectAccountAge?.addEventListener('change', e => updateAccountAgeBadge(e.target.value));
   sliderAvatarHamming?.addEventListener('input', e => updateAvatarHammingBadge(e.target.value));
   inputCircuitLimit?.addEventListener('input', e => updateCircuitLimitBadge(e.target.value));
-  btnSaveThresholds?.addEventListener('click', () => alert('Parameters Saved!'));
+
+  btnSaveThresholds?.addEventListener('click', () => {
+    const thresholds = {
+      similarity: sliderSimilarity ? parseFloat(sliderSimilarity.value) : 85,
+      account_age_hours: selectAccountAge ? parseInt(selectAccountAge.value, 10) : 72,
+      avatar_hamming_distance: sliderAvatarHamming ? parseInt(sliderAvatarHamming.value, 10) : 10,
+      circuit_limit_per_minute: inputCircuitLimit ? parseInt(inputCircuitLimit.value, 10) : 5
+    };
+
+    try {
+      localStorage.setItem('slashbeacon_thresholds', JSON.stringify(thresholds));
+    } catch (e) {
+      console.warn('Failed saving thresholds to localStorage:', e);
+    }
+
+    if (appState?.daemonHealth?.circuit_breaker) {
+      appState.daemonHealth.circuit_breaker.max_requests = thresholds.circuit_limit_per_minute;
+    }
+
+    const originalText = btnSaveThresholds.textContent;
+    btnSaveThresholds.textContent = '✓ Parameters Saved!';
+    btnSaveThresholds.style.background = 'var(--color-success)';
+    btnSaveThresholds.style.borderColor = 'var(--color-success)';
+    setTimeout(() => {
+      btnSaveThresholds.textContent = originalText;
+      btnSaveThresholds.style.background = '';
+      btnSaveThresholds.style.borderColor = '';
+    }, 2000);
+  });
 }
 
 export function _initTokenListeners() {
@@ -391,6 +429,8 @@ export function _initTokenListeners() {
     if (!input) return;
     const isPass = input.type === 'password';
     input.type = isPass ? 'text' : 'password';
+    btnToggleTokenVis.title = isPass ? 'Hide token' : 'Show token';
+    btnToggleTokenVis.setAttribute('aria-label', isPass ? 'Hide token' : 'Show token');
     btnToggleTokenVis.textContent = isPass ? 'Hide' : 'Show';
   });
 
@@ -430,12 +470,39 @@ export function _initGuildSelectionListeners() {
 export async function _handleTestHandshake(tokenInput, guildIdInput) {
   const resolvedTokenInput = tokenInput || _getTokenInput();
   const resolvedGuildIdInput = guildIdInput || _getGuildIdInput();
+  const btnTestHandshake = document.getElementById('btn-test-handshake');
+  const btnTestText = document.getElementById('btn-test-handshake-text');
   let token = resolvedTokenInput ? resolvedTokenInput.value.trim() : '';
   const guildId = resolvedGuildIdInput ? resolvedGuildIdInput.value.trim() : '';
+
+  if (btnTestHandshake) btnTestHandshake.disabled = true;
+  if (btnTestText) btnTestText.textContent = 'Testing Handshake...';
+
   if (!guildId) {
-    alert('Please enter a Target Discord Server ID.');
+    if (resolvedGuildIdInput) {
+      resolvedGuildIdInput.focus();
+      resolvedGuildIdInput.style.borderColor = 'var(--color-danger)';
+      setTimeout(() => { resolvedGuildIdInput.style.borderColor = ''; }, 2500);
+    }
+    const statusEl = document.getElementById('guild-discovery-status');
+    if (statusEl) {
+      statusEl.textContent = '⚠️ Please enter a Target Discord Server ID.';
+      statusEl.style.color = 'var(--color-danger)';
+    }
+    renderHandshakeResult({
+      format_valid: !!token && !token.startsWith('••••') ? token.split('.').length >= 3 : true,
+      gateway_authenticated: false,
+      privileged_intents_active: false,
+      guild_found: false,
+      moderation_permissions_ok: false,
+      bot_name: 'SlashBeacon Guard',
+      guild_name: 'No Server ID'
+    });
+    if (btnTestHandshake) btnTestHandshake.disabled = false;
+    if (btnTestText) btnTestText.textContent = 'Test Handshake & Permissions';
     return;
   }
+
   try {
     const res = await invokeCommand('verify_bot_handshake', {
       token: token.startsWith('••••') ? '' : token,
@@ -443,42 +510,167 @@ export async function _handleTestHandshake(tokenInput, guildIdInput) {
       guildId
     });
     renderHandshakeResult(res);
+    const statusEl = document.getElementById('guild-discovery-status');
+    if (statusEl) {
+      statusEl.textContent = '✓ Pre-flight handshake verified successfully with Discord API.';
+      statusEl.style.color = 'var(--color-success)';
+    }
   } catch (err) {
-    alert(err?.message || 'Handshake check failed.');
+    console.warn('Handshake verification error:', err);
+    const errMsg = err?.message || String(err);
+    const isAuthErr = errMsg.toLowerCase().includes('401') || errMsg.toLowerCase().includes('unauthorized') || errMsg.toLowerCase().includes('revoked');
+    const isFormatErr = errMsg.toLowerCase().includes('format') || errMsg.toLowerCase().includes('malformed');
+    renderHandshakeResult({
+      format_valid: !isFormatErr,
+      gateway_authenticated: !isAuthErr,
+      privileged_intents_active: false,
+      guild_found: false,
+      moderation_permissions_ok: false,
+      bot_name: 'SlashBeacon Guard',
+      guild_name: `Server (${guildId})`
+    });
+    const statusEl = document.getElementById('guild-discovery-status');
+    if (statusEl) {
+      statusEl.textContent = `⚠️ Handshake check issue: ${errMsg}`;
+      statusEl.style.color = 'var(--color-danger)';
+    }
+  } finally {
+    if (btnTestHandshake) btnTestHandshake.disabled = false;
+    if (btnTestText) btnTestText.textContent = 'Test Handshake & Permissions';
   }
 }
 
 export async function _handleSaveDiscord(tokenInput, guildIdInput) {
   const resolvedTokenInput = tokenInput || _getTokenInput();
   const resolvedGuildIdInput = guildIdInput || _getGuildIdInput();
+  const btnSaveDiscord = document.getElementById('btn-save-discord');
   let token = resolvedTokenInput ? resolvedTokenInput.value.trim() : '';
   const guildId = resolvedGuildIdInput ? resolvedGuildIdInput.value.trim() : '';
+
   if (!guildId) {
-    alert('Please enter a Target Discord Server ID.');
+    if (resolvedGuildIdInput) {
+      resolvedGuildIdInput.focus();
+      resolvedGuildIdInput.style.borderColor = 'var(--color-danger)';
+      setTimeout(() => { resolvedGuildIdInput.style.borderColor = ''; }, 2500);
+    }
+    const statusEl = document.getElementById('guild-discovery-status');
+    if (statusEl) {
+      statusEl.textContent = '⚠️ Please enter or select a Target Discord Server ID.';
+      statusEl.style.color = 'var(--color-danger)';
+    }
     return;
   }
+
+  const originalText = btnSaveDiscord ? btnSaveDiscord.textContent : 'Save & Connect';
+  if (btnSaveDiscord) {
+    btnSaveDiscord.disabled = true;
+    btnSaveDiscord.textContent = 'Connecting...';
+  }
+
+  const sliderSimilarity = document.getElementById('slider-similarity');
+  const selectAccountAge = document.getElementById('select-account-age');
+  const sliderAvatarHamming = document.getElementById('slider-avatar-hamming');
+  const inputCircuitLimit = document.getElementById('input-circuit-limit');
+
+  const thresholds = {
+    similarity: sliderSimilarity ? parseFloat(sliderSimilarity.value) : 85,
+    account_age_hours: selectAccountAge ? parseInt(selectAccountAge.value, 10) : 72,
+    avatar_hamming_distance: sliderAvatarHamming ? parseInt(sliderAvatarHamming.value, 10) : 10,
+    circuit_limit_per_minute: inputCircuitLimit ? parseInt(inputCircuitLimit.value, 10) : 5
+  };
   try {
-    await invokeCommand('save_discord_config', {
+    localStorage.setItem('slashbeacon_thresholds', JSON.stringify(thresholds));
+  } catch (_) {}
+
+  try {
+    const res = await invokeCommand('save_discord_config', {
       token: token.startsWith('••••') ? '' : token,
       guild_id: guildId,
-      guildId
+      guildId,
+      thresholds
     });
     await loadDiscordConfig();
-    alert('Discord Configuration Saved!');
+    if (res) {
+      renderHandshakeResult(res);
+    }
+    if (btnSaveDiscord) {
+      btnSaveDiscord.textContent = '✓ Connected!';
+      btnSaveDiscord.style.background = 'var(--color-success)';
+      btnSaveDiscord.style.borderColor = 'var(--color-success)';
+      setTimeout(() => {
+        btnSaveDiscord.disabled = false;
+        btnSaveDiscord.textContent = originalText;
+        btnSaveDiscord.style.background = '';
+        btnSaveDiscord.style.borderColor = '';
+      }, 2500);
+    }
+    const statusEl = document.getElementById('guild-discovery-status');
+    if (statusEl) {
+      statusEl.textContent = '✓ Discord bot configuration saved and gateway monitoring active.';
+      statusEl.style.color = 'var(--color-success)';
+    }
   } catch (err) {
-    alert(err?.message || 'Failed to save configuration.');
+    console.error('Save Discord config failed:', err);
+    if (btnSaveDiscord) {
+      btnSaveDiscord.disabled = false;
+      btnSaveDiscord.textContent = originalText;
+    }
+    const statusEl = document.getElementById('guild-discovery-status');
+    if (statusEl) {
+      statusEl.textContent = `⚠️ Configuration error: ${err?.message || err}`;
+      statusEl.style.color = 'var(--color-danger)';
+    }
   }
 }
 
 export async function _handleDisconnectDiscord(guildIdInput) {
-  if (!confirm('Are you sure you want to disconnect Discord?')) return;
+  const btnDisconnect = document.getElementById('btn-disconnect-discord');
+  if (btnDisconnect && !btnDisconnect.dataset.pendingConfirm) {
+    btnDisconnect.dataset.pendingConfirm = 'true';
+    const originalText = btnDisconnect.textContent;
+    btnDisconnect.textContent = 'Confirm Disconnect?';
+    btnDisconnect.classList.add('btn-danger');
+    btnDisconnect._confirmTimer = setTimeout(() => {
+      delete btnDisconnect.dataset.pendingConfirm;
+      btnDisconnect.textContent = originalText;
+      btnDisconnect.classList.remove('btn-danger');
+    }, 4000);
+    return;
+  }
+
+  if (btnDisconnect) {
+    delete btnDisconnect.dataset.pendingConfirm;
+    if (btnDisconnect._confirmTimer) clearTimeout(btnDisconnect._confirmTimer);
+    btnDisconnect.disabled = true;
+    btnDisconnect.textContent = 'Disconnecting...';
+  }
+
   try {
     const resolvedGuildIdInput = guildIdInput || _getGuildIdInput();
     const guildId = resolvedGuildIdInput ? resolvedGuildIdInput.value.trim() : '';
     await invokeCommand('disconnect_discord', { guild_id: guildId, guildId });
     await loadDiscordConfig();
+    const tokenInput = _getTokenInput();
+    if (tokenInput) tokenInput.value = '';
+    const guildInput = _getGuildIdInput();
+    if (guildInput) guildInput.value = '';
+    sessionStorage.removeItem('slashbeacon_setup_guild_id');
+    sessionStorage.removeItem('slashbeacon_setup_token_draft');
+    if (btnDisconnect) {
+      btnDisconnect.textContent = 'Disconnected';
+      setTimeout(() => {
+        btnDisconnect.disabled = false;
+        btnDisconnect.textContent = 'Disconnect';
+        btnDisconnect.classList.remove('btn-danger');
+      }, 2000);
+    }
   } catch (err) {
-    console.error(err);
+    console.error('Failed to disconnect Discord:', err);
+    if (btnDisconnect) {
+      btnDisconnect.disabled = false;
+      btnDisconnect.textContent = 'Disconnect';
+      btnDisconnect.classList.remove('btn-danger');
+    }
   }
 }
 

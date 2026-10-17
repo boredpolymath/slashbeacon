@@ -12,19 +12,19 @@ function assert(condition, message) {
 describe('website/js/main', () => {
   const ASSETS = {
     mac_dmg: {
-      filename: 'SlashBeacon_0.4.5_universal.dmg',
-      size: '29.5 MB',
+      filename: 'SlashBeacon_0.5.0_universal.dmg',
+      size: '31.1 MB',
       arch: 'Universal 2 (Apple Silicon & Intel)',
-      hash: 'ef032509c9f714fa838444a992bb4dc4336f632e435adce93cb77dc7db1cd0c3'
+      hash: 'd2867feb3a487a31002de622ecf66588a179a90c1a951fdccfbeec0226fc9e82'
     },
     win_exe: {
-      filename: 'SlashBeacon_0.4.5_x64-setup.exe',
+      filename: 'SlashBeacon_0.5.0_x64-setup.exe',
       size: '9.5 MB',
       arch: 'Windows 64-bit (NSIS Installer)',
       hash: '6f36a65df228544edaa36111ea7ae5eac11baa754fae81adc62956953267586e'
     },
     linux_appimage: {
-      filename: 'SlashBeacon_0.4.5_amd64.AppImage',
+      filename: 'SlashBeacon_0.5.0_amd64.AppImage',
       size: '86 MB',
       arch: 'Linux x86_64 (Universal AppImage)',
       hash: 'ec3203b01db76b58b2c55311ea5fdbfeca4c97111cc8207073038c382ca9d3c3'

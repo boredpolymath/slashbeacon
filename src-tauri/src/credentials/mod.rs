@@ -333,40 +333,57 @@ fn get_or_create_hardware_secret() -> Result<Zeroizing<String>, CredentialError>
         }
     }
 
-    if let Ok(cache) = HARDWARE_SECRET_CACHE.read() {
-        if let Some(sec) = &*cache {
-            return Ok(sec.clone());
-        }
-    }
-
-    let entry = keyring::Entry::new(SERVICE_NAME, HARDWARE_KEY_ACCOUNT).map_err(|e| {
-        CredentialError::KeychainUnavailable(format!("Keyring initialization error: {}", e))
-    })?;
-    let secret = match entry.get_password() {
-        Ok(secret) if !secret.is_empty() => Zeroizing::new(secret),
-        _ => {
-            let mut secret_bytes = [0u8; 32];
-            if getrandom::fill(&mut secret_bytes).is_err() {
-                return Err(CredentialError::VaultError(
-                    "Cryptographic RNG entropy generation failure".into(),
-                ));
+    #[cfg(all(debug_assertions, not(test)))]
+    {
+        if let Ok(cache) = HARDWARE_SECRET_CACHE.read() {
+            if let Some(sec) = &*cache {
+                return Ok(sec.clone());
             }
-            let secret_str = BASE64_STANDARD.encode(secret_bytes);
-            entry.set_password(&secret_str).map_err(|e| {
-                CredentialError::KeychainUnavailable(format!(
-                    "Failed to store hardware secret in secure OS keychain: {}",
-                    e
-                ))
-            })?;
-            Zeroizing::new(secret_str)
         }
-    };
-
-    if let Ok(mut cache) = HARDWARE_SECRET_CACHE.write() {
-        *cache = Some(secret.clone());
+        let mock_secret = Zeroizing::new("dev_hardware_backed_enclave_secret_xyz123".to_string());
+        if let Ok(mut cache) = HARDWARE_SECRET_CACHE.write() {
+            *cache = Some(mock_secret.clone());
+        }
+        Ok(mock_secret)
     }
 
-    Ok(secret)
+    #[cfg(any(not(debug_assertions), test))]
+    {
+        if let Ok(cache) = HARDWARE_SECRET_CACHE.read() {
+            if let Some(sec) = &*cache {
+                return Ok(sec.clone());
+            }
+        }
+
+        let entry = keyring::Entry::new(SERVICE_NAME, HARDWARE_KEY_ACCOUNT).map_err(|e| {
+            CredentialError::KeychainUnavailable(format!("Keyring initialization error: {}", e))
+        })?;
+        let secret = match entry.get_password() {
+            Ok(secret) if !secret.is_empty() => Zeroizing::new(secret),
+            _ => {
+                let mut secret_bytes = [0u8; 32];
+                if getrandom::fill(&mut secret_bytes).is_err() {
+                    return Err(CredentialError::VaultError(
+                        "Cryptographic RNG entropy generation failure".into(),
+                    ));
+                }
+                let secret_str = BASE64_STANDARD.encode(secret_bytes);
+                entry.set_password(&secret_str).map_err(|e| {
+                    CredentialError::KeychainUnavailable(format!(
+                        "Failed to store hardware secret in secure OS keychain: {}",
+                        e
+                    ))
+                })?;
+                Zeroizing::new(secret_str)
+            }
+        };
+
+        if let Ok(mut cache) = HARDWARE_SECRET_CACHE.write() {
+            *cache = Some(secret.clone());
+        }
+
+        Ok(secret)
+    }
 }
 
 fn purge_hardware_secret() {
@@ -377,7 +394,7 @@ fn purge_hardware_secret() {
         *cache = None;
     }
 
-    #[cfg(test)]
+    #[cfg(any(test, debug_assertions))]
     {
         if std::env::var("TRUTHBEACON_LIVE_KEYRING_TEST").is_err() {
             return;
@@ -443,9 +460,9 @@ pub fn get_or_create_vault_encryption_key(
         }
     }
 
-    #[cfg(test)]
+    #[cfg(any(test, debug_assertions))]
     let skip_live_keyring = std::env::var("TRUTHBEACON_LIVE_KEYRING_TEST").is_err();
-    #[cfg(not(test))]
+    #[cfg(not(any(test, debug_assertions)))]
     let skip_live_keyring = false;
 
     // 1. Attempt to retrieve the 256-bit key directly from the platform-native keychain
@@ -741,6 +758,24 @@ impl CredentialManager {
 
         if let Ok(mut mem) = MEMORY_GUILD_REGISTRY.write() {
             *mem = payload.registry.clone();
+        }
+
+        save_vault_payload(&payload)?;
+        Ok(())
+    }
+
+    /// Purge all registered bot tokens from vault and memory cache without destroying vault infrastructure.
+    pub fn delete_all_tokens() -> Result<(), CredentialError> {
+        if let Ok(mut cache) = MEMORY_TOKEN_CACHE.write() {
+            cache.clear();
+        }
+
+        let mut payload = load_vault_payload_checked()?;
+        payload.tokens.clear();
+        payload.registry.clear();
+
+        if let Ok(mut mem) = MEMORY_GUILD_REGISTRY.write() {
+            mem.clear();
         }
 
         save_vault_payload(&payload)?;

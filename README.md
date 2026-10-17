@@ -12,7 +12,7 @@
 <p align="center">
   <a href="https://github.com/boredpolymath/slashbeacon"><img src="https://img.shields.io/badge/GitHub-boredpolymath%2Fslashbeacon-181717?style=flat-square&logo=github" alt="GitHub Repo"></a>
   <a href="https://boredpolymath.github.io/slashbeacon/"><img src="https://img.shields.io/badge/Web-slashbeacon-5865F2?style=flat-square" alt="Website"></a>
-  <img src="https://img.shields.io/badge/Version-v0.4.5-green?style=flat-square" alt="Version 0.4.5">
+  <img src="https://img.shields.io/badge/Version-v0.5.0-green?style=flat-square" alt="Version 0.5.0">
   <img src="https://img.shields.io/badge/Platform-macOS%20%7C%20Windows%20%7C%20Linux-blue?style=flat-square" alt="Platform">
   <img src="https://img.shields.io/badge/Framework-Tauri%20v2-orange?style=flat-square" alt="Tauri v2">
   <img src="https://img.shields.io/badge/Language-Rust%202021-red?style=flat-square" alt="Rust 2021">
@@ -20,12 +20,6 @@
   <img src="https://img.shields.io/badge/Telemetry-Zero%20(100%25%20Local)-brightgreen?style=flat-square" alt="Zero Telemetry">
   <img src="https://img.shields.io/badge/Accessibility-WCAG%202.1%20AA-success?style=flat-square" alt="WCAG AA">
   <img src="https://img.shields.io/badge/Automated%20Tests-215%20Passing-brightgreen?style=flat-square" alt="Tests">
-</p>
-
-<p align="center">
-  <a href="https://vibedoctor.io" target="_blank" rel="noopener noreferrer">
-    <img src="https://vibedoctor.io/api/badges/128b9586-dd4d-4db2-bf53-5a1f576507db" alt="Monitored by VibeDoctor" width="310" height="56">
-  </a>
 </p>
 
 ---
@@ -265,7 +259,7 @@ You can adjust sensitivity thresholds, rate limits, and safety settings directly
 {
   "application": {
     "name": "SlashBeacon",
-    "version": "0.4.5",
+    "version": "0.5.0",
     "vendor": "Orange Heart Industries",
     "description": "Community Impersonation Defense & Identity Protection Console"
   },
@@ -346,7 +340,7 @@ SlashBeacon delivers first-class, native desktop installers across all major ope
 ```
 slashbeacon/
 ├── README.md                      # Project overview and getting started guide
-├── RELEASE_NOTES.md               # Version 0.4.5 release notes & distribution summary
+├── RELEASE_NOTES.md               # Version 0.5.0 release notes & distribution summary
 ├── slashbeacon.config.json        # Custom detection thresholds and safety limits
 ├── .github/                       # GitHub Actions CI/CD workflows
 │   └── workflows/
@@ -364,8 +358,8 @@ slashbeacon/
 │   ├── 08-local-storage-architecture-and-migration-strategy.md # SQLite schema & migrations
 │   └── 09-cross-platform-packaging-and-release-staging.md # Build bundling & packaging specification
 ├── release/                       # Staged production release binaries & verification artifacts
-│   ├── SlashBeacon_0.4.5_universal.dmg     # Universal 2 drag-and-drop installer
-│   ├── SlashBeacon_0.4.5_macos_universal.zip # Standalone universal application bundle
+│   ├── SlashBeacon_0.5.0_universal.dmg     # Universal 2 drag-and-drop installer
+│   ├── SlashBeacon_0.5.0_macos_universal.zip # Standalone universal application bundle
 │   ├── slashbeacon-universal               # Standalone fat binary (x86_64 + arm64)
 │   ├── RELEASE_MANIFEST.md                 # Production build metadata & dependency audit
 │   ├── RELEASE_NOTES.md                    # Platform release documentation

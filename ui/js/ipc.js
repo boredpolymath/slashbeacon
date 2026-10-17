@@ -127,7 +127,7 @@ const mockSystemHandlers = {
   },
   check_for_updates: () => ({
     should_update: false,
-    current_version: "0.4.5",
+    current_version: "0.5.0",
     latest_version: null,
     release_notes: null,
     release_date: null
@@ -178,9 +178,35 @@ function _createBenchmark(args) {
   return newBm;
 }
 
+function _deleteBenchmark(args) {
+  const { id } = args || {};
+  if (!id) {
+    throw { code: "VALIDATION_FAILED", message: "Validation failed: Benchmark ID cannot be empty", details: null };
+  }
+  const idx = mockBenchmarks.findIndex(b => b.id === id);
+  if (idx !== -1) {
+    const deleted = mockBenchmarks.splice(idx, 1)[0];
+    const now = Date.now();
+    mockAuditLogs.unshift({
+      id: `aud_${now}`,
+      timestamp: now,
+      action: "delete_benchmark",
+      guild_id: deleted.guild_id || "guild_default",
+      operator_id: "LocalSteward",
+      target_user_id: deleted.user_id,
+      incident_id: null,
+      reason: `Removed protected benchmark for @${deleted.canonical_username}`,
+      metadata: { role: deleted.community_role }
+    });
+    return true;
+  }
+  return false;
+}
+
 const mockBenchmarkHandlers = {
   list_benchmarks: () => [...mockBenchmarks],
-  create_benchmark: (args) => _createBenchmark(args)
+  create_benchmark: (args) => _createBenchmark(args),
+  delete_benchmark: (args) => _deleteBenchmark(args)
 };
 
 async function _handleMockBenchmarks(cmd, args) {

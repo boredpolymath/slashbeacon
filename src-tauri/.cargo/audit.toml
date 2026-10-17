@@ -7,5 +7,13 @@ ignore = [
     # is pinned to gtk-rs 0.18 (glib 0.18.5). Glib is Linux-only, and the vulnerable function
     # (Variant::array_iter_str / VariantStrIter) is never invoked by TruthBeacon or Tauri.
     "RUSTSEC-2024-0429",
+    # RUSTSEC-2026-0367, RUSTSEC-2026-0368, RUSTSEC-2026-0369:
+    # Transitive Windows-only dependency in tauri-plugin-updater 2.14 (pinned to zip ^4).
+    # Zip extraction in tauri-plugin-updater is only invoked on Windows after cryptographically
+    # validating updater payloads against the developer minisign public key, and SUID/SGID bits
+    # are inapplicable to Windows NTFS.
+    "RUSTSEC-2026-0367",
+    "RUSTSEC-2026-0368",
+    "RUSTSEC-2026-0369",
 ]
 

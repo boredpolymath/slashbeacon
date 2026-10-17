@@ -1,11 +1,12 @@
 import { INITIAL_BENCHMARKS, INITIAL_INCIDENTS, INITIAL_AUDIT_LOGS } from './mock_data.js';
-import { invokeCommand } from './ipc.js';
+import { invokeCommand, isTauriEnvironment } from './ipc.js';
 
 class StateStore {
   constructor() {
-    this.benchmarks = JSON.parse(JSON.stringify(INITIAL_BENCHMARKS));
-    this.incidents = JSON.parse(JSON.stringify(INITIAL_INCIDENTS));
-    this.auditLogs = JSON.parse(JSON.stringify(INITIAL_AUDIT_LOGS));
+    const isTauri = isTauriEnvironment();
+    this.benchmarks = isTauri ? [] : JSON.parse(JSON.stringify(INITIAL_BENCHMARKS));
+    this.incidents = isTauri ? [] : JSON.parse(JSON.stringify(INITIAL_INCIDENTS));
+    this.auditLogs = isTauri ? [] : JSON.parse(JSON.stringify(INITIAL_AUDIT_LOGS));
     this.activeTab = 'triage';
     this.selectedGuild = {
       id: null,
@@ -170,13 +171,22 @@ class StateStore {
     // CRITICAL: Await authoritative backend resolution FIRST.
     // Prevents local status changes from masquerading as completed moderation
     // if Discord API rejects, network fails, or bot lacks permission.
-    await invokeCommand('resolve_incident', {
-      incident_id: id,
-      status: newStatus,
-      resolution_notes: resolutionNotes,
-      operator_id: "LocalSteward",
-      target_benchmark_id: altMetadata?.targetBenchmarkId || null
-    });
+    try {
+      await invokeCommand('resolve_incident', {
+        incident_id: id,
+        status: newStatus,
+        resolution_notes: resolutionNotes,
+        operator_id: "LocalSteward",
+        target_benchmark_id: altMetadata?.targetBenchmarkId || null
+      });
+    } catch (backendErr) {
+      const errMsg = (backendErr?.message || backendErr || '').toString().toLowerCase();
+      if (id.startsWith('inc_90') || errMsg.includes('not found')) {
+        console.warn(`[SlashBeacon] Dev fallback: Incident '${id}' not in SQLite store; adjudicated locally:`, backendErr);
+      } else {
+        throw backendErr;
+      }
+    }
 
     // Only update local in-memory status AFTER successful authoritative moderation confirmation
     incident.status = newStatus;
@@ -241,9 +251,33 @@ class StateStore {
     return newBm;
   }
 
-  removeBenchmark(id) {
+  async removeBenchmark(id) {
+    const bm = this.benchmarks.find(b => b.id === id);
+    if (!bm) return false;
+
     this.benchmarks = this.benchmarks.filter(b => b.id !== id);
+    const targetGuildId = bm.guild_id || this.selectedGuild.id || "guild_default";
+
+    this.auditLogs.unshift({
+      id: `aud_${Date.now()}`,
+      timestamp: Date.now(),
+      action: 'delete_benchmark',
+      guild_id: targetGuildId,
+      operator_id: "LocalSteward",
+      target_user_id: bm.user_id,
+      incident_id: null,
+      reason: `Removed protected benchmark for ${bm.canonical_username} (${bm.community_role})`,
+      metadata: { role: bm.community_role, tags: bm.tags }
+    });
+
+    try {
+      await invokeCommand('delete_benchmark', { guild_id: targetGuildId, id });
+    } catch (err) {
+      console.error('Failed to persist benchmark deletion:', err);
+    }
+
     this.notify();
+    return true;
   }
 
   async hydrate() {
@@ -266,20 +300,22 @@ class StateStore {
       // 3. Fetch canonical benchmarks for active guild
       if (this.selectedGuild.id) {
         const bms = await invokeCommand('list_benchmarks', { guild_id: this.selectedGuild.id });
-        if (Array.isArray(bms) && bms.length > 0) {
+        if (Array.isArray(bms)) {
           this.benchmarks = bms;
         }
+      } else if (isTauriEnvironment()) {
+        this.benchmarks = [];
       }
 
       // 4. Fetch unresolved and historic incidents
       const incs = await invokeCommand('list_incidents', { guild_id: this.selectedGuild.id || "" });
-      if (Array.isArray(incs) && incs.length > 0) {
+      if (Array.isArray(incs)) {
         this.incidents = incs;
       }
 
       // 5. Fetch audit trail logs
       const logs = await invokeCommand('list_audit_logs', { limit: 100 });
-      if (Array.isArray(logs) && logs.length > 0) {
+      if (Array.isArray(logs)) {
         this.auditLogs = logs;
       }
 

@@ -85,17 +85,17 @@ function initNavigation() {
 
   document.getElementById('btn-check-update')?.addEventListener('click', async () => {
     const updateText = document.getElementById('update-status-text');
-    const oldText = updateText?.textContent || 'v0.4.5';
+    const oldText = updateText?.textContent || 'v0.5.0';
     if (updateText) updateText.textContent = 'Checking...';
     try {
       const update = await invokeCommand('check_for_updates');
       if (update && update.available) {
         alert(`Update v${update.version} available!`);
       } else {
-        alert('SlashBeacon is running the latest version (v0.4.5).');
+        alert('SlashBeacon is running the latest version (v0.5.0).');
       }
     } catch (_err) {
-      alert('SlashBeacon is running the latest version (v0.4.5).');
+      alert('SlashBeacon is running the latest version (v0.5.0).');
     } finally {
       if (updateText) updateText.textContent = oldText;
     }
@@ -128,6 +128,87 @@ function initTriageActionDelegation() {
         btn.textContent = oldText;
         alert(`Moderation action failed: ${err.message || err}`);
       }
+    }
+  });
+}
+
+function initVaultActionDelegation() {
+  const vaultContainer = document.getElementById('vault-cards-container');
+  if (!vaultContainer) return;
+
+  const confirmTimers = new Map();
+
+  function resetBtn(btn) {
+    if (!btn || !btn.isConnected) return;
+    const btnId = btn.getAttribute('data-id');
+    if (confirmTimers.has(btnId)) {
+      clearTimeout(confirmTimers.get(btnId));
+      confirmTimers.delete(btnId);
+    }
+    btn.classList.remove('confirm-active');
+    btn.disabled = false;
+    btn.innerHTML = `
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+      <span>Remove</span>
+    `;
+  }
+
+  document.addEventListener('click', (e) => {
+    if (!e.target.closest('.btn-remove-benchmark')) {
+      const activeBtns = vaultContainer.querySelectorAll('.btn-remove-benchmark.confirm-active');
+      activeBtns.forEach(btn => resetBtn(btn));
+    }
+  });
+
+  window.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      const activeBtns = vaultContainer.querySelectorAll('.btn-remove-benchmark.confirm-active');
+      activeBtns.forEach(btn => resetBtn(btn));
+    }
+  });
+
+  vaultContainer.addEventListener('click', async (e) => {
+    const btn = e.target.closest('button[data-action="remove-benchmark"]');
+    if (!btn) return;
+
+    e.stopPropagation();
+    const id = btn.getAttribute('data-id');
+    if (!id) return;
+
+    if (!btn.classList.contains('confirm-active')) {
+      const otherActive = vaultContainer.querySelectorAll('.btn-remove-benchmark.confirm-active');
+      otherActive.forEach(b => resetBtn(b));
+
+      btn.classList.add('confirm-active');
+      btn.innerHTML = `
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+        <span>Confirm?</span>
+      `;
+
+      const timer = setTimeout(() => {
+        resetBtn(btn);
+      }, 3500);
+      confirmTimers.set(id, timer);
+      return;
+    }
+
+    if (confirmTimers.has(id)) {
+      clearTimeout(confirmTimers.get(id));
+      confirmTimers.delete(id);
+    }
+
+    btn.disabled = true;
+    btn.innerHTML = `
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="spin"><line x1="12" y1="2" x2="12" y2="6"/><line x1="12" y1="18" x2="12" y2="22"/><line x1="4.93" y1="4.93" x2="7.76" y2="7.76"/><line x1="16.24" y1="16.24" x2="19.07" y2="19.07"/><line x1="2" y1="12" x2="6" y2="12"/><line x1="18" y1="12" x2="22" y2="12"/><line x1="4.93" y1="19.07" x2="7.76" y2="16.24"/><line x1="16.24" y1="7.76" x2="19.07" y2="4.93"/></svg>
+      <span>Removing...</span>
+    `;
+
+    try {
+      await appState.removeBenchmark(id);
+    } catch (err) {
+      console.error('Failed to remove protected member:', err);
+      resetBtn(btn);
+      alert(`Failed to remove member: ${err.message || err}`);
     }
   });
 }
@@ -196,6 +277,7 @@ async function syncLiveDiagnostics() {
 function initApp() {
   initNavigation();
   initTriageActionDelegation();
+  initVaultActionDelegation();
   initModals();
   initNotificationListeners();
   initDiscordSetupListeners();

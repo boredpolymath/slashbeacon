@@ -228,6 +228,16 @@ pub async fn execute_discord_ban(
         }
     }
 
+    #[cfg(all(debug_assertions, not(test)))]
+    if guild_id == "guild_production_9921" {
+        log::info!(
+            "[SlashBeacon Dev] Simulated Discord ban on demo fixture guild '{}' for user '{}'",
+            guild_id,
+            user_id
+        );
+        return Ok(());
+    }
+
     let token = crate::credentials::CredentialManager::get_token(guild_id)
         .or_else(|_| {
             crate::credentials::CredentialManager::list_registered_guilds()

@@ -12,6 +12,8 @@ function _resolveAuditBadge(action) {
     return { color: '#e9d5ff', bg: 'var(--discord-purple-subtle)', text: 'Restricted Account' };
   } else if (actionLower.includes('dismiss')) {
     return { color: 'var(--text-secondary)', bg: 'rgba(255, 255, 255, 0.05)', text: 'Ignored Alert (Safe)' };
+  } else if (actionLower.includes('delete_benchmark') || actionLower.includes('remove_benchmark')) {
+    return { color: '#ff7b72', bg: 'rgba(248, 81, 73, 0.12)', text: 'Protected Leader Removed' };
   } else if (actionLower.includes('benchmark')) {
     return { color: 'var(--oh-orange-400)', bg: 'var(--oh-orange-subtle)', text: 'Protected Leader Added' };
   } else if (actionLower.includes('circuit_breaker_tripped')) {

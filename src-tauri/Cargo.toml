@@ -1,6 +1,6 @@
 [package]
 name = "slashbeacon"
-version = "0.4.5"
+version = "0.5.0"
 description = "SlashBeacon: Desktop Identity Ground-Truth & Impersonation Prevention Console"
 authors = ["Bored Polymath Studios"]
 edition = "2021"
@@ -38,7 +38,7 @@ reqwest = { version = "0.13", default-features = false, features = ["rustls", "j
 tokio-tungstenite = { version = "0.30.0", features = ["rustls-tls-webpki-roots"] }
 futures-util = "0.3.34"
 libc = "0.2"
-tauri-plugin-updater = "2.13.1"
+tauri-plugin-updater = "2.14"
 argon2 = { version = "0.6", features = ["zeroize"] }
 keyring = { version = "3", features = ["apple-native", "windows-native", "sync-secret-service", "crypto-rust"] }
 unicode-security = "0.1.2"

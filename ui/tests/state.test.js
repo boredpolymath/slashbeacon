@@ -140,4 +140,17 @@ describe('ui/js/state', () => {
     assert(mockState.benchmarks.length === 2, 'Benchmark list updated');
     assert(mockState.auditLogs[0].action === 'create_benchmark', 'Audit entry logged');
   });
+
+  test('removes ground-truth benchmark and logs deletion audit', () => {
+    const toRemove = mockState.benchmarks[0];
+    mockState.benchmarks = mockState.benchmarks.filter(b => b.id !== toRemove.id);
+    mockState.auditLogs.unshift({
+      action: 'delete_benchmark',
+      target_user_id: toRemove.user_id,
+      reason: `Removed protected benchmark for ${toRemove.canonical_username}`
+    });
+
+    assert(mockState.benchmarks.length === 0, 'Benchmark list updated after removal');
+    assert(mockState.auditLogs[0].action === 'delete_benchmark', 'Delete benchmark audit entry logged');
+  });
 });

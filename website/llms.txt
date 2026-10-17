@@ -13,7 +13,7 @@ Unlike typical cloud-based moderation bots that transmit member activity and cha
 - **Unicode Homoglyph & Confusable Detection**: Normalizes display names and usernames using Unicode Technical Report #39 (TR #39) canonical skeleton tables to thwart mixed-script attacks (Cyrillic, Greek, Latin), zero-width spoofing, bidirectional override manipulation, and Zalgo character perturbations.
 - **Local Cryptographic Vault**: AES-256-GCM authenticated encryption domain-bound with Additional Authenticated Data (`SlashBeacon:EncryptedVault:v1`, with backward compatibility for legacy `TruthBeacon:EncryptedVault:v1`), Argon2id key derivation, Zeroize-on-drop memory wiping, and OS keychain integration.
 - **Database Architecture**: Embedded SQLite with Write-Ahead Logging (WAL), forensic quarantine archiving for pre-flight integrity validation, and strict per-guild isolation.
-- **Exhaustive Test Coverage & Quality Gates**: 215 hermetic Rust backend tests and comprehensive ES module unit tests, certified under VibeDoctor automated AST validation and compiler `-D warnings`.
+- **Exhaustive Test Coverage & Quality Gates**: 215 hermetic Rust backend tests and comprehensive ES module unit tests, enforced under automated CI quality gates and compiler `-D warnings`.
 - **Safety Circuit Breakers**: Persistent, rate-limited moderation circuit breakers that enforce cooldown timers across app restarts to prevent accidental ban cascades or bot runaway.
 - **Zero Telemetry**: Strict local-only operation; never transmits user logs, metrics, or community data to cloud endpoints.
 

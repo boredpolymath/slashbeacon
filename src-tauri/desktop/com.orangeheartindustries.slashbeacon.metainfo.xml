@@ -35,6 +35,11 @@
     <binary>slashbeacon</binary>
   </provides>
   <releases>
+    <release version="0.5.0" date="2026-10-17">
+      <description>
+        <p>Post-Mortem Release: Granular member removal with confirmation safety, disconnect flow stability, and refreshed UI showcase assets.</p>
+      </description>
+    </release>
     <release version="0.4.5" date="2026-10-16">
       <description>
         <p>Production release of SlashBeacon featuring complete rebrand, UI stability improvements, and updated dependencies.</p>

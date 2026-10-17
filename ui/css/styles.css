@@ -1349,8 +1349,68 @@ a:hover {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  margin-top: 6px;
   font-weight: 600;
+}
+
+.vault-card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1px solid var(--border-subtle);
+  flex-wrap: wrap;
+}
+
+.btn-remove-benchmark {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 10px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  background: transparent;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-xs);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  font-family: inherit;
+}
+
+.btn-remove-benchmark:hover {
+  color: #ff7b72;
+  border-color: rgba(248, 81, 73, 0.45);
+  background: rgba(248, 81, 73, 0.12);
+}
+
+.btn-remove-benchmark.confirm-active {
+  color: #ffffff;
+  background: #da3633;
+  border-color: #f85149;
+  box-shadow: 0 0 10px rgba(248, 81, 73, 0.45);
+  animation: pulse-remove 1.5s infinite;
+}
+
+.btn-remove-benchmark:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+@keyframes pulse-remove {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.03); }
+  100% { transform: scale(1); }
+}
+
+.spin {
+  animation: spin-anim 1s linear infinite;
+}
+
+@keyframes spin-anim {
+  100% { transform: rotate(360deg); }
 }
 
 /* ==========================================================================
@@ -1423,12 +1483,15 @@ a:hover {
   z-index: 100;
   opacity: 0;
   visibility: hidden;
+  pointer-events: none;
   transition: opacity var(--transition-fast), visibility var(--transition-fast);
 }
 
-.modal-overlay.open {
+.modal-overlay.open,
+.modal-overlay.active {
   opacity: 1;
   visibility: visible;
+  pointer-events: auto;
 }
 
 .modal-dialog {
