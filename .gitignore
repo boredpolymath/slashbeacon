@@ -90,3 +90,6 @@ scripts/.keys/
 .mcp.json
 .windsurfrules
 CLAUDE.md
+scripts/promo/capture_promo_shots.py
+scripts/promo/render_promo_video.py
+scripts/promo/assets/bored_polymath_logo.png
